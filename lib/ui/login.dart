@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/home.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
@@ -178,10 +179,10 @@ class _LoginState extends State<Login> {
 
     setState(() {
       Utils.showDefaultSnackbar(context, "Tentando Logar");
-     // Navigator.push(
-       // context,
-       // MaterialPageRoute(builder: (context) => Home()),
-      //);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
 
     });
 
