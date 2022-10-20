@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:projeto_pet/ui/components/exemplo.dart';
 
 
 class CadastroPets extends StatefulWidget {
@@ -19,9 +20,14 @@ class _CadastroPetsState extends State<CadastroPets> {
   Widget build(BuildContext context) {
     return Container(
 
-  margin: EdgeInsets.only(top: 100),
 
-        child: DropdownSearch<String>(
+  margin: const EdgeInsets.only(top: 100),
+
+        child:
+      Column(children: [
+
+
+        DropdownSearch<String>(
           popupSafeArea: const PopupSafeArea(
             top: true,
             bottom: true
@@ -42,6 +48,17 @@ dialogMaxWidth: 500,
         selectedItem: selectedItem,
 
       ),
+        Exemplo(
+              title: "PRecionado",
+            onPress:() {
+              print("FFFF");
+            }),
+        Exemplo(
+            title: "Dois",
+            onPress:() {
+              print("GGGGGGGGGG");
+            })
+      ],)
 
     );
   }
