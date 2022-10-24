@@ -1,24 +1,29 @@
 
+import 'package:projeto_pet/ui/models/tipo_pet.dart';
+
 class Pet {
 
   int? id;
   String nome;
-  int especiePet;
+  int tipoPet;
   int? idade;
   String? dataNascimento;
   bool sexo;
+  TipoPet? especie;
 
   Pet({
        this.id, required this.nome, this.idade,
-       required this.especiePet, this.dataNascimento, required this.sexo});
+       required this.tipoPet, this.dataNascimento, required this.sexo,
+       this.especie});
 
   factory Pet.fromMap(Map<String, dynamic> json) => Pet(
 
     id: json['id']  ?? 0,
     nome: json['nome'] ?? '',
-    especiePet: json['especiePet'],
+      tipoPet: json['tipoPet'],
     dataNascimento: json['dataNascimento'],
-    sexo:  (json['sexo'] == 1) ? true: false
+    sexo:  (json['sexo'] == 1) ? true: false,
+    especie: TipoPet.fromMap(json)
   );
 
   Map<String, dynamic> toMap(){
@@ -26,7 +31,7 @@ class Pet {
       'id': id,
       'nome': nome,
       'idade': idade,
-      'especiePet': especiePet,
+      'tipoPet': tipoPet,
       'dataNascimento': dataNascimento,
       'sexo': sexo
     };

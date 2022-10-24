@@ -49,11 +49,11 @@ import 'package:encrypt/encrypt.dart' as crypt;
   static DateTime getDataHora(){
   return DateTime.now();
   }
-  static String formatarData(String data, int type){
+  static String formatarData(String data, bool small){
     var formater;
 
     initializeDateFormatting("pt_BR");
-    if(type == 1){
+    if(small){
       formater = DateFormat("dd/MM/y");
     }else{
       formater = DateFormat("dd/MM/y H:m");

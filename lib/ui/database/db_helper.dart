@@ -1,6 +1,7 @@
 import 'package:projeto_pet/ui/database/data_model/pet_data_model.dart';
 import 'package:projeto_pet/ui/database/data_model/tipo_pet_data_model.dart';
 import 'package:projeto_pet/ui/models/pet.dart';
+import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:path/path.dart';
@@ -19,7 +20,7 @@ class DBHelper{
 
   _initDB () async {
     Directory documentoDiretorio = await getApplicationDocumentsDirectory();
-    String caminho = join(documentoDiretorio.path, "db_gastos.db");// home://directory/files/db_gastos.db
+    String caminho = join(documentoDiretorio.path, "db_pets.db");// home://directory/files/db_gastos.db
 
     return  await  openDatabase(
         caminho,
@@ -57,19 +58,45 @@ class DBHelper{
         where: '${PetDataModel.id} = ?', whereArgs: [pet.id]);
   }
 
+  Future<int> removeAllPets() async{
+    Database db = await instance.database;
+    return await db.rawDelete(PetDataModel.zerarTabela());
+  }
   Future close() async {
     Database db = await instance.database;
     db.close();
   }
 
+  Future<int> removeAllTiposPets() async{
+    Database db = await instance.database;
+    return await db.rawDelete(TipoPetDataModel.zerarTabela());
+  }
+
 /******CRUD TIPO PETS******/
 
 
-  Future<int> removeSubEspecificacao(int id) async{
+  /*Future<int> removeSubEspecificacao(int id) async{
     Database db = await instance.database;
     return await db.delete(PetDataModel.TABELA, where: 'id = ?', whereArgs: [id]);
+  }*/
+  Future<int> addTipoPet(TipoPet tipoPet) async {
+    Database db = await instance.database;
+    return await db.insert(TipoPetDataModel.getTabela(), tipoPet.toMap());
   }
 
+
+Future<List> getPetsJoinTipo() async {
+
+    Database db = await instance.database;
+    var res = await db.rawQuery('''SELECT p.${PetDataModel.id}, p.${PetDataModel.nome},
+                                p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
+                                e.${TipoPetDataModel.descricao}        
+                                FROM ${PetDataModel.getTabela()} p
+                                INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = 
+                                e.${TipoPetDataModel.id} 
+                             ''');
+  return res.toList();
+}
 
 
   /*Future<List> getFuncionarioSetor(String cpf) async {

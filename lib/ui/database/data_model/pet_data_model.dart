@@ -4,8 +4,9 @@ class PetDataModel{
   static const String TABELA = "tabelaPet";
   static const String id = "id";
   static const String nome = "nome";
-  static const String especiePet = "especiePet";
+  static const String tipoPet = "tipoPet";
   static const String idade = "idade";
+  static const String donoPet = "donoPet";
   static const String dataNascimento = "dataNascimento";
   static const String sexo = "sexo";
 
@@ -14,8 +15,9 @@ class PetDataModel{
    static String criarTabela() {
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY,
-              $dataNascimento DATETIME, $nome TEXT, $especiePet INTEGER,
-              $idade INTEGER, $sexo boolean NOT NULL default 0);''';
+              $dataNascimento DATETIME, $nome TEXT, $tipoPet INTEGER,
+              $idade INTEGER, $sexo boolean NOT NULL default 0 
+              $donoPet INTEGER);''';
    }
 
    static String dropTable(){

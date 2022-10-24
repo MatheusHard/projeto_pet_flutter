@@ -1,12 +1,13 @@
 
-class Especie {
+class TipoPet {
 
   int? id;
   String? descricao;
 
-  Especie({this.id, this.descricao});
 
-  factory Especie.fromMap(Map<String, dynamic> json) => Especie(
+  TipoPet({this.id, this.descricao});
+
+  factory TipoPet.fromMap(Map<String, dynamic> json) => TipoPet(
     id: json['id']  ?? 0,
     descricao: json['descricao'] ?? '',
   );
