@@ -9,11 +9,10 @@ class Dono {
   String? cpf;
   String user;
   String password;
-  Pet? pet;
 
   Dono({
-    this.id, required this.nome, this.cpf,
-    required this.user, required this.password, this.pet});
+    this.id, required this.nome, required this.cpf,
+    required this.user, required this.password});
 
   factory Dono.fromMap(Map<String, dynamic> json) => Dono(
 
@@ -22,7 +21,6 @@ class Dono {
       cpf: json['cpf'],
       user: json['user'],
       password:  (json['password']),
-      pet: Pet.fromMap(json)
   );
 
   Map<String, dynamic> toMap(){

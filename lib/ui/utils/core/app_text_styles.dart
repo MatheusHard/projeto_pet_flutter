@@ -16,6 +16,12 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
+  static final TextStyle subTitleBold = GoogleFonts.notoSans(
+    color: AppColors.white,
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+  );
+
   static final TextStyle titleLogin = GoogleFonts.notoSans(
     color: AppColors.white,
     fontSize: 25,

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/cadastro_pets.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 
+import 'components/widgets/appbar/app_bar_widget.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
 
   @override
   _HomeState createState() => _HomeState();
@@ -24,31 +27,35 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenArguments? args = ModalRoute.of(context)?.settings.arguments as ScreenArguments?;
+
     return  Scaffold(
 
         backgroundColor: Colors.white,
-       // appBar: AppBarWidget(),
+        appBar: AppBarWidget(args!),
         body: tabs[_currentIndex],
 
 
         bottomNavigationBar:
         Container(
             decoration: const BoxDecoration(
-                gradient: AppGradients.linear
+                gradient: AppGradients.sol
             ),
             child:
             CurvedNavigationBar(
-              items: const <Widget>[
+
+              items: const [
                 Icon(Icons.home, size: 20, color: Colors.white,),
                 Icon(Icons.add, size: 20, color: Colors.white,),
-                Icon(Icons.cloud_download, size: 20, color: Colors.white,),
+                Icon(Icons.cloud_download, size: 20,  color: Colors.white,),
                 Icon(Icons.exit_to_app, size: 20, color: Colors.white,),
               ],
               color: Colors.transparent,
+
               buttonBackgroundColor: Colors.transparent,
               backgroundColor: Colors.transparent,
 
-              animationCurve: Curves.easeInCubic,
+              animationCurve: Curves.easeInOut,
               animationDuration: const Duration(milliseconds: 600),
               index: 0,
               height: 50,
@@ -85,4 +92,10 @@ class _HomeState extends State<Home> {
         )
     );
   }
+}
+
+
+class ScreenArguments {
+  final String name;
+  ScreenArguments(this.name);
 }

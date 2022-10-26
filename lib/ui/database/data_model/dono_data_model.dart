@@ -1,11 +1,6 @@
 
 class DonoDataModel{
 
-  /** 'id': id,
-      'nome': nome,
-      'cpf': cpf,
-      'user': user,
-      'password': password**/
   static const String TABELA = "tabelaDono";
   static const String id = "id";
   static const String nome = "nome";

@@ -1,4 +1,3 @@
-
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 
 class Pet {
@@ -10,9 +9,10 @@ class Pet {
   String? dataNascimento;
   bool sexo;
   TipoPet? especie;
+  int? donoPet;
 
   Pet({
-       this.id, required this.nome, this.idade,
+       this.id, required this.nome, this.idade, this.donoPet,
        required this.tipoPet, this.dataNascimento, required this.sexo,
        this.especie});
 
@@ -20,9 +20,10 @@ class Pet {
 
     id: json['id']  ?? 0,
     nome: json['nome'] ?? '',
-      tipoPet: json['tipoPet'],
+    tipoPet: json['tipoPet'] ?? 0,
     dataNascimento: json['dataNascimento'],
     sexo:  (json['sexo'] == 1) ? true: false,
+    donoPet: json['donoPet']  ?? 0,
     especie: TipoPet.fromMap(json)
   );
 
@@ -33,7 +34,8 @@ class Pet {
       'idade': idade,
       'tipoPet': tipoPet,
       'dataNascimento': dataNascimento,
-      'sexo': sexo
+      'sexo': sexo,
+      'donoPet': donoPet
     };
   }
 }

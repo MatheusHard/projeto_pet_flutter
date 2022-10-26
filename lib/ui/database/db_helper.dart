@@ -1,5 +1,7 @@
+import 'package:projeto_pet/ui/database/data_model/dono_data_model.dart';
 import 'package:projeto_pet/ui/database/data_model/pet_data_model.dart';
 import 'package:projeto_pet/ui/database/data_model/tipo_pet_data_model.dart';
+import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/models/pet.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:sqflite/sqflite.dart';
@@ -30,10 +32,9 @@ class DBHelper{
   }
 
   void _onCreate(Database db, int version) async{
-
     await db.execute(PetDataModel.criarTabela());
     await db.execute(TipoPetDataModel.criarTabela());
-
+    await db.execute(DonoDataModel.criarTabela());
   }
 
   /******CRUD PET******/
@@ -95,10 +96,31 @@ Future<List> getPetsJoinTipo() async {
                                 INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = 
                                 e.${TipoPetDataModel.id} 
                              ''');
-  return res.toList();
+    return res.toList();
 }
 
+///Crud Dono
+  Future<int> addDono(Dono dono) async {
+    Database db = await instance.database;
+    return await db.insert(DonoDataModel.getTabela(), dono.toMap());
+  }
+  Future<int> removeAllDonos() async{
+    Database db = await instance.database;
+    return await db.rawDelete(DonoDataModel.zerarTabela());
+  }
+  Future<List> getDonoPets() async {
 
+    Database db = await instance.database;
+    var res = await db.rawQuery(
+        '''SELECT d.${DonoDataModel.id}, d.${DonoDataModel.nome}, d.${DonoDataModel.cpf}, d.${DonoDataModel.password},
+           p.${PetDataModel.id}, p.${PetDataModel.nome}, p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
+           e.${TipoPetDataModel.descricao} 
+           FROM ${DonoDataModel.getTabela()} d
+           LEFT JOIN ${PetDataModel.getTabela()} p ON p.${PetDataModel.donoPet} = d.${DonoDataModel.id}
+           LEFT JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}''');
+
+    return res.toList();
+  }
   /*Future<List> getFuncionarioSetor(String cpf) async {
     Database db = await instance.database;
     var res = await db.rawQuery('''SELECT f.${FuncionarioDataModel.id}, f.${FuncionarioDataModel.cpf}, f.${FuncionarioDataModel.email},

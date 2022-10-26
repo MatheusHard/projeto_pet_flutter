@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:projeto_pet/ui/components/exemplo.dart';
+import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 
 
 class CadastroPets extends StatefulWidget {
@@ -19,9 +20,9 @@ class _CadastroPetsState extends State<CadastroPets> {
   @override
   Widget build(BuildContext context) {
     return Container(
-
-
-  margin: const EdgeInsets.only(top: 100),
+      //decoration: const BoxDecoration(gradient: AppGradients.linear),
+      color: Colors.white,
+      margin: const EdgeInsets.only(top: 100),
 
         child:
       Column(children: [
@@ -48,16 +49,16 @@ dialogMaxWidth: 500,
         selectedItem: selectedItem,
 
       ),
-        Exemplo(
+        /* Exemplo(
               title: "PRecionado",
             onPress:() {
               print("FFFF");
             }),
-        Exemplo(
+       Exemplo(
             title: "Dois",
             onPress:() {
               print("GGGGGGGGGG");
-            })
+            })*/
       ],)
 
     );

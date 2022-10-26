@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
         child: Center(
           child: Container(
             decoration: const BoxDecoration(
-                gradient: AppGradients.linear
+                gradient: AppGradients.sol
             ),
             child: Form(
                 key: _formKey,
@@ -179,9 +179,10 @@ class _LoginState extends State<Login> {
 
     setState(() {
       Utils.showDefaultSnackbar(context, "Tentando Logar");
-      Navigator.push(
+      Navigator.pushNamed(
         context,
-        MaterialPageRoute(builder: (context) => Home()),
+        '/home',
+        arguments: ScreenArguments("Matheus")
       );
 
     });

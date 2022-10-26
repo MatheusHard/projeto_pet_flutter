@@ -16,12 +16,12 @@ class PetDataModel{
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY,
               $dataNascimento DATETIME, $nome TEXT, $tipoPet INTEGER,
-              $idade INTEGER, $sexo boolean NOT NULL default 0 
+              $idade INTEGER, $sexo boolean NOT NULL default 0, 
               $donoPet INTEGER);''';
    }
 
    static String dropTable(){
-    return   "DROP TABLE IF EXISTS $TABELA;";
+    return "DROP TABLE IF EXISTS $TABELA;";
   }
 
    static String zerarTabela() {
