@@ -33,3 +33,26 @@ class Exemplo extends StatelessWidget {
     );
   }
 }
+/***
+ *  DropdownSearch<String>(
+    popupSafeArea: const PopupSafeArea(
+    top: true,
+    bottom: true
+    ),
+    mode: Mode.MENU,
+    showSelectedItems: true,
+    showSearchBox: true,
+
+    dialogMaxWidth: 500,
+    showAsSuffixIcons: true,
+    //        showFavoriteItems: true,
+    items: ["Cabedelo", "João PEssoa", "Santa Rita", "Bayeux", "Natal"],
+    label: "Menu Mode",
+    hint: "Cidades",
+    onChanged: (value){
+    print(value);
+    },
+    selectedItem: selectedItem,
+
+    ),
+ * */

@@ -178,7 +178,7 @@ class _LoginState extends State<Login> {
   _logar(BuildContext context) async{
 
     setState(() {
-      Utils.showDefaultSnackbar(context, "Tentando Logar");
+      //Utils.showDefaultSnackbar(context, "Tentando Logar");
       Navigator.pushNamed(
         context,
         '/home',

@@ -19,8 +19,8 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final tabs = [
 
+    const Center(child: Text("HOME")),
     const CadastroPets(),
-    const Center(child: Text("Cadastro")),
     const Center(child: Text("Nuvem")),
     const Center(child: Text("EXIT"))
   ];

@@ -3,7 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:projeto_pet/ui/components/exemplo.dart';
+import 'package:projeto_pet/ui/database/db_helper.dart';
+import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
+import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
 
 class CadastroPets extends StatefulWidget {
@@ -15,52 +18,96 @@ class CadastroPets extends StatefulWidget {
 
 class _CadastroPetsState extends State<CadastroPets> {
 
-  var selectedItem = null;
+
+  var selectedItemTipoPet;
+  late List _listaTiposPets = [];
+  late FocusNode _myFocusNodeNome;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _nomeController = TextEditingController();
+  final _dataController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    getTipos();
+    _myFocusNodeNome = FocusNode();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //decoration: const BoxDecoration(gradient: AppGradients.linear),
-      color: Colors.white,
-      margin: const EdgeInsets.only(top: 100),
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+          TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Digite o nome do PET';
+                }
+                return null;
+              },
+            ),
+            /**TIPO DO PET**/
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DropdownSearch<dynamic>(
+                mode: Mode.MENU,
+                items: _listaTiposPets.map((tp) => tp).toList(),
+                itemAsString: (dynamic tp) => tp['descricao'].toString(),
+                showSearchBox: true,
+                label: "TIpo do Pet",
+                hint: "escolha o tipo",
+                onChanged: (tipoPet) {
+                   //print(tipoPet);
+                   _selectedItemTipoPet(tipoPet);
 
-        child:
-      Column(children: [
+                },
+              ),
+            ),
+            /**FIM**/
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
 
+                   Utils.showDefaultSnackbar(context, "Salvando");
 
-        DropdownSearch<String>(
-          popupSafeArea: const PopupSafeArea(
-            top: true,
-            bottom: true
-          ),
-        mode: Mode.MENU,
-        showSelectedItems: true,
-        showSearchBox: true,
+                  }else{
+                    Utils.showDefaultSnackbar(context, "Não foi possivel salvar!!!");
 
-dialogMaxWidth: 500,
-    showAsSuffixIcons: true,
-//        showFavoriteItems: true,
-        items: ["Cabedelo", "João PEssoa", "Santa Rita", "Bayeux", "Natal"],
-      label: "Menu Mode",
-      hint: "Cidades",
-      onChanged: (value){
-          print(value);
-      },
-        selectedItem: selectedItem,
-
+                  }
+                },
+                child: const Text('Salvar'),
+              ),
+            ),
+          ],
+        ),
       ),
-        /* Exemplo(
-              title: "PRecionado",
-            onPress:() {
-              print("FFFF");
-            }),
-       Exemplo(
-            title: "Dois",
-            onPress:() {
-              print("GGGGGGGGGG");
-            })*/
-      ],)
-
     );
+  }
+
+  getTipos() async{
+
+    List tipoPets = await DBHelper.instance.getAllTiposPets();
+    _listaTiposPets = tipoPets;
+    setState(() {
+      _listaTiposPets;
+    });
+    }
+
+
+
+  clearControllers(){
+    _nomeController.clear();
+  }
+  _selectedItemTipoPet(selectedTipo){
+    setState(() {
+      selectedItemTipoPet = selectedTipo;
+      print(selectedItemTipoPet);
+    });
   }
 }
