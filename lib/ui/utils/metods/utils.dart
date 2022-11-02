@@ -93,6 +93,21 @@ import 'package:encrypt/encrypt.dart' as crypt;
     return base64Encode(bytes);
   }
 
+  static String formatarDateTime(DateTime? data){
+      if(data != null ){
+        if(data.month < 10 && data.day < 10){
+          return '0${data.day}/0${data.month}/${data.year}';
+        }else if(data.day >= 10 && data.month < 10){
+          return '${data.day}/0${data.month}/${data.year}';
+        }else if(data.day < 10 && data.month >= 10){
+          return '0${data.day}/${data.month}/${data.year}';
+        }else{
+          return '${data.day}/${data.month}/${data.year}';
+        }
+      }
+      return data.toString();
+
+  }
 
   static Image imageFromBase64String(String bytes){
     return Image.memory(

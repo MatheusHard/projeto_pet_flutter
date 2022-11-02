@@ -73,14 +73,7 @@ class DBHelper{
 /******CRUD TIPO PETS******/
 
   Future<List>getAllTiposPets() async {
-   /* Database db = await instance.database;
-    var tiposPets = await db.query(TipoPetDataModel.getTabela(), orderBy: TipoPetDataModel.descricao);
-    List<TipoPet> list = tiposPets.isNotEmpty
-        ? tiposPets.map((p) => TipoPet.fromMap(p)).toList()
-        : [];
-    return list;*/
-
-    Database db = await instance.database;
+      Database db = await instance.database;
     var res = await db.rawQuery("SELECT ${TipoPetDataModel.getAtributos()} FROM ${TipoPetDataModel.getTabela()} ORDER BY ${TipoPetDataModel.descricao}");
     return res.toList();
   }
