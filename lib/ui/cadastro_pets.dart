@@ -66,7 +66,12 @@ class _CadastroPetsState extends State<CadastroPets> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
-                /******NOME PET******/
+
+            Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            child: Text("Cadastrar Pet", style: AppTextStyles.titlePet,),
+            ),
+              /******NOME PET******/
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: TextFormField(
@@ -274,7 +279,7 @@ class _CadastroPetsState extends State<CadastroPets> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate() && validatePet()) {
                         _cadastrarPet();
                       }else{
                         Utils.showDefaultSnackbar(context, "Não foi possivel salvar!!!");
@@ -366,6 +371,19 @@ class _CadastroPetsState extends State<CadastroPets> {
       clearControllers();
       Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
     });
+  }
+
+  bool validatePet(){
+    bool flag = true;
+
+    if(_nomeController.text.isEmpty) return false;
+    if(_dataController.text.isEmpty) return false;
+
+    if(_selectedFile == null) return false;
+    if(selectedItemTipoPet == null) return false;
+
+    return flag;
+
   }
 
   }

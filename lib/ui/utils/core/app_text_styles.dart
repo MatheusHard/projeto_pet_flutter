@@ -9,6 +9,11 @@ class AppTextStyles {
     fontSize: 30,
     fontWeight: FontWeight.w400,
   );
+  static final TextStyle titlePet = GoogleFonts.notoSans(
+    color: AppColors.black,
+    fontSize: 30,
+    fontWeight: FontWeight.w400,
+  );
 
   static final TextStyle titleBold = GoogleFonts.notoSans(
     color: AppColors.white,
