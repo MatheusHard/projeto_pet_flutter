@@ -5,14 +5,14 @@ class Pet {
   int? id;
   String nome;
   int tipoPet;
-  int? idade;
+  String imagePet;
   String? dataNascimento;
   bool sexo;
   TipoPet? especie;
   int? donoPet;
 
   Pet({
-       this.id, required this.nome, this.idade, this.donoPet,
+       this.id, required this.nome, this.donoPet, required this.imagePet,
        required this.tipoPet, this.dataNascimento, required this.sexo,
        this.especie});
 
@@ -24,6 +24,7 @@ class Pet {
     dataNascimento: json['dataNascimento'],
     sexo:  (json['sexo'] == 1) ? true: false,
     donoPet: json['donoPet']  ?? 0,
+    imagePet: json['imagePet'] ?? '',
     especie: TipoPet.fromMap(json)
   );
 
@@ -31,11 +32,11 @@ class Pet {
     return {
       'id': id,
       'nome': nome,
-      'idade': idade,
       'tipoPet': tipoPet,
       'dataNascimento': dataNascimento,
       'sexo': sexo,
-      'donoPet': donoPet
+      'donoPet': donoPet,
+      'imagePet': imagePet
     };
   }
 }

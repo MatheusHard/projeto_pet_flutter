@@ -17,7 +17,7 @@ void main() async{
 
 ///Deletar tabelas:
   var removes = await DBHelper.instance.removeAllTiposPets();
-  var removes2 = await DBHelper.instance.removeAllPets();
+  //var removes2 = await DBHelper.instance.removeAllPets();
   var removes3 = await DBHelper.instance.removeAllDonos();
 
 ///Add TIpos:
@@ -26,9 +26,9 @@ void main() async{
   var _tipo3 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Bode"));
 
   ///Add PETs
-  var _dado = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Pombogato", tipoPet: 1, sexo: true, dataNascimento: Utils.getDataHora().toString(), idade: 2));
-  var _dado2 = await DBHelper.instance.addPet(Pet( donoPet: 2, nome: "Popoto", tipoPet: 2,  sexo: true, dataNascimento: Utils.getDataHora().toString(), idade: 2));
-  var _dado3 = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Ariana", tipoPet: 3,  sexo: true, dataNascimento: Utils.getDataHora().toString(),idade: 2));
+  var _dado = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Pombogato", tipoPet: 1, sexo: true, dataNascimento: Utils.getDataHora().toString(), imagePet: '2'));
+  var _dado2 = await DBHelper.instance.addPet(Pet( donoPet: 2, nome: "Popoto", tipoPet: 2,  sexo: true, dataNascimento: Utils.getDataHora().toString(), imagePet: '2'));
+  var _dado3 = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Ariana", tipoPet: 3,  sexo: true, dataNascimento: Utils.getDataHora().toString(),imagePet: '2'));
 
   ///Add Donos
   var _dono = await DBHelper.instance.addDono(Dono(nome: "Matheus", cpf: "05694641450", password: "fredf",user: "burumungu"));

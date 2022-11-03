@@ -69,7 +69,6 @@ class DBHelper{
   }
 
 
-
 /******CRUD TIPO PETS******/
 
   Future<List>getAllTiposPets() async {
