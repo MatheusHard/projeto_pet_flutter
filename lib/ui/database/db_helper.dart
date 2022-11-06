@@ -89,6 +89,12 @@ class DBHelper{
     Database db = await instance.database;
     return await db.rawDelete(TipoPetDataModel.zerarTabela());
   }
+
+  Future<List>getAllPets() async {
+    Database db = await instance.database;
+    var res = await db.rawQuery("SELECT ${PetDataModel.getAtributos()} FROM ${PetDataModel.getTabela()} ORDER BY ${PetDataModel.nome}");
+    return res.toList();
+  }
 Future<List> getPetsJoinTipo() async {
 
     Database db = await instance.database;

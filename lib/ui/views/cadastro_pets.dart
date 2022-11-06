@@ -14,7 +14,7 @@ import 'package:projeto_pet/ui/utils/core/app_images.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
-import 'models/pet.dart';
+import '../models/pet.dart';
 
 
 class CadastroPets extends StatefulWidget {
@@ -140,7 +140,6 @@ class _CadastroPetsState extends State<CadastroPets> {
                   onChanged: (bool value) {
                     setState(() {
                       _sexo = value;
-                      print(_sexo);
                     });
                   },
                   subtitle: const Text("Macho ou Fêmea"),
@@ -158,9 +157,7 @@ class _CadastroPetsState extends State<CadastroPets> {
                     label: "Tipo do Pet",
                     hint: "escolha o tipo",
                     onChanged: (tipoPet) {
-                       //print(tipoPet);
                        _selectedItemTipoPet(tipoPet);
-
                     },
                   ),
                 ),
@@ -358,7 +355,7 @@ class _CadastroPetsState extends State<CadastroPets> {
   _cadastrarPet() async{
     String file;
 
-    setState(() {
+    //setState(() {
 
       nome = _nomeController.text.toString();
       file = Utils.base64String(_selectedFile!.readAsBytesSync());
@@ -370,7 +367,7 @@ class _CadastroPetsState extends State<CadastroPets> {
 
       clearControllers();
       Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
-    });
+    //});
   }
 
   bool validatePet(){

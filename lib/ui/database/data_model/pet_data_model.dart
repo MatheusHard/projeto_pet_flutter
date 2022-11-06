@@ -34,7 +34,7 @@ class PetDataModel{
   }
 
   static String getAtributos(){
-     return '''$TABELA.id, $TABELA.nome, $TABELA.data_final, $TABELA.gasto_total, $TABELA.saldo, $TABELA.cidade_id, $TABELA.funcionario_id''';
+     return '''$TABELA.id, $TABELA.nome, $TABELA.tipoPet, $TABELA.imagePet, $TABELA.donoPet, $TABELA.dataNascimento, $TABELA.sexo''';
   }
 }
 

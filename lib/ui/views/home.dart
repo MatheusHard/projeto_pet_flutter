@@ -1,9 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto_pet/ui/cadastro_pets.dart';
+import 'package:projeto_pet/ui/views/cadastro_pets.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
+import 'package:projeto_pet/ui/views/principal_pets.dart';
 
-import 'components/widgets/appbar/app_bar_widget.dart';
+import '../components/widgets/appbar/app_bar_widget.dart';
 
 
 class Home extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final tabs = [
 
-    const Center(child: Text("HOME")),
+    const PrincipalPets(),
     const CadastroPets(),
     const Center(child: Text("Nuvem")),
     const Center(child: Text("EXIT"))

@@ -4,6 +4,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class AppGradients {
+
+  static const boxPetGradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Colors.transparent,
+        Colors.black38
+      ]);
   static const linear = LinearGradient(colors: [
     Color(0xFF57B6E5),
     Color.fromRGBO(130, 87, 229, 0.695),
