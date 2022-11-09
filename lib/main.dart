@@ -42,7 +42,7 @@ void main() async{
 
  List pets =  await  DBHelper.instance.getAllPets();
 
-  for (var p in pets) {
+  /*for (var p in pets) {
     print("----------------------------------------");
     print('''PET: ${p['nome']}''');
     print('''NAsc: ${p['dataNascimento']}''');
@@ -50,17 +50,17 @@ void main() async{
 
     print("-----------------------------------------");
 
-  }
+  }*/
 
   for (var p in _dados) {
-    print("----------------------------------------");
+    print("--------------DONO---------------------");
     print('''Dono: ${p['nome']}''');
     print('''Cpf: ${p['cpf']}''');
-    print('''ID: ${p['id']}''');
+    print("----------------SEU PET----------------------");
+    print('''PET: ${p['nomePet']}''');
     //print('''Nascido: ${Utils.formatarData(p['dataNascimento'], true) }''');
-   // print('''NOME: ${p['nome']}''');
-   // print('''Sexo: ${p['sexo']}''');
-   // print('''Tipo do Pet: ${p['descricao']}''');
+    //print('''Sexo: ${p['sexo']}''');
+    //print('''Tipo do Pet: ${p['descricao']}''');
     print("-----------------------------------------");
 
   }

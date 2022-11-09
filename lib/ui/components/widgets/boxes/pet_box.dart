@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
+import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
 class PetBox extends StatelessWidget {
 
-  PetBox ({ @required this.data, required this.onTap, Key? key}) : super(key: key);
+  PetBox ({ this.data, required this.onTap, Key? key}) : super(key: key);
 
   final data;
   final Function onTap; // Good
@@ -16,7 +18,9 @@ class PetBox extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: GestureDetector(
         onTap: (){
-          onTap(data);
+          if (kDebugMode) {
+            print(data.nome);
+          }
         },
         child: Stack(
           children: [
@@ -36,11 +40,9 @@ class PetBox extends StatelessWidget {
                 bottom: 0,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    "assets/images/pug.png",
-                    fit: BoxFit.cover,
-                  ),
-                )
+                  child:    Utils.imageFromBase64String(data.imagePet),
+
+            )
             ),
             Positioned(
                 left: 0,
@@ -54,14 +56,14 @@ class PetBox extends StatelessWidget {
                   ),
                 )
             ),
-            const Positioned(
+             Positioned(
                 left: 0,
                 right: 0,
                 bottom: 10,
 
-                child: Text("NOme do Pet",
+                child: Text(data.nome.toString(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                             color: Colors.white
                 ),),
             )

@@ -4,6 +4,7 @@ import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
 import '../models/pet.dart';
+import '../models/pet.dart';
 
 class PrincipalPets extends StatefulWidget {
 
@@ -18,65 +19,142 @@ class _PrincipalPetsState extends State<PrincipalPets> {
   late Image image;
   List<Pet> _pets = [];
 
+
+
   @override
   void initState() {
-    super.initState();
     _getPets();
+    super.initState();
+ //pets_teste =  getListTeste();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    var data = Pet(
-        donoPet: 1, nome: "Ariana", tipoPet: 3,  sexo: true,
-        dataNascimento: Utils.getDataHora().toString(),imagePet: 'FGJKFMDLDLMD');
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+        debugShowCheckedModeBanner: false,
 
-      home: Scaffold(
-        body: GridView.count(
+        home: Scaffold(
+          body:
+
+
+
+         GridView.count(
             scrollDirection: Axis.vertical,
             crossAxisCount: 2,
 
-          children: [
-            PetBox(
-              data: data,
-              onTap: (data){
-                print("PET 1");
-                print(data);
-            },),
-           PetBox(
-               data: data,
-               onTap: (data){
-               print("PET 2");
-               print(data);
-             },),
-            PetBox(
-                data: data,
-                onTap: (data){
-                print("PET 3");
-                print(data);
-              },),
+        children: List.generate(_pets.length, (index) {
+      return PetBox(
+        data: _pets[index], onTap: () {},
+      );
+    }),
+        /*  Column(
+            children: [
+            Expanded(child:
+            ListView.builder(
+              itemCount: _pets.length,
+                itemBuilder: (context, index){
+                  final item =_pets[index];
+                  return Card(
+                    child: Text(item.nome),
+                  );
+                }
 
-          ],
+            ))
+            ],
+          )*/
 
+
+
+
+          ),
+        ));
+
+  }
+
+  /*class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final title = "Lista no Grid";
+    return MaterialApp(
+      title: title,
+      home: Scaffold(appBar: AppBar(
+        title: Text(title),
         ),
-      ),
+        body: GridView.count(
+          crossAxisCount: 3,
+          children: List.generate(opcoes.length, (index) {
+              return Center(
+                child: OpcaoCard(opcao: opcoes[index]),
+              );
+           }
+          )
+        )
+      )
     );
+  }
+}
+class Opcao {
+  const Opcao({this.titulo, this.icon});
+  final String titulo;
+  final IconData icon;
+}
+const List<Opcao> opcoes = const <Opcao>[
+  const Opcao(titulo: 'Carro', icon: Icons.directions_car),
+  const Opcao(titulo: 'Bike', icon: Icons.directions_bike),
+
+  const Opcao(titulo: 'Barco', icon: Icons.dvr),
+];
+class OpcaoCard extends StatelessWidget {
+  const OpcaoCard({Key key, this.opcao}) : super(key: key);
+  final Opcao opcao;
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme.of(context)
+.textTheme.display1;
+        return Card(
+          color: Colors.white,
+          child: Center(*/
+
+  getListTeste() {
+    List<Pet> pts = [];
+
+    Pet p1 = Pet(
+        donoPet: 1,
+        nome: "Ariana",
+        tipoPet: 3,
+        sexo: true,
+        dataNascimento: Utils.getDataHora().toString(),
+        imagePet: 'FGJKFMDLDLMD');
+
+
+    Pet p2 = Pet(
+        donoPet: 1,
+        nome: "Popoti",
+        tipoPet: 2,
+        sexo: true,
+        dataNascimento: Utils.getDataHora().toString(),
+        imagePet: 'FGJKFMDLDLMD');
+    pts.add(p1);
+    pts.add(p2);
+
+    return pts;
   }
   _getPets() async {
 
-    List listRecuperados = await DBHelper.instance.getPetsJoinTipo();
-    List<Pet> contasTemporarias = [];
-    for(var item in listRecuperados){
-      Pet c = Pet.fromMap(item);
-      contasTemporarias.add(c);
+    List list = await DBHelper.instance.getPetsJoinTipo();
+    //List<Pet> petsTemporarios = <Pet>[];
+    for (var item in list) {
+      Pet pet = Pet.fromMap(item);
+     //petsTemporarios.add(pet);
+      _pets.add(pet);
     }
+     // _pets = petsTemporarios;
     setState(() {
-      _pets = contasTemporarias;
-
+      _pets;
     });
-    contasTemporarias.clear();
+    //petsTemporarios.clear();
+
   }
 }

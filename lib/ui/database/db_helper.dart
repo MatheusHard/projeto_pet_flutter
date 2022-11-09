@@ -100,7 +100,7 @@ Future<List> getPetsJoinTipo() async {
     Database db = await instance.database;
     var res = await db.rawQuery('''SELECT p.${PetDataModel.id}, p.${PetDataModel.nome},
                                 p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
-                                e.${TipoPetDataModel.descricao}        
+                                p.${PetDataModel.imagePet}, e.${TipoPetDataModel.descricao}        
                                 FROM ${PetDataModel.getTabela()} p
                                 INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = 
                                 e.${TipoPetDataModel.id} 
@@ -122,7 +122,7 @@ Future<List> getPetsJoinTipo() async {
     Database db = await instance.database;
     var res = await db.rawQuery(
         '''SELECT d.${DonoDataModel.id}, d.${DonoDataModel.nome}, d.${DonoDataModel.cpf}, d.${DonoDataModel.password},
-           p.${PetDataModel.id}, p.${PetDataModel.nome}, p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
+           p.${PetDataModel.id}, p.${PetDataModel.nome} AS nomePet, p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
            e.${TipoPetDataModel.descricao} 
            FROM ${DonoDataModel.getTabela()} d
            LEFT JOIN ${PetDataModel.getTabela()} p ON p.${PetDataModel.donoPet} = d.${DonoDataModel.id}
