@@ -9,10 +9,10 @@ class Pet {
   String? dataNascimento;
   bool sexo;
   TipoPet? especie;
-  int? donoPet;
+  int donoPet;
 
   Pet({
-       this.id, required this.nome, this.donoPet, required this.imagePet,
+       this.id, required this.nome, required this.donoPet, required this.imagePet,
        required this.tipoPet, this.dataNascimento, required this.sexo,
        this.especie});
 

@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/models/tipo_vacina.dart';
 import 'package:projeto_pet/ui/views/cadastro_pets.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
@@ -16,18 +17,15 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
 ///Deletar tabelas:
-  var removes = await DBHelper.instance.removeAllTiposPets();
+  await DBHelper.instance.removeAllTiposPets();
   //var removes2 = await DBHelper.instance.removeAllPets();
-  var removes3 = await DBHelper.instance.removeAllDonos();
+  await DBHelper.instance.removeAllDonos();
+  await DBHelper.instance.removeAllTiposVacinas();
 
-///Add TIpos:
-  var _tipo1 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Gato"));
-  var _tipo2 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Cachorro"));
-  var _tipo3 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Cavalo"));
-  var _tipo4 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Papagaio"));
-  var _tipo5 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Ourobu"));
-
-
+///Add Tipos Pets:
+  setTiposPet();
+  ///Add TIpo Vacinas
+  setTiposVacina();
 
   ///Add PETs
   /*var _dado = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Pombogato", tipoPet: 1, sexo: true, dataNascimento: Utils.getDataHora().toString(), imagePet: '2'));
@@ -76,4 +74,32 @@ void main() async{
         },initialRoute: '/login',
         debugShowCheckedModeBanner: false,
       ));}
+
+void setTiposPet() async{
+
+  var _tipo1 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Gato"));
+  var _tipo2 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Cachorro"));
+  var _tipo3 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Cavalo"));
+  var _tipo4 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Papagaio"));
+  var _tipo5 = await DBHelper.instance.addTipoPet(TipoPet(descricao: "Ourobu"));
+}
+void setTiposVacina() async{
+   print("Cadastros dos Tipos de Vacinas");
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D2"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D3"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D4"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaD1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaREF"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeD1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeREF"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaD1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaREF"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralD1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralREF"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarD1"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarREF"));
+   print("FIM Tipos de Vacinas");
+
+}
 
