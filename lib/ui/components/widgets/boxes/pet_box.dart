@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import 'package:projeto_pet/ui/views/home.dart';
 
 class PetBox extends StatelessWidget {
 
@@ -18,9 +19,11 @@ class PetBox extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: GestureDetector(
         onTap: (){
-          if (kDebugMode) {
-            print(data.nome);
-          }
+          onTap(data);
+              //Navigator.pushNamed(context, '/cartao_de_vacina',arguments: null));
+
+
+
         },
         child: Stack(
           children: [

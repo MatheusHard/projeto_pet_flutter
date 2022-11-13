@@ -9,6 +9,7 @@ import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/models/pet.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import 'package:projeto_pet/ui/views/cartao_de_vacina.dart';
 import 'package:projeto_pet/ui/views/home.dart';
 import 'package:projeto_pet/ui/views/login.dart';
 
@@ -70,6 +71,7 @@ void main() async{
           '/login': (context) => const Login(),
           '/home': (context) => const Home(),
           '/cadastro_pets': (context) => const CadastroPets(),
+          '/cartao_de_vacina': (context) => const CartaoDeVacina()
 
         },initialRoute: '/login',
         debugShowCheckedModeBanner: false,

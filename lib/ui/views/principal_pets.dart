@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/components/widgets/boxes/pet_box.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
 
 import '../models/pet.dart';
 import '../models/pet.dart';
@@ -46,7 +47,10 @@ class _PrincipalPetsState extends State<PrincipalPets> {
 
         children: List.generate(_pets.length, (index) {
       return PetBox(
-        data: _pets[index], onTap: () {},
+        data: _pets[index],
+        onTap: (data) {
+          Navigator.pushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data));
+      },
       );
     }),
         /*  Column(
