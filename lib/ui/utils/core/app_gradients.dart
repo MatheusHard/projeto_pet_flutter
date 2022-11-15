@@ -12,6 +12,23 @@ class AppGradients {
         Colors.transparent,
         Colors.black38
       ]);
+
+  static const petFemea =  LinearGradient(
+      begin: Alignment.topCenter,
+      end: AlignmentDirectional.bottomEnd,
+      colors: [
+        Color(0xffffafbd),
+        Color(0xffffc3a0)
+      ]);
+
+  static const LinearGradient petMacho = LinearGradient(
+      begin: Alignment.topCenter,
+      end: AlignmentDirectional.bottomEnd,
+      colors: [
+
+        Color(0xff2193b0),
+        Color(0xff6dd5ed)
+      ]);
   static const linear = LinearGradient(colors: [
     Color(0xFF57B6E5),
     Color.fromRGBO(130, 87, 229, 0.695),

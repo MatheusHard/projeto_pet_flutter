@@ -13,8 +13,8 @@ class AppBarPet extends PreferredSize {
     child: Container(
 
       height: 120,
-      decoration: const BoxDecoration(
-          gradient: AppGradients.sol
+      decoration: BoxDecoration(
+        gradient:  (args.data.sexo) ? AppGradients.petFemea : AppGradients.petMacho,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

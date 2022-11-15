@@ -4,9 +4,11 @@ import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/home.dart';
 
+import '../../../utils/core/app_colors.dart';
+
 class PetBox extends StatelessWidget {
 
-  PetBox ({ this.data, required this.onTap, Key? key}) : super(key: key);
+  const PetBox ({ this.data, required this.onTap, Key? key}) : super(key: key);
 
   final data;
   final Function onTap; // Good
@@ -16,6 +18,9 @@ class PetBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: AppColors.border),
+          borderRadius: BorderRadius.circular(20)),
       margin: const EdgeInsets.all(8),
       child: GestureDetector(
         onTap: (){
@@ -59,14 +64,14 @@ class PetBox extends StatelessWidget {
                   ),
                 )
             ),
-             Positioned(
+             const Positioned(
                 left: 0,
                 right: 0,
                 bottom: 10,
 
-                child: Text(data.nome.toString(),
+                child: Text("data.nome.",
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            style: TextStyle(
                             color: Colors.white
                 ),),
             )
