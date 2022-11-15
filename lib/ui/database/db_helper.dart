@@ -6,6 +6,7 @@ import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/models/pet.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
+import 'package:projeto_pet/ui/models/vacina.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:path/path.dart';
@@ -45,6 +46,24 @@ class DBHelper{
   }
 
 
+  ///CRUD VACINA
+  Future<List<Vacina>>getAllVacinas() async {
+    Database db = await instance.database;
+    var tiposVacinas = await db.query(VacinaDataModel.getTabela(), orderBy: VacinaDataModel.nomeVacina);
+    List<Vacina> list = tiposVacinas.isNotEmpty
+        ? tiposVacinas.map((p) => Vacina.fromMap(p)).toList()
+        : [];
+    return list;
+  }
+
+  Future<int> addVacina(Vacina v) async {
+    Database db = await instance.database;
+    return await db.insert(VacinaDataModel.getTabela(), v.toMap());
+  }
+  Future<int> removeAllVacinas() async{
+    Database db = await instance.database;
+    return await db.rawDelete(VacinaDataModel.zerarTabela());
+  }
   ///CRUD TIPO VACINA
   Future<List<TipoVacina>>getAllTiposVacinas() async {
     Database db = await instance.database;

@@ -6,6 +6,7 @@ class VacinaDataModel{
   static const String dataCadastro = "dataCadastro";
   static const String dataAplicacao = "dataAplicacao";
   static const String nomeVacina = "nomeVacina";
+  static const String dose = "dose";
   static const String petId = "petId";
 
 
@@ -14,7 +15,7 @@ class VacinaDataModel{
   static String criarTabela() {
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY, $nomeVacina TEXT, $dataCadastro TEXT,
-                $dataAplicacao TEXT, $petId INTEGER);''';
+                $dataAplicacao TEXT, $dose TEXT, $petId INTEGER);''';
   }
 
   static String dropTable(){
@@ -31,7 +32,7 @@ class VacinaDataModel{
   }
 
   static String getAtributos(){
-    return '''$TABELA.id, $TABELA.nomeVacina, $TABELA.dataCadastro, $TABELA.dataAplicacao, $TABELA.petId''';
+    return '''$TABELA.id, $TABELA.nomeVacina, $TABELA.dose, $TABELA.dataCadastro, $TABELA.dataAplicacao, $TABELA.petId''';
   }
 }
 

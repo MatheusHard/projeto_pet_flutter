@@ -27,8 +27,8 @@ class AppBarPet extends PreferredSize {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Text("Cartao de Vacinas", style: AppTextStyles.titleCartaoVacina,),
-                Text(args.data.nome, style: AppTextStyles.subTitleBold,),
+                Text("Cartão de Vacinas", style: AppTextStyles.titleCartaoVacina,),
+                Text(args.data.nome.toUpperCase(), style: AppTextStyles.subTitleBold,),
 
               ],),
             ),

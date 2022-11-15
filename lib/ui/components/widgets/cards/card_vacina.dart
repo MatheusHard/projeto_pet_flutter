@@ -41,12 +41,22 @@ class CardVacina extends StatelessWidget {
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
+                children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text("data"),
+                    padding: const EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
+                    child: Center(child: Text(data?.nomeVacina.toUpperCase(),
+                                      style: AppTextStyles.vacinaDose,),),
                   ),
-                  Text("data"),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(Utils.showDose(data?.dose),
+                      style: AppTextStyles.vacinaDose,),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text((data.dataAplicacao != null && data.dataAplicacao != "") ? "Aplicada: ${Utils.formatarData(data?.dataAplicacao, true)}" : "Não aplicada!!" ,
+                      style: (data.dataAplicacao != null && data.dataAplicacao != "") ? AppTextStyles.vacinaAplicada: AppTextStyles.vacinaNaoAplicada),
+                  ),
                 ],
               ),
             ),

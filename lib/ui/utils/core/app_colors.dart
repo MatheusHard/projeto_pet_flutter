@@ -10,6 +10,10 @@ class AppColors {
   static const Color chartSecondary = Color(0xFFE1E6E3);
   static const Color chartPrimary = darkGreen;
 
+  //Comuns
+  static const Color verde = Colors.green;
+  static const Color vermelho = Colors.red;
+
   //Greens
   static const Color lightGreen = Color(0xFFE1F5EC);
   static const Color green = Color(0xFFB8DBCB);

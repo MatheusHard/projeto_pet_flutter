@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
+import 'package:projeto_pet/ui/models/vacina.dart';
 import 'package:projeto_pet/ui/views/cadastro_pets.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
@@ -22,11 +23,14 @@ void main() async{
   //var removes2 = await DBHelper.instance.removeAllPets();
   await DBHelper.instance.removeAllDonos();
   await DBHelper.instance.removeAllTiposVacinas();
+  await DBHelper.instance.removeAllVacinas();
 
 ///Add Tipos Pets:
   setTiposPet();
   ///Add TIpo Vacinas
   setTiposVacina();
+  ///Add VAcians
+  setVacinas();
 
   ///Add PETs
   /*var _dado = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Pombogato", tipoPet: 1, sexo: true, dataNascimento: Utils.getDataHora().toString(), imagePet: '2'));
@@ -87,21 +91,48 @@ void setTiposPet() async{
 }
 void setTiposVacina() async{
    print("Cadastros dos Tipos de Vacinas");
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D2"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D3"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D4"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaD1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaREF"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeD1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeREF"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaD1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaREF"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralD1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralREF"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarD1"));
-   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarREF"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D1", nomeFantasia: "Polivalente V10"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D2" , nomeFantasia: "Polivalente V10"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D3", nomeFantasia: "Polivalente V10"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaPolivalenteV10D4", nomeFantasia: "Polivalente V10"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaD1" , nomeFantasia: "Antirrabica"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaAntirrabicaREF" , nomeFantasia: "Antirrabica"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeD1", nomeFantasia: "Gripe"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGripeREF", nomeFantasia: "Gripe"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaD1", nomeFantasia: "Giardia"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaGiardiaREF", nomeFantasia: "Giardia"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralD1", nomeFantasia: "Leishmaniose Visceral"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseVisceralREF", nomeFantasia: "Leishmaniose Visceral"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarD1", nomeFantasia: "Leishmaniose Tegumentar"));
+   await DBHelper.instance.addTipoVacina(TipoVacina(dataCadastro: Utils.getDataHora().toString(), nomeVacina: "vacinaLeishmanioseTegumentarREF", nomeFantasia: "Leishmaniose Tegumentar"));
    print("FIM Tipos de Vacinas");
+
+}
+
+void setVacinas() async{
+  print("Cadastros dos de Vacinas");
+  ///Poli
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D1', petId: 1));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D2', petId: 1));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D3', petId: 1));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D4', petId: 1));
+
+
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'REF', petId: 2));
+
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'D1', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'REF', petId: 2));
+
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null,dose: 'D1', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null, dose: 'REF',petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'D1', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'REF', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'D1', petId: 2));
+  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'REF', petId: 2));
+
+
+
 
 }
 

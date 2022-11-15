@@ -77,11 +77,32 @@ class AppTextStyles {
     fontSize: 13,
     fontWeight: FontWeight.bold,
   );
+  static final TextStyle vacinaNaoAplicada = GoogleFonts.notoSans(
+    color: AppColors.vermelho,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+    fontStyle: FontStyle.normal
+
+  );
+  static final TextStyle vacinaDose = GoogleFonts.notoSans(
+      color: AppColors.black,
+      fontSize: 13,
+      fontWeight: FontWeight.bold,
+
+
+  );
+  static final TextStyle vacinaAplicada = GoogleFonts.notoSans(
+    color: AppColors.verde,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
+    fontStyle: FontStyle.normal
+
+  );
 
   static final TextStyle bodylightGrey = GoogleFonts.notoSans(
     color: AppColors.lightGreen,
     fontSize: 13,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.normal
   );
   static final TextStyle bodyDarkGreen = GoogleFonts.notoSans(
     color: AppColors.darkGreen,

@@ -43,7 +43,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
 
          GridView.count(
             scrollDirection: Axis.vertical,
-            crossAxisCount: 2,
+            crossAxisCount: 3,
 
         children: List.generate(_pets.length, (index) {
       return PetBox(

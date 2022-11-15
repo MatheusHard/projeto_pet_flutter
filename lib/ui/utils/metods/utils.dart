@@ -78,6 +78,33 @@ import 'package:encrypt/encrypt.dart' as crypt;
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   }
+  static String showDose(String value){
+
+      String dose = "";
+
+      switch(value) {
+        case 'D1':
+        dose =  '1ª Dose';
+        break;
+        case 'D2':
+         dose =  '2ª Dose';
+        break;
+        case 'D3':
+         dose =  '3ª Dose';
+        break;
+        case 'D4':
+          dose =  '4ª Dose';
+        break;
+        case 'REF':
+          dose =  'Reforço';
+        break;
+        case 'UNI':
+          dose =  'Única';
+        break;
+
+      }
+      return dose;
+  }
 
   static Future<bool> saveImageToPreferences(String value) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();

@@ -2,12 +2,13 @@
 class Vacina {
 
   int? id;
-  String dataCadastro;
-  String dataAplicacao;
+  String? dataCadastro;
+  String? dataAplicacao;
   String nomeVacina;
+  String dose;
   int petId;
 
-  Vacina({this.id, required this.nomeVacina, required this.dataCadastro, required this.petId, required this.dataAplicacao});
+  Vacina({this.id, required this.nomeVacina, required this.dose, this.dataCadastro, required this.petId, required this.dataAplicacao});
 
   factory Vacina.fromMap(Map<String, dynamic> json) => Vacina(
 
@@ -16,6 +17,7 @@ class Vacina {
       dataCadastro: json['dataCadastro'] ?? '',
       dataAplicacao: json['dataAplicacao'] ?? '',
       petId: json['petId'],
+      dose: json['dose']
 
   );
 
@@ -25,7 +27,8 @@ class Vacina {
       'nomeVacina': nomeVacina,
       'dataCadastro': dataCadastro,
       'dataAplicacao': dataAplicacao,
-      'petId': petId
+      'petId': petId,
+      'dose': dose
     };
   }
 }

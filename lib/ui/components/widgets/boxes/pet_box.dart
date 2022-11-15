@@ -64,14 +64,14 @@ class PetBox extends StatelessWidget {
                   ),
                 )
             ),
-             const Positioned(
+              Positioned(
                 left: 0,
                 right: 0,
                 bottom: 10,
 
-                child: Text("data.nome.",
+                child: Text(data?.nome.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                             color: Colors.white
                 ),),
             )
