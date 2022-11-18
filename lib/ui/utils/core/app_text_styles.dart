@@ -87,7 +87,14 @@ class AppTextStyles {
   static final TextStyle vacinaDose = GoogleFonts.notoSans(
       color: AppColors.black,
       fontSize: 13,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.normal,
+
+
+  );
+  static final TextStyle vacinaNome = GoogleFonts.notoSans(
+    color: AppColors.black,
+    fontSize: 13,
+    fontWeight: FontWeight.bold,
 
 
   );

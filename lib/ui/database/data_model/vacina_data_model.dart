@@ -15,7 +15,7 @@ class VacinaDataModel{
   static String criarTabela() {
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY, $nomeVacina TEXT, $dataCadastro TEXT,
-                $dataAplicacao TEXT, $dose TEXT, $petId INTEGER);''';
+                $dataAplicacao TEXT, $dose TEXT, $petId TEXT);''';
   }
 
   static String dropTable(){
@@ -32,7 +32,7 @@ class VacinaDataModel{
   }
 
   static String getAtributos(){
-    return '''$TABELA.id, $TABELA.nomeVacina, $TABELA.dose, $TABELA.dataCadastro, $TABELA.dataAplicacao, $TABELA.petId''';
+    return " v.id, v.nomeVacina, v.dose, v.dataCadastro, v.dataAplicacao, v.petId ";
   }
 }
 

@@ -21,7 +21,7 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
 
   @override
   void initState() {
-    _getVacinas();
+    //_getVacinas('4ba5dea3-e974-4006-be5f-ba7183adbb6b');
     super.initState();
   }
 
@@ -32,6 +32,8 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
         ?.settings
         .arguments as ScreenArgumentsPet?;
 
+    _getVacinas(args?.data.id);
+
     return Scaffold(
       appBar: AppBarPet(args!),
       body: GridView.count(
@@ -41,8 +43,8 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
           List.generate(_vacinas.length, (index) {
             return CardVacina(
                 data: _vacinas[index], onTap: (data) {
-              Navigator.pushNamed(context, '/cartao_de_vacina',
-                  arguments: ScreenArgumentsPet(data));
+                Navigator.pushNamed(context, '/home',
+                arguments: ScreenArgumentsPet(data));
             });
           })
 
@@ -58,10 +60,12 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
     );
   }
 
-   _getVacinas() async {
-      List<Vacina> list = await DBHelper.instance.getAllVacinas();
-       setState(() {
-        _vacinas = list;
+   _getVacinas(String petId) async {
+
+     List<Vacina> list = await DBHelper.instance.getAllVacinasByPet(petId);
+     _vacinas = list;
+     setState(() {
+        _vacinas;
       });
     }
   }

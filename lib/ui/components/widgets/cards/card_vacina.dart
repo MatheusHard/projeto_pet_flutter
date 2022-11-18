@@ -45,7 +45,7 @@ class CardVacina extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
                     child: Center(child: Text(data?.nomeVacina.toUpperCase(),
-                                      style: AppTextStyles.vacinaDose,),),
+                                      style: AppTextStyles.vacinaNome,),),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

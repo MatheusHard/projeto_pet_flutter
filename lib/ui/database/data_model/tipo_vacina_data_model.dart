@@ -7,6 +7,7 @@ class TipoVacinaDataModel{
   static const String dataCadastro = "dataCadastro";
 
 
+
   static String queryCriarTabela = "";
 
   static String criarTabela() {

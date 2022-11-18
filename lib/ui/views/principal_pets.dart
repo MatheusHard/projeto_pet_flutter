@@ -121,30 +121,6 @@ class OpcaoCard extends StatelessWidget {
           color: Colors.white,
           child: Center(*/
 
-  getListTeste() {
-    List<Pet> pts = [];
-
-    Pet p1 = Pet(
-        donoPet: 1,
-        nome: "Ariana",
-        tipoPet: 3,
-        sexo: true,
-        dataNascimento: Utils.getDataHora().toString(),
-        imagePet: 'FGJKFMDLDLMD');
-
-
-    Pet p2 = Pet(
-        donoPet: 1,
-        nome: "Popoti",
-        tipoPet: 2,
-        sexo: true,
-        dataNascimento: Utils.getDataHora().toString(),
-        imagePet: 'FGJKFMDLDLMD');
-    pts.add(p1);
-    pts.add(p2);
-
-    return pts;
-  }
   _getPets() async {
 
     List list = await DBHelper.instance.getPetsJoinTipo();

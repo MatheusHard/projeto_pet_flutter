@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart' as crypt;
+import 'package:uuid/uuid.dart';
 
 
   class Utils {
@@ -77,6 +78,11 @@ import 'package:encrypt/encrypt.dart' as crypt;
   );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
+  }
+
+  static String generateGuide(){
+    var uuid = const Uuid();
+    return uuid.v4();
   }
   static String showDose(String value){
 

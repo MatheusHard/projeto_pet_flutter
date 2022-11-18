@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:projeto_pet/ui/components/exemplo.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
+import 'package:projeto_pet/ui/models/vacina.dart';
 import 'package:projeto_pet/ui/utils/core/app_colors.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/core/app_images.dart';
@@ -396,14 +397,17 @@ class _CadastroPetsState extends State<CadastroPets> {
 
   _cadastrarPet() async {
     String file;
-
+    String id;
     //setState(() {
 
     nome = _nomeController.text.toString();
     file = Utils.base64String(_selectedFile!.readAsBytesSync());
-
+    id = Utils.generateGuide();
     DBHelper.instance.addPet(
+
+
         Pet(
+            id: id,
             donoPet: 1,
             nome: nome,
             tipoPet: selectedItemTipoPet['id'],
@@ -411,9 +415,37 @@ class _CadastroPetsState extends State<CadastroPets> {
             dataNascimento: date.toString(),
             imagePet: file));
 
+    cadastrarVacinasPadrao(id);
     clearControllers();
     Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
     //});
+  }
+  void cadastrarVacinasPadrao(String idPet) async{
+    print("Cadastros das Vacinas PAdrao");
+    ///Poli
+    await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10", dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D2', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D3', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D4', petId: idPet));
+
+
+    /*await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'REF', petId: idPet));
+
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'REF', petId: idPet));
+
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null,dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null, dose: 'REF',petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'REF', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'REF', petId: idPet));
+*/
+    print(" FIM Cadastros das Vacinas PAdrao");
+
+
+
   }
 
   bool validatePet() {

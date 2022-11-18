@@ -6,9 +6,9 @@ class Vacina {
   String? dataAplicacao;
   String nomeVacina;
   String dose;
-  int petId;
+  String petId;
 
-  Vacina({this.id, required this.nomeVacina, required this.dose, this.dataCadastro, required this.petId, required this.dataAplicacao});
+  Vacina({this.id, required this.nomeVacina, required this.dose, this.dataCadastro, required this.petId, this.dataAplicacao});
 
   factory Vacina.fromMap(Map<String, dynamic> json) => Vacina(
 

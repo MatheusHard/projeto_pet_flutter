@@ -14,7 +14,7 @@ class PetDataModel{
 
    static String criarTabela() {
 
-    return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY,
+    return '''CREATE TABLE $TABELA ($id TEXT PRIMARY KEY,
               $dataNascimento DATETIME, $nome TEXT, $tipoPet INTEGER,
               $imagePet TEXT, $sexo boolean NOT NULL default 0, 
               $donoPet INTEGER);''';

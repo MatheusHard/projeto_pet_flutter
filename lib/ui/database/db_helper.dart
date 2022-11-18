@@ -55,6 +55,29 @@ class DBHelper{
         : [];
     return list;
   }
+  ///        where: '${PetDataModel.id} = ?', whereArgs: [pet.id]);
+  Future<List<Vacina>>getAllVacinasByPet(String petId) async {
+    Database db = await instance.database;
+    var tiposVacinas = await db.query(VacinaDataModel.getTabela(), orderBy: VacinaDataModel.nomeVacina,
+    where: '${VacinaDataModel.petId} = ?', whereArgs: [petId]);
+    List<Vacina> list = tiposVacinas.isNotEmpty
+        ? tiposVacinas.map((p) => Vacina.fromMap(p)).toList()
+        : [];
+    return list;
+  }
+/*  Future<List>getAllVacinasByPet(String petId) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery('''SELECT v.${VacinaDataModel.id}, v.${VacinaDataModel.nomeVacina},
+                                  v.${VacinaDataModel.petId}, v.${VacinaDataModel.dataAplicacao}, 
+                                  v.${VacinaDataModel.dataCadastro}, v.${VacinaDataModel.dose}
+                                   FROM ${VacinaDataModel.getTabela()} v
+                                   WHERE  v.${VacinaDataModel.petId} = '$petId' 
+                                   ORDER BY v.${VacinaDataModel.nomeVacina} ''');
+                              return res.toList();
+    }
+*/
+
+
 
   Future<int> addVacina(Vacina v) async {
     Database db = await instance.database;
