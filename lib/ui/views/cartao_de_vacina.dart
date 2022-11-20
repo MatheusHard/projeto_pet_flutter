@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/vacina.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
+import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsVacina.dart';
 
 import '../components/widgets/appbar/app_bar_pet.dart';
 import '../components/widgets/cards/card_vacina.dart';
@@ -43,8 +44,7 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
           List.generate(_vacinas.length, (index) {
             return CardVacina(
                 data: _vacinas[index], onTap: (data) {
-                Navigator.pushNamed(context, '/home',
-                arguments: ScreenArgumentsPet(data));
+
             });
           })
 
@@ -54,7 +54,8 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
         onPressed: () {
-          print("ADD");
+          Navigator.pushNamed(context, '/cadastro_vacina',
+              arguments: ScreenArgumentsVacina(null, false));
         },
       ),
     );

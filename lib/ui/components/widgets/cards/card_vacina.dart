@@ -3,6 +3,7 @@ import 'package:projeto_pet/ui/utils/core/app_colors.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import '../../../views/screen_arguments/ScreenArgumentsVacina.dart';
 
 class CardVacina extends StatelessWidget {
 
@@ -13,6 +14,8 @@ class CardVacina extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool vacinaPadraoOrOutra = true;
+
     return Container(
 
       decoration: BoxDecoration(
@@ -21,9 +24,8 @@ class CardVacina extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: GestureDetector(
         onTap: (){
-          print("CVACINAS");
-          //onTap(data);
-         // Navigator.pushNamed(context, '/home',arguments: null);
+          Navigator.pushNamed(context, '/cadastro_vacina',
+          arguments: ScreenArgumentsVacina(data, vacinaPadraoOrOutra));
         },
         child:
         Stack(

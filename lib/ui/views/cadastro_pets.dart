@@ -38,7 +38,7 @@ class _CadastroPetsState extends State<CadastroPets> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _nomeController = TextEditingController();
   final _dataController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? _selectedFile;
   bool _sexo = false;
   String nome = "";
@@ -171,7 +171,7 @@ class _CadastroPetsState extends State<CadastroPets> {
                           ),
                         ),
                         /**TIPO DO VACINA**/
-                        Padding(
+                      /*  Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: DropdownSearch<dynamic>(
                             mode: Mode.MENU,
@@ -185,7 +185,7 @@ class _CadastroPetsState extends State<CadastroPets> {
                               _selectedItemTipoPet(tipoPet);
                             },
                           ),
-                        ),
+                        ),*/
 
 
                         /*****CAMERA PICTURE/GALLERY*****/
@@ -429,7 +429,7 @@ class _CadastroPetsState extends State<CadastroPets> {
     await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D4', petId: idPet));
 
 
-    /*await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: idPet));
+    await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'REF', petId: idPet));
 
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'D1', petId: idPet));
@@ -441,7 +441,7 @@ class _CadastroPetsState extends State<CadastroPets> {
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'REF', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'D1', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'REF', petId: idPet));
-*/
+
     print(" FIM Cadastros das Vacinas PAdrao");
 
 

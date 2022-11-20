@@ -88,7 +88,7 @@ class DBHelper{
     return await db.rawDelete(VacinaDataModel.zerarTabela());
   }
   ///CRUD TIPO VACINA
-  Future<List<TipoVacina>>getAllTiposVacinas() async {
+  Future<List>getAllTiposVacinas() async {
     Database db = await instance.database;
     var tiposVacinas = await db.query(TipoVacinaDataModel.getTabela(), orderBy: TipoVacinaDataModel.nomeVacina);
     List<TipoVacina> list = tiposVacinas.isNotEmpty
