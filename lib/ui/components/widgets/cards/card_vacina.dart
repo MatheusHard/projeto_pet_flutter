@@ -1,11 +1,15 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/database/db_helper.dart';
+import 'package:projeto_pet/ui/models/vacina.dart';
 import 'package:projeto_pet/ui/utils/core/app_colors.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
+import 'package:projeto_pet/ui/utils/core/app_images.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import '../../../views/screen_arguments/ScreenArgumentsVacina.dart';
 
-class CardVacina extends StatelessWidget {
+class CardVacina extends StatefulWidget {
 
   const CardVacina({required this.data, required this.onTap, Key? key}) : super(key: key);
 
@@ -13,73 +17,311 @@ class CardVacina extends StatelessWidget {
   final Function onTap;
 
   @override
+  State<CardVacina> createState() => _CardVacinaState();
+}
+
+class _CardVacinaState extends State<CardVacina> {
+  DateTime date = DateTime.now();
+
+  var selectedItemTipoVacina;
+
+  late List _listaTiposVacinas = [];
+
+
+
+
+  final _dataController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool vacinaPadraoOrOutra = false;
+
+  String nome = "";
+
+  @override
+  void initState() {
+    getTiposVacinas();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool vacinaPadraoOrOutra = true;
 
-    return Container(
+    return Scaffold(
+      body: Container(
 
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.border),
-          borderRadius: BorderRadius.circular(20)),
-      margin: const EdgeInsets.all(8),
-      child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, '/cadastro_vacina',
-          arguments: ScreenArgumentsVacina(data, vacinaPadraoOrOutra));
-        },
-        child:
-        Stack(
-          clipBehavior: Clip.none,
-          children: [
-            AspectRatio(
-              aspectRatio: 1/1,
-              child: Container(
-                decoration:  BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.transparent
+        decoration: BoxDecoration(
+            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(20)),
+        margin: const EdgeInsets.all(5),
+        child: GestureDetector(
+          onTap: () async{
+            await showInformationDialog(context, ScreenArgumentsVacina(widget.data, vacinaPadraoOrOutra));
+            //Navigator.pushNamed(context, '/cadastro_vacina',
+            //arguments: ScreenArgumentsVacina(data, vacinaPadraoOrOutra));
+          },
+          child:
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              AspectRatio(
+                aspectRatio: 1/1,
+                child: Container(
+                  decoration:  BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.transparent
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
-                    child: Center(child: Text(data?.nomeVacina.toUpperCase(),
-                                      style: AppTextStyles.vacinaNome,),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(Utils.showDose(data?.dose),
-                      style: AppTextStyles.vacinaDose,),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text((data.dataAplicacao != null && data.dataAplicacao != "") ? "Aplicada: ${Utils.formatarData(data?.dataAplicacao, true)}" : "Não aplicada!!" ,
-                      style: (data.dataAplicacao != null && data.dataAplicacao != "") ? AppTextStyles.vacinaAplicada: AppTextStyles.vacinaNaoAplicada),
-                  ),
-                ],
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 0),
+                      child: Center(child: Text(widget.data?.nomeVacina.toUpperCase(),
+                                        style: AppTextStyles.vacinaNome,),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(Utils.showDose(widget.data?.dose),
+                        style: AppTextStyles.vacinaDose,),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text((widget.data.dataAplicacao != null && widget.data.dataAplicacao != "") ? "Aplicada: ${Utils.formatarData(widget.data?.dataAplicacao, true)}" : "Não aplicada!!" ,
+                        style: (widget.data.dataAplicacao != null && widget.data.dataAplicacao != "") ? AppTextStyles.vacinaAplicada: AppTextStyles.vacinaNaoAplicada),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-            const Align(
-                alignment: Alignment(0.9, 0.9),
-                child:
-                Padding(
-                  padding: EdgeInsets.only(bottom: 0, top: 0),
-                  child: Icon(
-                    Icons.vaccines,
-                    color: Colors.green,
-                    size: 50,),),
+               Align(
+
+                  alignment: const Alignment(0.9, 0.9),
+                  child:
+                Container(
+                  width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                   image:  DecorationImage(
+
+                       image: AssetImage(
+                         AppImages.vacina_card,
+
+                       )
+                   )
+               ),
                 )
-          ],
-        ),
-            ),
+                  )
+            ],
+          ),
+              ),
 
 
 
 
+      ),
     );
   }
+
+  ///DIALOG CADASTRO VACINA:
+  Future<void> showInformationDialog(BuildContext context, ScreenArgumentsVacina argsVacina) async {
+
+    return await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Cadastro Vacina",),
+          titleTextStyle: AppTextStyles.titleCardVacina,
+          contentPadding: const EdgeInsets.only(left: 5, bottom: 0, right: 5, top: 0),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.border),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey
+                ),
+                width: 400,
+                height: 400,
+                child: Scaffold(
+                  body:  Form(
+                    key: _formKey,
+                    child: Stack(
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 25),
+                              child: Center(
+
+                                child: SingleChildScrollView(
+                                  child:
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 0, top: 20.0, right: 0, bottom: 40),
+                                        child: Text(argsVacina.data.nomeVacina.toUpperCase(), style: AppTextStyles.vacinaNome,),
+                                      ),
+                                      ///Add Vacina Padrao ou Nova:
+                                      widgetTipoVacinaPadraoOrNova(argsVacina?.vacinaPadraoOrOutra),
+                                      widgetDosePadraoOrNova(argsVacina, argsVacina?.vacinaPadraoOrOutra),
+
+                                    ],
+                                  ),
+                                ),
+                              )
+                          ),
+                        ]
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: ()  {
+                    if (_formKey.currentState!.validate() &&
+                    validateVacina()) {
+                    _cadastrarVacina(argsVacina!, context);
+                    } else {
+                      Utils.showDefaultSnackbar(
+                      context, "Preencha os campos Obrigatórios!!!");
+                      }},
+              child: const Text('Salvar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  widgetTipoVacinaPadraoOrNova(bool? vacinaPadraoOrOutra) {
+
+    if(vacinaPadraoOrOutra == false){
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownSearch<dynamic>(
+          mode: Mode.MENU,
+          items: _listaTiposVacinas.map((tv) => tv).toList(),
+          itemAsString: (dynamic tv) =>
+              tv.nomeVacina.toString(),
+          showSearchBox: true,
+          label: "Vacina",
+          hint: "escolha a vacina ",
+          onChanged: (tipoVacina) {
+            _selectedItemTipoVacina(tipoVacina);
+          },
+        ),
+      );
+
+    }else{
+      return Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: 10, vertical: 8),
+        child: TextFormField(
+          readOnly: true,
+          onTap: () async {
+            DateTime? newDate = await showDatePicker(
+                context: context,
+                initialDate: date,
+                firstDate: DateTime(1900),
+                lastDate: DateTime(2040));
+            if (newDate == null) return;
+            setState(() {
+              date = newDate;
+              _dataController.value = TextEditingValue(
+                  text: Utils.formatarDateTime(date));
+            });
+          },
+          keyboardType: TextInputType.datetime,
+          controller: _dataController,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.date_range, color: Colors.green),
+            hintText: "Data da Aplicação",
+          ),
+
+          validator: (value) {
+            if (value == null || value == "") {
+              return "Data de Aplicação Obrigatória!!!";
+            }
+            return null;
+          },
+        ),
+
+      );
+    }
+  }
+
+  widgetDosePadraoOrNova(ScreenArgumentsVacina args, bool? vacinaPadraoOrOutra) {
+
+    if(vacinaPadraoOrOutra == false){
+      return const SizedBox(
+        width: 0,
+        height: 0,
+      );
+    }else{
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(Utils.showDose(args.data?.dose),
+          style: AppTextStyles.vacinaDose,),
+      );
+    }
+  }
+
+  getTiposVacinas() async {
+
+    List tipoVacinas = await DBHelper.instance.getAllTiposVacinas();
+    _listaTiposVacinas = tipoVacinas;
+    setState(() {
+      _listaTiposVacinas;
+    });
+  }
+
+  clearControllers() {
+    _dataController.clear();
+  }
+
+  _selectedItemTipoVacina(selectedTipo) {
+    setState(() {
+      selectedItemTipoVacina = selectedTipo;
+
+      print(selectedItemTipoVacina.id);
+      //print(selectedItemTipoVacina['descricao']);
+
+    });
+  }
+
+  _cadastrarVacina(ScreenArgumentsVacina args, BuildContext context) async {
+
+    bool vacinaPadraoOrOutra = args.vacinaPadraoOrOutra;
+    String doseVacina = args.data.dose;
+    String petId = args.data.petId;
+
+    DBHelper.instance.addVacina(Vacina(nomeVacina: selectedItemTipoVacina.descricao, dose: doseVacina, petId: petId));
+
+    clearControllers();
+    Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+  }
+
+  bool validateVacina() {
+    bool flag = true;
+
+    if (_dataController.text.isEmpty) return false;
+    if (selectedItemTipoVacina == null) return false;
+
+    return flag;
+  }
 }
+
+
+
+
+

@@ -90,7 +90,6 @@ void main() async{
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
           '/cadastro_vacina': (context) => const CadastroVacina()
 
-
         },initialRoute: '/login',
         debugShowCheckedModeBanner: false,
       ));}

@@ -13,6 +13,11 @@ class AppTextStyles {
     fontSize: 30,
     fontWeight: FontWeight.w400,
   );
+  static final TextStyle titleCardVacina = GoogleFonts.notoSans(
+    color: AppColors.black,
+    fontSize: 25,
+    fontWeight: FontWeight.w400,
+  );
   static final TextStyle titleCartaoVacina = GoogleFonts.notoSans(
     color: AppColors.white,
     fontSize: 25,

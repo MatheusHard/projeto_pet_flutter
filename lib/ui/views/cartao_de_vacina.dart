@@ -39,7 +39,7 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
       appBar: AppBarPet(args!),
       body: GridView.count(
           scrollDirection: Axis.vertical,
-          crossAxisCount: 3,
+          crossAxisCount: 2,
           children:
           List.generate(_vacinas.length, (index) {
             return CardVacina(
@@ -54,8 +54,9 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.pushNamed(context, '/cadastro_vacina',
-              arguments: ScreenArgumentsVacina(null, false));
+          //Navigator.pushNamed(context, '/cadastro_vacina',
+            //  arguments: ScreenArgumentsVacina(args, false));
+          Container();
         },
       ),
     );
