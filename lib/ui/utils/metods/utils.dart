@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:projeto_pet/ui/models/dose.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:encrypt/encrypt.dart' as crypt;
 import 'package:uuid/uuid.dart';
@@ -18,7 +19,19 @@ import 'package:uuid/uuid.dart';
   //String URL_WEB_SERVICE = "http://avaliacoes-backend.herokuapp.com/";
   static const String IMG_KEY = 'IMAGE_KEY';
 
+  static List<Dose> listaDoses(){
 
+     List<Dose> list= [];
+
+     list.add(Dose(id: 1, descricao: '1ª Dose', dose: 'D1'));
+     list.add(Dose(id: 2, descricao: '2ª Dose', dose: 'D2'));
+     list.add(Dose(id: 3, descricao: '3ª Dose', dose: 'D3'));
+     list.add(Dose(id: 4, descricao: '4ª Dose', dose: 'D4'));
+     list.add(Dose(id: 5, descricao: 'Reforço', dose: 'REF'));
+     list.add(Dose(id: 6, descricao: 'Única', dose: 'UNI'));
+
+     return list;
+  }
 
   static  final key = crypt.Key.fromUtf8('put32charactershereeeeeeeeeeeee!'); //32 chars
   static final iv = crypt.IV.fromUtf8('put16characters!'); //16 chars
@@ -36,13 +49,6 @@ import 'package:uuid/uuid.dart';
       final decrypted_data = e.decrypt(crypt.Encrypted.fromBase64(text), iv: iv);
       return decrypted_data;
     }
-
-
-
-
-
-
-
 
 
   /***************DataHora***************/

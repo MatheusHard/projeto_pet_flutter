@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/components/widgets/boxes/pet_box.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
+import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
 
@@ -37,14 +38,13 @@ class _PrincipalPetsState extends State<PrincipalPets> {
         debugShowCheckedModeBanner: false,
 
         home: Scaffold(
-          body:
-
-
-
-         GridView.count(
+          bottomSheet: Padding(
+                              padding: const EdgeInsets.only(top: 0, right: 0, bottom: 20, left: 20),
+                              child: Text("Pets: ${_pets.length}", style: AppTextStyles.total),
+                            ),
+          body: GridView.count(
             scrollDirection: Axis.vertical,
             crossAxisCount: 3,
-
         children: List.generate(_pets.length, (index) {
       return PetBox(
         data: _pets[index],
