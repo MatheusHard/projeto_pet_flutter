@@ -10,10 +10,10 @@ import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsVacina.dart';
 
-import '../components/widgets/appbar/app_bar_pet.dart';
-import '../components/widgets/cards/card_vacina.dart';
-import '../models/dose.dart';
-import '../utils/core/app_text_styles.dart';
+import '../../components/widgets/appbar/app_bar_pet.dart';
+import '../../components/widgets/cards/card_vacina.dart';
+import '../../models/dose.dart';
+import '../../utils/core/app_text_styles.dart';
 
 class CartaoDeVacina extends StatefulWidget {
   const CartaoDeVacina({Key? key}) : super(key: key);

@@ -15,7 +15,7 @@ import 'package:projeto_pet/ui/utils/core/app_images.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
-import '../models/pet.dart';
+import '../../models/pet.dart';
 
 
 class CadastroPets extends StatefulWidget {
@@ -34,11 +34,9 @@ class _CadastroPetsState extends State<CadastroPets> {
   late List _listaTiposPets = [];
   late List _listaTiposVacinas = [];
 
-  late FocusNode _myFocusNodeNome;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _nomeController = TextEditingController();
   final _dataController = TextEditingController();
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? _selectedFile;
   bool _sexo = false;
   String nome = "";
@@ -48,7 +46,6 @@ class _CadastroPetsState extends State<CadastroPets> {
   void initState() {
     getTipos();
     getTiposVacinas();
-    _myFocusNodeNome = FocusNode();
     super.initState();
   }
 

@@ -3,18 +3,16 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
-import 'package:projeto_pet/ui/models/vacina.dart';
-import 'package:projeto_pet/ui/views/cadastro_pets.dart';
+import 'package:projeto_pet/ui/views/dono/cadastro_dono.dart';
+import 'package:projeto_pet/ui/views/pet/cadastro_pets.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
-import 'package:projeto_pet/ui/models/pet.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
-import 'package:projeto_pet/ui/views/cadastro_vacina.dart';
-import 'package:projeto_pet/ui/views/cartao_de_vacina.dart';
+import 'package:projeto_pet/ui/views/vacina/cadastro_vacina.dart';
+import 'package:projeto_pet/ui/views/vacina/cartao_de_vacina.dart';
 import 'package:projeto_pet/ui/views/home.dart';
 import 'package:projeto_pet/ui/views/login.dart';
-import 'package:uuid/uuid.dart';
 
 void main() async{
 
@@ -40,8 +38,8 @@ void main() async{
   var _dado3 = await DBHelper.instance.addPet(Pet( donoPet: 1, nome: "Ariana", tipoPet: 3,  sexo: true, dataNascimento: Utils.getDataHora().toString(),imagePet: '2'));
 */
   ///Add Donos
-  var _dono = await DBHelper.instance.addDono(Dono(nome: "Matheus", cpf: "05694641450", password: "fredf",user: "burumungu"));
-  var _dono2 = await DBHelper.instance.addDono(Dono(nome: "Lolo", cpf: "0314641450", password: "fredf",user: "lolozinho"));
+  var _dono = await DBHelper.instance.addDono(Dono(nome: "Matheus", cpf: "05694641450", password: "fredf",user: "burumungu", qtdRowListagem: 2));
+  var _dono2 = await DBHelper.instance.addDono(Dono(nome: "Lolo", cpf: "0314641450", password: "fredf",user: "lolozinho", qtdRowListagem: 3));
 
   List _dados = await DBHelper.instance.getDonoPets();
 
@@ -88,7 +86,8 @@ void main() async{
           '/home': (context) => const Home(),
           '/cadastro_pets': (context) => const CadastroPets(),
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
-          '/cadastro_vacina': (context) => const CadastroVacina()
+          '/cadastro_vacina': (context) => const CadastroVacina(),
+          '/cadastro_dono' : (context) => const CadastroDono()
 
         },initialRoute: '/login',
         debugShowCheckedModeBanner: false,

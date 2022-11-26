@@ -5,8 +5,8 @@ import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
 
-import '../models/pet.dart';
-import '../models/pet.dart';
+import '../../models/pet.dart';
+
 
 class PrincipalPets extends StatefulWidget {
 
@@ -37,6 +37,13 @@ class _PrincipalPetsState extends State<PrincipalPets> {
         debugShowCheckedModeBanner: false,
 
         home: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.blueAccent,
+            child: const Icon(Icons.add),
+            onPressed: () {
+            //  showInformationDialog(context, args);
+            },
+          ),
           bottomSheet: Padding(
                               padding: const EdgeInsets.only(top: 0, right: 0, bottom: 20, left: 20),
                               child: Text("Pets: ${_pets.length}", style: AppTextStyles.total),

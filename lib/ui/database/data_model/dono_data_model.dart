@@ -7,13 +7,14 @@ class DonoDataModel{
   static const String cpf = "cpf";
   static const String user = "user";
   static const String password = "password";
+  static const String qtdRowListagem = "qtdRowListagem";
 
   static String queryCriarTabela = "";
 
   static String criarTabela() {
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY,
-              $nome TEXT, $cpf TEXT,
+              $nome TEXT, $cpf TEXT, $qtdRowListagem INTEGER,
               $user TEXT, $password TEXT);''';
   }
 
@@ -31,7 +32,7 @@ class DonoDataModel{
   }
 
   static String getAtributos(){
-    return '''$TABELA.id, $TABELA.nome, $TABELA.data_final, $TABELA.gasto_total, $TABELA.saldo, $TABELA.cidade_id, $TABELA.funcionario_id''';
+    return '''$TABELA.id, $TABELA.nome, $TABELA.user, $TABELA.password, $TABELA.qtdRowListagem''';
   }
 }
 

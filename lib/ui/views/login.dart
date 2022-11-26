@@ -5,6 +5,7 @@ import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/home.dart';
+import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -60,17 +61,6 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:<Widget> [
 
-                  /*  Padding(
-                      padding: const EdgeInsets.only(bottom: 50.0),
-                      child: Center(
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          child: Image.asset(
-                            'assets/images/gasto.png'
-                            , ),
-                        ),),
-                    ),*/
                     const Center(
                       child: Text("Login", style: TextStyle(
                           color: Colors.blueAccent,
@@ -169,8 +159,32 @@ class _LoginState extends State<Login> {
                                       ],)
                                 )
                             )
-                        ))
+                        )),
                     /***************FIM*****************/
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+
+                        TextButton(
+                            onPressed: (){
+                            setState(() {
+                              var data;
+                              Navigator.pushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(data));
+
+                            });
+
+                            },
+                        child:  Text("novo cadastro", style: AppTextStyles.loginNovoEsqueci)
+                        ),
+                        TextButton(
+                            onPressed: (){
+
+                            },
+                        child:  Text("esqueci minha senha", style: AppTextStyles.loginNovoEsqueci)
+                        ),
+                      ],
+                    )
+
                   ],)),
           ),
         ),
