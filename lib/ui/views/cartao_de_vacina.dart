@@ -174,8 +174,8 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
           itemAsString: (dynamic tv) =>
               tv.nomeVacina.toString(),
           showSearchBox: true,
-          label: "Menu Vacina",
-          hint: "escolha a vacina ",
+          //label: "Tipo de  Vacina",
+          hint: "escolha a Vacina ",
           onChanged: (tipoVacina) {
             _selectedItemTipoVacina(tipoVacina);
           },
@@ -192,8 +192,8 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
          items: _doses.map((d) => d).toList(),
         itemAsString: (dynamic d) => d.descricao.toString(),
        showSearchBox: true,
-        label: "Menu mode",
-        hint: "country in menu mode",
+        //label: "Menu mode",
+        hint: "escolha a Dose",
         onChanged: (obj) {
           _selectedItemDose(obj);
 

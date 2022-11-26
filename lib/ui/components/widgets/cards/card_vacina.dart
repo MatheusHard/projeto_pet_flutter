@@ -40,7 +40,6 @@ class _CardVacinaState extends State<CardVacina> {
 
   @override
   void initState() {
-    getTiposVacinas();
     super.initState();
   }
 
@@ -134,7 +133,7 @@ class _CardVacinaState extends State<CardVacina> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Cadastro Vacina",),
+          title: const Text("Atualizar Vacina",),
           titleTextStyle: AppTextStyles.titleCardVacina,
           contentPadding: const EdgeInsets.only(left: 5, bottom: 0, right: 5, top: 0),
           content: StatefulBuilder(
@@ -165,10 +164,11 @@ class _CardVacinaState extends State<CardVacina> {
                                         padding: const EdgeInsets.only(left: 0, top: 20.0, right: 0, bottom: 40),
                                         child: Text(argsVacina.data.nomeVacina.toUpperCase(), style: AppTextStyles.vacinaNome,),
                                       ),
-                                      ///Add Vacina Padrao ou Nova:
-                                      widgetTipoVacinaPadraoOrNova(argsVacina?.vacinaPadraoOrOutra),
-                                      widgetDosePadraoOrNova(argsVacina, argsVacina?.vacinaPadraoOrOutra),
+                                      ///Atualizar Vacina Padrao:
 
+                                      widgetDataAplicacao(argsVacina),
+                                      widgetDosePadrao(argsVacina),
+                                      widgetDataAPlicada(argsVacina)
                                     ],
                                   ),
                                 ),
@@ -190,7 +190,7 @@ class _CardVacinaState extends State<CardVacina> {
               onPressed: ()  {
                     if (_formKey.currentState!.validate() &&
                     validateVacina()) {
-                    _cadastrarVacina(argsVacina!, context);
+                      _atualizarVacina(argsVacina!, context);
                     } else {
                       Utils.showDefaultSnackbar(
                       context, "Preencha os campos Obrigatórios!!!");
@@ -203,26 +203,8 @@ class _CardVacinaState extends State<CardVacina> {
     );
   }
 
-  widgetTipoVacinaPadraoOrNova(bool? vacinaPadraoOrOutra) {
+  widgetDataAplicacao(ScreenArgumentsVacina args) {
 
-    if(vacinaPadraoOrOutra == false){
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: DropdownSearch<dynamic>(
-          mode: Mode.MENU,
-          items: _listaTiposVacinas.map((tv) => tv).toList(),
-          itemAsString: (dynamic tv) =>
-              tv.nomeVacina.toString(),
-          showSearchBox: true,
-          label: "Vacina",
-          hint: "escolha a vacina ",
-          onChanged: (tipoVacina) {
-            _selectedItemTipoVacina(tipoVacina);
-          },
-        ),
-      );
-
-    }else{
       return Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: 10, vertical: 8),
@@ -231,15 +213,18 @@ class _CardVacinaState extends State<CardVacina> {
           onTap: () async {
             DateTime? newDate = await showDatePicker(
                 context: context,
-                initialDate: date,
+                initialDate:  date,
                 firstDate: DateTime(1900),
                 lastDate: DateTime(2040));
             if (newDate == null) return;
             setState(() {
               date = newDate;
               _dataController.value = TextEditingValue(
+
+
                   text: Utils.formatarDateTime(date));
-            });
+                  //text: (args.data.dataAplicacao == "") ? Utils.formatarDateTime(date) : args.data.dataAplicacao.toString());
+              });
           },
           keyboardType: TextInputType.datetime,
           controller: _dataController,
@@ -258,66 +243,49 @@ class _CardVacinaState extends State<CardVacina> {
 
       );
     }
-  }
 
-  widgetDosePadraoOrNova(ScreenArgumentsVacina args, bool? vacinaPadraoOrOutra) {
 
-    if(vacinaPadraoOrOutra == false){
-      return const SizedBox(
-        width: 0,
-        height: 0,
-      );
-    }else{
+  widgetDosePadrao(ScreenArgumentsVacina args) {
+
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(Utils.showDose(args.data?.dose),
           style: AppTextStyles.vacinaDose,),
       );
     }
-  }
 
-  getTiposVacinas() async {
 
-    List tipoVacinas = await DBHelper.instance.getAllTiposVacinas();
-    _listaTiposVacinas = tipoVacinas;
-    setState(() {
-      _listaTiposVacinas;
-    });
-  }
 
   clearControllers() {
     _dataController.clear();
   }
 
-  _selectedItemTipoVacina(selectedTipo) {
-    setState(() {
-      selectedItemTipoVacina = selectedTipo;
+   _atualizarVacina(ScreenArgumentsVacina args, BuildContext context) async {
 
-      print(selectedItemTipoVacina.id);
-      //print(selectedItemTipoVacina['descricao']);
-
-    });
-  }
-
-  _cadastrarVacina(ScreenArgumentsVacina args, BuildContext context) async {
-
-    bool vacinaPadraoOrOutra = args.vacinaPadraoOrOutra;
     String doseVacina = args.data.dose;
     String petId = args.data.petId;
+    String vacina = args.data.nomeVacina;
+    int id = args.data.id;
 
-    DBHelper.instance.addVacina(Vacina(nomeVacina: selectedItemTipoVacina.descricao, dose: doseVacina, petId: petId));
-
+    DBHelper.instance.updateVacina(Vacina(id: id, nomeVacina: vacina, dose: doseVacina, petId: petId, dataAplicacao: date.toString()));
     clearControllers();
-    Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+    Utils.showDefaultSnackbar(context, "Cadastro atualizado com sucesso!!!");
+    Navigator.pop(context, 'Cancel');
+
   }
 
   bool validateVacina() {
     bool flag = true;
-
     if (_dataController.text.isEmpty) return false;
-    if (selectedItemTipoVacina == null) return false;
-
     return flag;
+  }
+
+  widgetDataAPlicada(ScreenArgumentsVacina args) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text((args.data.dataAplicacao != null && args.data.dataAplicacao != "") ? "Aplicada anteriormente: ${Utils.formatarData(args.data?.dataAplicacao, true)}" : "Não aplicada!!" ,
+          style: (args.data.dataAplicacao != null && args.data.dataAplicacao != "") ? AppTextStyles.vacinaAplicada: AppTextStyles.vacinaNaoAplicada),
+    );
   }
 }
 

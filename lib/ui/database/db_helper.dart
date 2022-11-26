@@ -83,6 +83,11 @@ class DBHelper{
     Database db = await instance.database;
     return await db.insert(VacinaDataModel.getTabela(), v.toMap());
   }
+  Future<int> updateVacina(Vacina v) async {
+    Database db = await instance.database;
+    return await db.update(VacinaDataModel.getTabela(), v.toMap(),
+        where: '${VacinaDataModel.id} = ?', whereArgs: [v.id]);
+  }
   Future<int> removeAllVacinas() async{
     Database db = await instance.database;
     return await db.rawDelete(VacinaDataModel.zerarTabela());
@@ -101,6 +106,7 @@ class DBHelper{
     Database db = await instance.database;
     return await db.insert(TipoVacinaDataModel.getTabela(), tv.toMap());
   }
+
   Future<int> removeAllTiposVacinas() async{
     Database db = await instance.database;
     return await db.rawDelete(TipoVacinaDataModel.zerarTabela());
