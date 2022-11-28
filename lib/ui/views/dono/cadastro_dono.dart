@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:counter/counter.dart';
 
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/database/db_helper.dart';
+import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
@@ -18,11 +20,13 @@ class CadastroDono extends StatefulWidget {
 
 class _CadastroDonoState extends State<CadastroDono> {
   final _nomeController = TextEditingController();
+  final textFieldFocusNode = FocusNode();
   final _cpfController = TextEditingController();
   final _qtdRowController = TextEditingController();
   final _passwordController = TextEditingController();
   final _userController = TextEditingController();
-
+  int qtd = 1;
+  bool obscured = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -56,7 +60,6 @@ class _CadastroDonoState extends State<CadastroDono> {
                       child:
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-
                         children: [
 
                           Padding(
@@ -78,10 +81,8 @@ class _CadastroDonoState extends State<CadastroDono> {
                                   hintText: 'Nome do Dono',
                                   icon: Icon(Icons.person, color: Colors.blue,)
                               ),
-
                               validator: (value) {
                                 if (value!.isEmpty || value == "") {
-                                  //_myFocusNode.requestFocus();
                                   return "Digite o Nome do Dono";
                                 }
                                 return null;
@@ -117,7 +118,6 @@ class _CadastroDonoState extends State<CadastroDono> {
                                 horizontal: 10, vertical: 8),
                             child: TextFormField(
 
-
                               keyboardType: TextInputType.emailAddress,
                               controller: _userController,
                               decoration: const InputDecoration(
@@ -127,25 +127,42 @@ class _CadastroDonoState extends State<CadastroDono> {
 
                               validator: (value) {
                                 if (value!.isEmpty || value == "") {
-                                  //_myFocusNode.requestFocus();
                                   return "Digite o Email";
                                 }
                                 return null;
                               },
                             ),
                           ),
-                          Counter(
-                              min: 0,
-                              max: 3,
-                              bound: 1,
-                              step: 1,
-                              onValueChanged:  (value){
-                                //_qtdRowController.value = value;
-                              },
-                            ),
+                          ///Password
+                          widgetSenha(),
+                          ///Qtd Listagem
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 8),
+                               child: Row(
+                                 children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
+                                child: Icon(Icons.list_outlined, color: Colors.blue,),
+                              ),
+                               const Padding(
+                                 padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
+                                 child: Text("Tamanho da Listagem", ),
+                               ),
+                              Counter(
+                                min: 1,
+                                max: 3,
+                                bound: 1,
+                                step: 1,
+                                onValueChanged:  (value){
+                                  qtd = value.toInt();
+                                  print(qtd);
+                                  //_qtdRowController.value = value;
+                                },
+                              ),
 
-
-
+                            ],),
+                          ),
 
                           ///SALVAR DONO
                           Padding(
@@ -189,17 +206,60 @@ class _CadastroDonoState extends State<CadastroDono> {
 
   }
 
+widgetSenha(){
+  return TextFormField(
+    keyboardType: TextInputType.visiblePassword,
 
+    obscureText: obscured,
+    focusNode: textFieldFocusNode,
+    controller: _passwordController,
 
+    decoration: InputDecoration(
+      floatingLabelBehavior: FloatingLabelBehavior.never, //Hides label on focus or if filled
+      labelText: "Senha",
+      filled: true, // Needed for adding a fill color
+      fillColor: Colors.white60,
+      isDense: true,  // Reduces height a bit
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,              // No border
+        borderRadius: BorderRadius.circular(12),  // Apply corner radius
+      ),
+      prefixIcon: const Icon(Icons.lock_rounded, size: 24),
+      suffixIcon: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+        child: GestureDetector(
+          onTap: _toggleObscured,
+          child: Icon(
+            obscured
+                ? Icons.visibility_rounded
+                : Icons.visibility_off_rounded,
+            size: 24,
+          ),
+        ),
+      ),
+    ),
+    validator:  (value) {
+      if (value!.isEmpty || value == "") {
+        //_myFocusNode.requestFocus();
+        return "Digite a Senha";
+      }
+      return null;
+    }
+  );
 
+}
+
+  void _toggleObscured() {
+    setState(() {
+      obscured = !obscured;
+      if (textFieldFocusNode.hasPrimaryFocus) return; // If focus is on text field, dont unfocus
+      textFieldFocusNode.canRequestFocus = false;     // Prevents focus if tap on eye
+    });
+  }
   _cadastrarDono() async {
 
-    //bool vacinaPadraoOrOutra = args.vacinaPadraoOrOutra;
-    //String doseVacina = args.data.dose;
-    //String petId = args.data.petId;
-
-    //DBHelper.instance.addVacina(Vacina(nomeVacina: selectedItemTipoVacina.descricao, dose: doseVacina, petId: petId));
-
+    DBHelper.instance.addDono(Dono(nome: _nomeController.text, cpf: _cpfController.text,
+                                   user: _userController.text, password: _passwordController.text, qtdRowListagem: qtd));
     clearControllers();
     Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
   }
@@ -209,8 +269,10 @@ class _CadastroDonoState extends State<CadastroDono> {
 
     if (_nomeController.text.isEmpty) return false;
     if (_cpfController.text.isEmpty) return false;
-    if (_qtdRowController.text.isEmpty) return false;
     if (_passwordController.text.isEmpty) return false;
+    if(_userController.text.isEmpty) return false;
+    if(qtd.isNaN || qtd.isNegative) return false;
+
 
     return flag;
   }
