@@ -32,7 +32,7 @@ class DonoDataModel{
   }
 
   static String getAtributos(){
-    return '''$TABELA.id, $TABELA.nome, $TABELA.user, $TABELA.password, $TABELA.qtdRowListagem''';
+    return '''$TABELA.id, $TABELA.nome, $TABELA.user, $TABELA.password, $TABELA.qtdRowListagem, $TABELA.cpf''';
   }
 }
 

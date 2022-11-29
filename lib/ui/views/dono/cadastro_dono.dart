@@ -19,6 +19,7 @@ class CadastroDono extends StatefulWidget {
 }
 
 class _CadastroDonoState extends State<CadastroDono> {
+
   final _nomeController = TextEditingController();
   final textFieldFocusNode = FocusNode();
   final _cpfController = TextEditingController();
@@ -26,7 +27,7 @@ class _CadastroDonoState extends State<CadastroDono> {
   final _passwordController = TextEditingController();
   final _userController = TextEditingController();
   int qtd = 1;
-  bool obscured = false;
+  bool obscured = true;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -52,138 +53,50 @@ class _CadastroDonoState extends State<CadastroDono> {
         child: Stack(
             children: [
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Center(
+                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                  child: SingleChildScrollView(
 
-                    child: SingleChildScrollView(
+                    child:
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
 
-                      child:
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 30),
+                          child: Text(
+                            "Dados", style: AppTextStyles.titlePet,),
+                        ),
 
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            child: Text(
-                              "Dados", style: AppTextStyles.titlePet,),
+                        /******NOME DONO******/
+                        widgetNomeDono(),
+                        /******CPF DONO******/
+                        widgetCpfDono(),
+                        /******User/Email DONO******/
+                        widgetUser(),
+                        ///Password
+                        widgetSenha(),
+                        ///Qtd Listagem
+                        widgetQtdListagem(),
+                        ///Salvar
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate() &&
+                                  validateDono()) {
+                                _cadastrarDono();
+                              } else {
+                                Utils.showDefaultSnackbar(
+                                    context, "Preencha os campos Obrigatórios!!!");
+                              }
+                            },
+                            child: const Text('Salvar'),
                           ),
-
-                          /******NOME DONO******/
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            child: TextFormField(
-
-                              keyboardType: TextInputType.text,
-                              controller: _nomeController,
-                              decoration: const InputDecoration(
-                                  hintText: 'Nome do Dono',
-                                  icon: Icon(Icons.person, color: Colors.blue,)
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty || value == "") {
-                                  return "Digite o Nome do Dono";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          /******CPF DONO******/
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            child: TextFormField(
-
-                              maxLength: 11,
-                              keyboardType: TextInputType.number,
-                              controller: _cpfController,
-                              decoration: const InputDecoration(
-                                  hintText: 'Cpf',
-                                  icon: Icon(Icons.credit_card, color: Colors.blue,)
-                              ),
-
-                              validator: (value) {
-                                if (value!.isEmpty || value == "") {
-                                  //_myFocusNode.requestFocus();
-                                  return "Digite o Cpf";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          /******LOGIN/USER DONO******/
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            child: TextFormField(
-
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _userController,
-                              decoration: const InputDecoration(
-                                  hintText: 'Login/Email',
-                                  icon: Icon(Icons.alternate_email, color: Colors.blue,)
-                              ),
-
-                              validator: (value) {
-                                if (value!.isEmpty || value == "") {
-                                  return "Digite o Email";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          ///Password
-                          widgetSenha(),
-                          ///Qtd Listagem
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                               child: Row(
-                                 children: [
-                              const Padding(
-                                padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
-                                child: Icon(Icons.list_outlined, color: Colors.blue,),
-                              ),
-                               const Padding(
-                                 padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
-                                 child: Text("Tamanho da Listagem", ),
-                               ),
-                              Counter(
-                                min: 1,
-                                max: 3,
-                                bound: 1,
-                                step: 1,
-                                onValueChanged:  (value){
-                                  qtd = value.toInt();
-                                  print(qtd);
-                                  //_qtdRowController.value = value;
-                                },
-                              ),
-
-                            ],),
-                          ),
-
-                          ///SALVAR DONO
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate() &&
-                                    validateDono()) {
-                                  _cadastrarDono();
-                                } else {
-                                  Utils.showDefaultSnackbar(
-                                      context, "Preencha os campos Obrigatórios!!!");
-                                }
-                              },
-                              child: const Text('Salvar'),
-                            ),
-                          ),
+                        ),
 
 
-                        ],
-                      ),
+                      ],
                     ),
                   )
               ),
@@ -193,10 +106,6 @@ class _CadastroDonoState extends State<CadastroDono> {
     );
   }
 
-
-
-
-
   clearControllers() {
     _nomeController.clear();
     _cpfController.clear();
@@ -205,46 +114,152 @@ class _CadastroDonoState extends State<CadastroDono> {
     _userController.clear();
 
   }
+  widgetCpfDono(){
+    return   Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10, vertical: 15),
+      child: TextFormField(
+
+        maxLength: 11,
+        keyboardType: TextInputType.number,
+        controller: _cpfController,
+        decoration: const InputDecoration(
+            hintText: 'Cpf',
+            icon: Icon(Icons.credit_card, color: Colors.blue,)
+        ),
+
+        validator: (value) {
+          if (value!.isEmpty || value == "") {
+            //_myFocusNode.requestFocus();
+            return "Digite o Cpf";
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  widgetQtdListagem(){
+
+    return   Padding(
+      padding: const EdgeInsets.only(top: 30, right: 10, bottom: 30, left: 10),
+
+      child: Row(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
+            child: Icon(Icons.list_outlined, color: Colors.blue,),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 0, bottom: 0,right: 15, top: 0),
+            child: Text("Tamanho da Listagem", ),
+          ),
+          Counter(
+            min: 1,
+            max: 3,
+            bound: 1,
+            step: 1,
+            onValueChanged:  (value){
+              qtd = value.toInt();
+              print(qtd);
+              //_qtdRowController.value = value;
+            },
+          ),
+
+        ],),
+    );
+
+  }
+  widgetUser(){
+    return  Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10, vertical: 15),
+      child: TextFormField(
+
+        keyboardType: TextInputType.emailAddress,
+        controller: _userController,
+        decoration: const InputDecoration(
+            hintText: 'Login/Email',
+            icon: Icon(Icons.alternate_email, color: Colors.blue,)
+        ),
+
+        validator: (value) {
+          if (value!.isEmpty || value == "") {
+            return "Digite o Email";
+          }
+          if(Utils.invalidEmail(value)){
+            return "Email inválido!!!";
+          }
+          return null;
+        },
+      ),
+    );
+  }
+widgetNomeDono(){
+    return   Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10, vertical: 15),
+      child: TextFormField(
+
+        keyboardType: TextInputType.text,
+        controller: _nomeController,
+        decoration: const InputDecoration(
+            hintText: 'Nome do Dono',
+            icon: Icon(Icons.person, color: Colors.blue,)
+        ),
+        validator: (value) {
+          if (value!.isEmpty || value == "") {
+            return "Digite o Nome do Dono";
+          }
+          return null;
+        },
+      ),
+    );
+}
 
 widgetSenha(){
-  return TextFormField(
-    keyboardType: TextInputType.visiblePassword,
 
-    obscureText: obscured,
-    focusNode: textFieldFocusNode,
-    controller: _passwordController,
+  return Padding(
+    padding: const  EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+    child: TextFormField(
+      keyboardType: TextInputType.visiblePassword,
 
-    decoration: InputDecoration(
-      floatingLabelBehavior: FloatingLabelBehavior.never, //Hides label on focus or if filled
-      labelText: "Senha",
-      filled: true, // Needed for adding a fill color
-      fillColor: Colors.white60,
-      isDense: true,  // Reduces height a bit
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,              // No border
-        borderRadius: BorderRadius.circular(12),  // Apply corner radius
-      ),
-      prefixIcon: const Icon(Icons.lock_rounded, size: 24),
-      suffixIcon: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
-        child: GestureDetector(
-          onTap: _toggleObscured,
-          child: Icon(
-            obscured
-                ? Icons.visibility_rounded
-                : Icons.visibility_off_rounded,
-            size: 24,
+      obscureText: obscured,
+      focusNode: textFieldFocusNode,
+      controller: _passwordController,
+
+      decoration: InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.never, //Hides label on focus or if filled
+        labelText: "Senha",
+        filled: true, // Needed for adding a fill color
+        fillColor: Colors.white60,
+        isDense: true,  // Reduces height a bit
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,              // No border
+          borderRadius: BorderRadius.circular(12),  // Apply corner radius
+        ),
+        prefixIcon: const Icon(Icons.lock_rounded, size: 24),
+        suffixIcon: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 4, 0),
+          child: GestureDetector(
+            onTap: _toggleObscured,
+            child: Icon(
+              obscured
+                  ? Icons.visibility_rounded
+                  : Icons.visibility_off_rounded,
+              size: 24,
+            ),
           ),
         ),
       ),
-    ),
-    validator:  (value) {
-      if (value!.isEmpty || value == "") {
-        //_myFocusNode.requestFocus();
-        return "Digite a Senha";
+      validator:  (value) {
+        if (value!.isEmpty || value == "") {
+          //_myFocusNode.requestFocus();
+          return "Digite a Senha";
+        }
+        return null;
       }
-      return null;
-    }
+    ),
   );
 
 }
@@ -256,23 +271,51 @@ widgetSenha(){
       textFieldFocusNode.canRequestFocus = false;     // Prevents focus if tap on eye
     });
   }
-  _cadastrarDono() async {
 
-    DBHelper.instance.addDono(Dono(nome: _nomeController.text, cpf: _cpfController.text,
-                                   user: _userController.text, password: _passwordController.text, qtdRowListagem: qtd));
-    clearControllers();
-    Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+  Future<bool> donoExists() async {
+
+    bool flag = false;
+    List donoExists = await DBHelper.instance.getDonoByCpfOrUser(_cpfController.text, _userController.text);
+    if(donoExists.isNotEmpty){
+      flag = true;
+    }
+    return flag;
   }
 
+
+  _cadastrarDono() async {
+
+    if(!await donoExists()) {
+      DBHelper.instance.addDono(Dono(nome: _nomeController.text,
+          cpf: _cpfController.text,
+          user: _userController.text,
+          password: _passwordController.text,
+          qtdRowListagem: qtd));
+      clearControllers();
+      Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        Navigator.pushNamed(context, '/login');
+      });
+
+    }else{
+      Utils.showDefaultSnackbar(context, "Erro, usuário já existe no Sistema!!!");
+    }
+
+    //}else if(dono.isNotEmpty){
+      //Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+
+    //}
+  }
+
+  ///Validações:
   bool validateDono() {
     bool flag = true;
 
     if (_nomeController.text.isEmpty) return false;
     if (_cpfController.text.isEmpty) return false;
     if (_passwordController.text.isEmpty) return false;
-    if(_userController.text.isEmpty) return false;
-    if(qtd.isNaN || qtd.isNegative) return false;
-
+    if (_userController.text.isEmpty) return false;
+    if (qtd.isNaN || qtd.isNegative) return false;
 
     return flag;
   }

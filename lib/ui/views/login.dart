@@ -178,7 +178,10 @@ class _LoginState extends State<Login> {
                         ),
                         TextButton(
                             onPressed: (){
+                              setState(() {
+                                Navigator.pushNamed(context, '/esqueci_acesso');
 
+                              });
                             },
                         child:  Text("esqueci minha senha", style: AppTextStyles.loginNovoEsqueci)
                         ),

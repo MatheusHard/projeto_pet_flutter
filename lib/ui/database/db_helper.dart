@@ -139,9 +139,8 @@ class DBHelper{
   }
 
 
-/******CRUD TIPO PETS******/
-
-  Future<List>getAllTiposPets() async {
+  ///CRUD TIPO PETS
+ Future<List>getAllTiposPets() async {
       Database db = await instance.database;
     var res = await db.rawQuery("SELECT ${TipoPetDataModel.getAtributos()} FROM ${TipoPetDataModel.getTabela()} ORDER BY ${TipoPetDataModel.descricao}");
     return res.toList();
@@ -178,12 +177,29 @@ Future<List> getPetsJoinTipo() async {
     return res.toList();
 }
 
-///CRUD DONO
+  ///CRUD DONO
   Future<int> addDono(Dono dono) async {
     Database db = await instance.database;
     return await db.insert(DonoDataModel.getTabela(), dono.toMap());
   }
-  Future<int> removeAllDonos() async{
+  Future<List>getDonoByCpfOrUser(String cpf, String user) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery('''SELECT ${DonoDataModel.getAtributos()} 
+                                   FROM ${DonoDataModel.getTabela()} 
+                                   WHERE tabelaDono.${DonoDataModel.cpf} = '$cpf' OR tabelaDono.${DonoDataModel.user} = '$user'
+                                   ORDER BY tabelaDono.${DonoDataModel.nome}''');
+    return res.toList();
+  }
+
+  Future<Dono?>getDono(String cpf, String user) async {
+
+    Database db = await instance.database;
+    var res = await db.query(DonoDataModel.getTabela(), where: 'cpf = ? OR user = ?', whereArgs: [cpf, user]);
+    return Dono.fromMap(res.first);
+
+  }
+
+    Future<int> removeAllDonos() async{
     Database db = await instance.database;
     return await db.rawDelete(DonoDataModel.zerarTabela());
   }
@@ -191,9 +207,9 @@ Future<List> getPetsJoinTipo() async {
 
     Database db = await instance.database;
     var res = await db.rawQuery(
-        '''SELECT d.${DonoDataModel.id}, d.${DonoDataModel.nome}, d.${DonoDataModel.cpf}, d.${DonoDataModel.password},
-           p.${PetDataModel.id}, p.${PetDataModel.nome} AS nomePet, p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
-           e.${TipoPetDataModel.descricao} 
+        '''SELECT d.${DonoDataModel.id}, d.${DonoDataModel.nome}, d.${DonoDataModel.cpf}, d.${DonoDataModel.password}, 
+           d.${DonoDataModel.user}, d.${DonoDataModel.qtdRowListagem}, p.${PetDataModel.id}, p.${PetDataModel.nome} AS nomePet,
+           p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo}, e.${TipoPetDataModel.descricao} 
            FROM ${DonoDataModel.getTabela()} d
            LEFT JOIN ${PetDataModel.getTabela()} p ON p.${PetDataModel.donoPet} = d.${DonoDataModel.id}
            LEFT JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}''');

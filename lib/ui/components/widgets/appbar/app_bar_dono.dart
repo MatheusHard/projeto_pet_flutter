@@ -32,13 +32,13 @@ class AppBarDono extends PreferredSize {
                 ],),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0,50,0,0),
+              padding: const EdgeInsets.fromLTRB(0,25,0,0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: const SizedBox(
-                  width: 50,
-                  height: 50,
-                  child:  Icon(Icons.person_add),
+                  width: 60,
+                  height: 60,
+                  child:  Icon(Icons.person_add, color: Colors.white,),
 
                 ),
               ),
