@@ -10,7 +10,12 @@ class AppTextStyles {
   );
   static final TextStyle loginNovoEsqueci = GoogleFonts.notoSans(
     color: AppColors.white,
-    fontSize: 20,
+    fontSize: 18,
+    fontWeight: FontWeight.w400,
+  );
+  static TextStyle loginHint = GoogleFonts.notoSans(
+    color: AppColors.white,
+    fontSize: 18,
     fontWeight: FontWeight.w400,
   );
   static final TextStyle titlePet = GoogleFonts.notoSans(

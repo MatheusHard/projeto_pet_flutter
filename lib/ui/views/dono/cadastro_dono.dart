@@ -79,7 +79,7 @@ class _CadastroDonoState extends State<CadastroDono> {
                         ///Qtd Listagem
                         widgetQtdListagem(),
                         ///Salvar
-                        Padding(
+                       /* Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),
                           child: ElevatedButton(
                             onPressed: () {
@@ -93,7 +93,52 @@ class _CadastroDonoState extends State<CadastroDono> {
                             },
                             child: const Text('Salvar'),
                           ),
-                        ),
+                        ),*/
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                            child: Center(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate() &&
+                                          validateDono()) {
+                                        _cadastrarDono();
+                                      } else {
+                                        Utils.showDefaultSnackbar(
+                                            context, "Preencha os campos Obrigatórios!!!");
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20))),
+                                    child: Ink(
+
+                                        decoration: BoxDecoration(
+                                            gradient: const LinearGradient(colors:
+                                            [
+                                              Color(0xFF57B6E5),
+                                              Color.fromRGBO(130, 87, 229, 0.695),
+                                            ]),
+                                            borderRadius: BorderRadius.circular(20)),
+                                        child:
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.save_rounded),
+                                            Container(
+                                              width: 150,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child:
+
+                                              Text('Salvar', style: AppTextStyles.titleLogin,),
+
+
+                                            ),
+                                          ],)
+                                    )
+                                )
+                            )),
 
 
                       ],

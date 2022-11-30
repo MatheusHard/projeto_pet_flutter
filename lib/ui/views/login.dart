@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
 
                     const Center(
                       child: Text("Login", style: TextStyle(
-                          color: Colors.blueAccent,
+                          color: Colors.white,
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold
 
@@ -72,13 +72,22 @@ class _LoginState extends State<Login> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(50, 20, 50, 30),
                       child: TextFormField(
+
                         controller: _user,
                         focusNode: _myFocusNode,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.cyan),
+                            ),
                             labelText: "Usuario:",
+                            labelStyle: TextStyle(color: Colors.white),
                             hintText: "digite o usuario",
-                            icon: Icon(Icons.perm_identity)
+                            hintStyle: TextStyle(color: Colors.cyan),
+                            icon: Icon(Icons.perm_identity , color: Colors.white,)
                         ),
                         validator:  (value){
                           if(value!.isEmpty || value == ""){
@@ -96,12 +105,22 @@ class _LoginState extends State<Login> {
                       child: TextFormField(
                         obscureText: true,
                         controller: _password,
+
                         focusNode: _myFocusNode_2,
                         keyboardType: TextInputType.text,
+
                         decoration: const InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.cyan),
+                            ),
+                            labelStyle: TextStyle(color: Colors.white),
                             labelText: "Senha:",
                             hintText: "digite a senha",
-                            icon: Icon(Icons.perm_identity)
+                            hintStyle: TextStyle(color: Colors.cyan),
+                            icon: Icon(Icons.lock_open, color: Colors.white,)
                         ),
                         validator:  (value){
                           if(value!.isEmpty || value == ""){
@@ -162,7 +181,7 @@ class _LoginState extends State<Login> {
                         )),
                     /***************FIM*****************/
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
                         TextButton(
@@ -183,7 +202,7 @@ class _LoginState extends State<Login> {
 
                               });
                             },
-                        child:  Text("esqueci minha senha", style: AppTextStyles.loginNovoEsqueci)
+                        child:  Text("esqueci a senha", style: AppTextStyles.loginNovoEsqueci)
                         ),
                       ],
                     )

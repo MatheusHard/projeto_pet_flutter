@@ -64,17 +64,48 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
                         widgetCpfOrEmailDono(_flag),
 
                         ///Enviar
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()){
-                                _sendEmail();
 
-                            }},
-                            child: const Text('Enviar'),
-                          ),
-                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                            child: Center(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()){
+                                        _sendEmail();
+
+                                      }},
+                                    style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20))),
+                                    child: Ink(
+
+                                        decoration: BoxDecoration(
+                                            gradient: const LinearGradient(colors:
+                                            [
+                                              Color(0xFF57B6E5),
+                                              Color.fromRGBO(130, 87, 229, 0.695),
+                                            ]),
+                                            borderRadius: BorderRadius.circular(20)),
+                                        child:
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.email_outlined),
+                                            Container(
+                                              width: 150,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child:
+
+                                              Text('Enviar', style: AppTextStyles.titleLogin,),
+
+
+                                            ),
+                                          ],)
+                                    )
+                                )
+                            )),
 
 
                       ],
@@ -98,7 +129,7 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
    return  Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 10),
       child: SwitchListTile(
-        title: const Text('Sexo'),
+        title: const Text('Tipo de Envio'),
         value: _flag,
         activeColor: Colors.pink,
         inactiveThumbColor: Colors.blue,
@@ -109,16 +140,16 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
             _flag = value;
           });
         },
-        subtitle: const Text("Macho ou Fêmea"),
+        subtitle: const Text("E-mail ou Cpf"),
         secondary: const Icon(
-            Icons.pets_sharp, color: Colors.green),
+            Icons.pets_sharp, color: Colors.blue),
       ),
     );
   }
   widgetCpfOrEmailDono(bool flagCpfOrEmail){
     ///Cpf
     if(flagCpfOrEmail){
-    _userController.clear();
+    //_userController.clear();
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: 10, vertical: 15),
@@ -142,7 +173,7 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
     );
     ///E-mail
     }else{
-      _cpfController.clear();
+      //_cpfController.clear();
       return  Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: 10, vertical: 15),

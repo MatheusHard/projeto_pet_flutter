@@ -304,22 +304,51 @@ class _CadastroPetsState extends State<CadastroPets> {
 
 
                         /***SALVAR PET***/
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate() &&
-                                  validatePet()) {
-                                _cadastrarPet();
-                              } else {
-                                Utils.showDefaultSnackbar(
-                                    context, "Não foi possivel salvar!!!");
-                              }
-                            },
-                            child: const Text('Salvar'),
-                          ),
-                        ),
+                      Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                            child: Center(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate() &&
+                                          validatePet()) {
+                                        _cadastrarPet();
+                                      } else {
+                                        Utils.showDefaultSnackbar(
+                                            context, "Não foi possivel salvar!!!");
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(20))),
+                                    child: Ink(
 
+                                        decoration: BoxDecoration(
+                                            gradient: const LinearGradient(colors:
+                                            [
+                                              Color(0xFF57B6E5),
+                                              Color.fromRGBO(130, 87, 229, 0.695),
+                                            ]),
+                                            borderRadius: BorderRadius.circular(20)),
+                                        child:
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.save_rounded),
+                                            Container(
+                                              width: 150,
+                                              height: 50,
+                                              alignment: Alignment.center,
+                                              child:
+
+                                              Text('Salvar', style: AppTextStyles.titleLogin,),
+
+
+                                            ),
+                                          ],)
+                                    )
+                                )
+                            )),
                       ],
                     ),
                   ),
