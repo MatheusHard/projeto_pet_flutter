@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
@@ -6,6 +8,9 @@ import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/home.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
+
+import '../database/db_helper.dart';
+import '../models/dono.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -20,8 +25,8 @@ class _LoginState extends State<Login> {
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
-  final TextEditingController _user = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late FocusNode _myFocusNode;
   late FocusNode _myFocusNode_2;
 
@@ -39,14 +44,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       key: _scaffoldKey,
 
-      /* appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Controle de gastos f"),
-        backgroundColor: Colors.blue,
-      ),*/
       body:
-
-
       Padding(
         padding: const EdgeInsets.all(0),
         child: Center(
@@ -73,7 +71,7 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.fromLTRB(50, 20, 50, 30),
                       child: TextFormField(
 
-                        controller: _user,
+                        controller: _userController,
                         focusNode: _myFocusNode,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
@@ -104,7 +102,7 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.fromLTRB(50, 0, 50, 50),
                       child: TextFormField(
                         obscureText: true,
-                        controller: _password,
+                        controller: _passwordController,
 
                         focusNode: _myFocusNode_2,
                         keyboardType: TextInputType.text,
@@ -138,11 +136,11 @@ class _LoginState extends State<Login> {
                         child: Center(
                             child: ElevatedButton(
                                 onPressed: () {
-                                  //if(_formKey.currentState!.validate()) {
+                                  if(_formKey.currentState!.validate()) {
                                   _logar(context);
                                   //print("logado");
 
-                                  //}
+                                  }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.zero,
@@ -214,23 +212,45 @@ class _LoginState extends State<Login> {
     );
   }
 
-  _logar(BuildContext context) async{
+ Future _logar(BuildContext context) async{
+   
+    String email = "";
+    String cpf = "";
+    if(!Utils.invalidEmail(_userController.text)){
+      email = _userController.text;
+    }
+    if(Utils.validarCPF(_userController.text)){
+      cpf = _userController.text;
 
-    setState(() {
-      //Utils.showDefaultSnackbar(context, "Tentando Logar");
-      Navigator.pushNamed(
-        context,
-        '/home',
-        arguments: ScreenArguments("Matheus")
-      );
+    }
 
-    });
+    Dono? tutor = await DBHelper.instance.getDono(cpf, email);
 
+    if(tutor == null) {
+     Utils.showDefaultSnackbar(context, "Login inválido!!!");
+    }else{
+          setState(() {
+            Navigator.pushNamed(
+                context,
+                '/home',
+                arguments: ScreenArgumentsDono(tutor)
+            );
+          });
+        }
 
-  }
+      }
   clearControllers(){
-    _user.clear();
-    _password.clear();
+    _userController.clear();
+    _passwordController.clear();
   }
+  Future<bool> donoExists(var tutor) async {
+
+    bool flag = false;
+    if(tutor.isEmpty){
+      flag = true;
+    }
+    return flag;
+  }
+
 
 }

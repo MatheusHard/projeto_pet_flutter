@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
-
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import '../../components/widgets/appbar/app_bar_dono.dart';
 import '../../utils/core/app_text_styles.dart';
 import '../../utils/metods/utils.dart';
@@ -21,11 +22,15 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   int qtd = 1;
   bool obscured = true;
   bool _flag = false;
+  late FocusNode _myFocusNodeCpf;
+  late FocusNode _myFocusNodeEmail;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    _myFocusNodeCpf = FocusNode();
+    _myFocusNodeEmail = FocusNode();
     super.initState();
   }
 
@@ -62,18 +67,16 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
                         widgetFlagCpfOrEmail(),
                         ///Exibir Email ou Cpf:
                         widgetCpfOrEmailDono(_flag),
-
                         ///Enviar
-
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
                             child: Center(
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()){
+                                     if (_formKey.currentState!.validate()){
                                         _sendEmail();
-
-                                      }},
+                                            }
+                                          },
                                     style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.zero,
                                         shape: RoundedRectangleBorder(
@@ -147,56 +150,107 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
     );
   }
   widgetCpfOrEmailDono(bool flagCpfOrEmail){
-    ///Cpf
+
+    ///Cpf habilitado:
     if(flagCpfOrEmail){
-    //_userController.clear();
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 10, vertical: 15),
-      child: TextFormField(
-        maxLength: 11,
-        keyboardType: TextInputType.number,
-        controller: _cpfController,
-        decoration: const InputDecoration(
-            hintText: 'Cpf',
-            icon: Icon(Icons.credit_card, color: Colors.blue,)
-        ),
-
-        validator: (value) {
-          if (value!.isEmpty || value == "") {
-            //_myFocusNode.requestFocus();
-            return "Digite o Cpf";
-          }
-          return null;
-        },
-      ),
-    );
-    ///E-mail
-    }else{
-      //_cpfController.clear();
-      return  Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 10, vertical: 15),
-        child: TextFormField(
-
-          keyboardType: TextInputType.emailAddress,
-          controller: _userController,
+    _userController.clear();
+    return
+      Column(
+        children: [
+      Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 10, vertical: 15),
+          child: TextFormField(
+          maxLength: 11,
+          keyboardType: TextInputType.number,
+          controller: _cpfController,
+          focusNode: _myFocusNodeCpf,
           decoration: const InputDecoration(
-              hintText: 'E-mail',
-              icon: Icon(Icons.alternate_email, color: Colors.blue,)
+          hintText: 'Cpf',
+          icon: Icon(Icons.credit_card, color: Colors.blue,)
           ),
 
-          validator: (value) {
-            if (value!.isEmpty || value == "") {
-              return "Digite o Email";
-            }
-            if(Utils.invalidEmail(value)){
-              return "Email inválido!!!";
-            }
-            return null;
-          },
-        ),
-      );
+        validator: (value) {
+
+        if (value!.isEmpty || value == "") {
+          return "Digite o Cpf";
+        }
+        return null;
+    },
+    ),
+    ),
+      Padding(
+        padding: const EdgeInsets.symmetric(
+        horizontal: 10, vertical: 15),
+        child: TextFormField(
+        enabled: false,
+        keyboardType: TextInputType.emailAddress,
+        controller: _userController,
+        focusNode: _myFocusNodeEmail,
+        decoration: const InputDecoration(
+        hintText: 'E-mail',
+        icon: Icon(Icons.alternate_email, color: Colors.blue,)
+    ),
+
+
+
+    ),
+    )
+
+      ],);
+
+    ///E-mail Habilitado:
+    }else{
+      _cpfController.clear();
+      return
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 15),
+              child: TextFormField(
+                maxLength: 11,
+                keyboardType: TextInputType.number,
+                controller: _cpfController,
+                enabled: false,
+                focusNode: _myFocusNodeCpf,
+                decoration: const InputDecoration(
+                    hintText: 'Cpf',
+                    icon: Icon(Icons.credit_card, color: Colors.blue,)
+                ),
+
+
+              ),
+            ),
+            ///E-mail
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 15),
+              child: TextFormField(
+
+                keyboardType: TextInputType.emailAddress,
+                controller: _userController,
+                focusNode: _myFocusNodeEmail,
+                decoration: const InputDecoration(
+                    hintText: 'E-mail',
+                    icon: Icon(Icons.alternate_email, color: Colors.blue,)
+                ),
+
+                validator: (value) {
+
+                  if (value!.isEmpty || value == "") {
+                    return "Digite o Email";
+                  }
+                  if(Utils.invalidEmail(value)){
+                    return "Email inválido!!!";
+                  }
+                  return null;
+                },
+              ),
+            )
+
+          ],);
+
     }
   }
 
@@ -204,46 +258,53 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
 
   Future<void> _sendEmail() async {
     List<String> attachments = [];
+    print("object init");
 
     var donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
-    if(donoExists != null ){
+    if(donoExists != null) {
       clearControllers();
       String platformResponse = "";
-
+      print("object");
       //Utils.showDefaultSnackbar(context, "E-mail enviado com sucesso!!!");
 
-      /*final Email email = Email(
-        body: '''Senha: ${donoExists.password}''',
-        subject: "_subjectController.text",
-        recipients: [donoExists.user],
-        attachmentPaths: attachments,
-        isHTML: false,
-      );
-      String platformResponse;
+      ///Send
+      String username = 'matheushard2013@gmail.com';
+      String password = 'bonjovi663000';
+
+      final smtpServer = gmail(username, password);
+      // Use the SmtpServer class to configure an SMTP server:
+      // final smtpServer = SmtpServer('smtp.domain.com');
+      // See the named arguments of SmtpServer for further configuration
+      // options.
+
+      // Create our message.
+      final message = Message()
+        ..from = Address(username)
+        ..recipients.add('crisneri39@gmail.com')
+       /// ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+        ///..bccRecipients.add(const Address('bccAddress@example.com'))
+        ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
+        ..text = 'This is the plain text.\nThis is line 2 of the text part.'
+        ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
 
       try {
-        await FlutterEmailSender.send(email);
-        platformResponse = 'success';
-      } catch (error) {
-        print(error);
-        platformResponse = error.toString();
-      }*/
+        final sendReport = await send(message, smtpServer);
+        print('Message sent: $sendReport');
+      } on MailerException catch (e) {
+        print('Message not sent.');
+        for (var p in e.problems) {
+          print('Problem: ${p.code}: ${p.msg}');
+        }
+      }
 
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(platformResponse),
-        ),
-      );
-    }else{
-      //Utils.showDefaultSnackbar(context, "Usuário não encontrado no Sistema!!!");
     }
+    print("object fora");
 
+  }
   }
 
 
-}
+
 
 
 

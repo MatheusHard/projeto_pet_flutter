@@ -434,7 +434,7 @@ class _CadastroPetsState extends State<CadastroPets> {
 
         Pet(
             id: id,
-            donoPet: 1,
+            donoPet: 2,
             nome: nome,
             tipoPet: selectedItemTipoPet['id'],
             sexo: _sexo,

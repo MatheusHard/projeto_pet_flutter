@@ -164,15 +164,15 @@ class DBHelper{
     var res = await db.rawQuery("SELECT ${PetDataModel.getAtributos()} FROM ${PetDataModel.getTabela()} ORDER BY ${PetDataModel.nome}");
     return res.toList();
   }
-Future<List> getPetsJoinTipo() async {
+Future<List> getPetsJoinTipo(int DonoPetId) async {
 
     Database db = await instance.database;
     var res = await db.rawQuery('''SELECT p.${PetDataModel.id}, p.${PetDataModel.nome},
                                 p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
                                 p.${PetDataModel.imagePet}, e.${TipoPetDataModel.descricao}        
                                 FROM ${PetDataModel.getTabela()} p
-                                INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = 
-                                e.${TipoPetDataModel.id} 
+                                INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}
+                                WHERE p.${PetDataModel.donoPet} =  $DonoPetId
                              ''');
     return res.toList();
 }
@@ -195,8 +195,12 @@ Future<List> getPetsJoinTipo() async {
 
     Database db = await instance.database;
     var res = await db.query(DonoDataModel.getTabela(), where: 'cpf = ? OR user = ?', whereArgs: [cpf, user]);
-    return Dono.fromMap(res.first);
+   if(res.isNotEmpty) {
+     return Dono.fromMap(res.first);
+   }else {
+     return null;
 
+   }
   }
 
     Future<int> removeAllDonos() async{

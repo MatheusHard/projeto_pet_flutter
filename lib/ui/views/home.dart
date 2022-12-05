@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/views/pet/cadastro_pets.dart';
 import 'package:projeto_pet/ui/utils/core/app_gradients.dart';
 import 'package:projeto_pet/ui/views/pet/principal_pets.dart';
+import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 
 import '../components/widgets/appbar/app_bar_widget.dart';
 
@@ -18,24 +19,25 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   int _currentIndex = 0;
-  final tabs = [
 
-    const PrincipalPets(),
-    const CadastroPets(),
-    const Center(child: Text("Nuvem")),
-    const Center(child: Text("EXIT"))
-  ];
 
   @override
   Widget build(BuildContext context) {
-    ScreenArguments? args = ModalRoute.of(context)?.settings.arguments as ScreenArguments?;
+    ScreenArgumentsDono argsDono = ModalRoute.of(context)?.settings.arguments as ScreenArgumentsDono;
+
+    final tabs = [
+
+       PrincipalPets(tutor: argsDono,),
+      const CadastroPets(),
+      const Center(child: Text("Nuvem")),
+      const Center(child: Text("EXIT"))
+    ];
 
     return  Scaffold(
 
         backgroundColor: Colors.white,
-        appBar: AppBarWidget(args!),
+        appBar: AppBarWidget(argsDono!),
         body: tabs[_currentIndex],
-
 
         bottomNavigationBar:
         Container(

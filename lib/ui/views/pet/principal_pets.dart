@@ -1,27 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/components/widgets/boxes/pet_box.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
+import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsPet.dart';
 
 import '../../models/pet.dart';
+import '../screen_arguments/ScreenArgumentsDono.dart';
 
 
 class PrincipalPets extends StatefulWidget {
 
-
-  const PrincipalPets({Key? key}) : super(key: key);
+  final ScreenArgumentsDono tutor;
+  const PrincipalPets({required this.tutor, Key? key}) : super(key: key);
 
   @override
-  State<PrincipalPets> createState() => _PrincipalPetsState();
+  State<PrincipalPets> createState() => _PrincipalPetsState(tutor);
 }
 
 class _PrincipalPetsState extends State<PrincipalPets> {
   late Image image;
-  List<Pet> _pets = [];
+  final List<Pet> _pets = [];
+  late ScreenArgumentsDono _tutor;
 
 
+  _PrincipalPetsState(ScreenArgumentsDono tutor){
+    _tutor = tutor;
+  }
 
   @override
   void initState() {
@@ -50,7 +56,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
                             ),
           body: GridView.count(
             scrollDirection: Axis.vertical,
-            crossAxisCount: 3,
+            crossAxisCount: (_tutor.data.qtdRowListagem != null) ? _tutor.data.qtdRowListagem : 2,
         children: List.generate(_pets.length, (index) {
       return PetBox(
         data: _pets[index],
@@ -66,7 +72,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
 
   _getPets() async {
 
-    List list = await DBHelper.instance.getPetsJoinTipo();
+    List list = await DBHelper.instance.getPetsJoinTipo(_tutor.data.id);
     for (var item in list) {
       Pet pet = Pet.fromMap(item);
       _pets.add(pet);

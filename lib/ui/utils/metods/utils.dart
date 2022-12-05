@@ -1,6 +1,7 @@
 
-  import 'dart:convert';
+import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,10 +16,17 @@ import 'package:uuid/uuid.dart';
   class Utils {
 
 
+
   static String URL_WEB_SERVICE = "http://192.168.0.11:8080/api/";
   //String URL_WEB_SERVICE = "http://avaliacoes-backend.herokuapp.com/";
   static const String IMG_KEY = 'IMAGE_KEY';
 
+  static String imprimeCPF(String cpf){
+    return CPFValidator.format(cpf);
+  }
+  static bool validarCPF(String cpf){
+    return CPFValidator.isValid(cpf);
+  }
   static List<Dose> listaDoses(){
 
      List<Dose> list= [];
@@ -88,7 +96,7 @@ import 'package:uuid/uuid.dart';
     final snackBar = SnackBar(
       content: Text((texto.isEmpty) ? "" : texto.toString()),
       action: SnackBarAction(
-        label: 'Undo',
+        label: 'Ok',
         onPressed: () {
           // Some code to undo the change.
         },

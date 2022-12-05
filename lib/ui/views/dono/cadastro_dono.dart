@@ -133,7 +133,6 @@ class _CadastroDonoState extends State<CadastroDono> {
 
                                               Text('Salvar', style: AppTextStyles.titleLogin,),
 
-
                                             ),
                                           ],)
                                     )

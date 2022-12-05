@@ -45,6 +45,8 @@ dependencies:
   image_cropper: ^1.4.0
   uuid: ^3.0.7
   counter: ^0.2.2
+  mailer: ^5.0.1
+  cpf_cnpj_validator: ^2.0.0
 
 
 
