@@ -1,4 +1,5 @@
 class ScreenArgumentsPet {
   final data;
-  ScreenArgumentsPet(this.data);
+  final dataTutor;
+  ScreenArgumentsPet(this.data, this.dataTutor);
 }

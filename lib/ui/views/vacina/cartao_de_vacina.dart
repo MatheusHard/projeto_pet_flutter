@@ -50,6 +50,7 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
 
     _getVacinas(args?.data.id);
 
+
     return Scaffold(
       appBar: AppBarPet(args!),
       bottomSheet:
@@ -61,7 +62,7 @@ class _CartaoDeVacinaState extends State<CartaoDeVacina> {
       ),
       body: GridView.count(
           scrollDirection: Axis.vertical,
-          crossAxisCount: 2,
+          crossAxisCount:  args?.dataTutor.qtdRowListagem,
           children:
           List.generate(_vacinas.length, (index) {
             return CardVacina(

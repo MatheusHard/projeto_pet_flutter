@@ -22,13 +22,15 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   late FocusNode _myFocusNode;
   late FocusNode _myFocusNode_2;
+  var donoNew;
+
 
   @override
   void initState (){
@@ -178,31 +180,32 @@ class _LoginState extends State<Login> {
                             )
                         )),
                     /***************FIM*****************/
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-
-                        TextButton(
-                            onPressed: (){
-                            setState(() {
-                              var data;
-                              Navigator.pushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(data));
-
-                            });
-
-                            },
-                        child:  Text("novo cadastro", style: AppTextStyles.loginNovoEsqueci)
-                        ),
-                        TextButton(
-                            onPressed: (){
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                              onPressed: (){
                               setState(() {
-                                Navigator.pushNamed(context, '/esqueci_acesso');
+                                Navigator.pushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(null));
 
                               });
-                            },
-                        child:  Text("esqueci a senha", style: AppTextStyles.loginNovoEsqueci)
-                        ),
-                      ],
+
+                              },
+                          child:  Text("novo cadastro", style: AppTextStyles.loginNovoEsqueci)
+                          ),
+                          TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  Navigator.pushNamed(context, '/esqueci_acesso');
+
+                                });
+                              },
+                          child:  Text("esqueci a senha", style: AppTextStyles.loginNovoEsqueci)
+                          ),
+                        ],
+                      ),
                     )
 
                   ],)),

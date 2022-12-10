@@ -10,6 +10,7 @@ import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 import 'package:projeto_pet/ui/views/vacina/cadastro_vacina.dart';
 import 'package:projeto_pet/ui/views/vacina/cartao_de_vacina.dart';
 import 'package:projeto_pet/ui/views/home.dart';
@@ -63,15 +64,16 @@ void main() async{
 
   }
 
+  var tutor = ScreenArgumentsDono( null);
   runApp(
         MaterialApp(
         routes: {
           '/login': (context) => const Login(),
           '/home': (context) => const Home(),
-          '/cadastro_pets': (context) => const CadastroPets(),
+          '/cadastro_pets': (context) =>  CadastroPets(tutor: tutor,),
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
           '/cadastro_vacina': (context) => const CadastroVacina(),
-          '/cadastro_dono' : (context) => const CadastroDono(),
+          '/cadastro_dono' : (context) => CadastroDono(tutor: tutor),
           '/esqueci_acesso' : (context) => const EsqueciAcesso()
 
         },initialRoute: '/login',

@@ -16,10 +16,14 @@ import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
 import '../../models/pet.dart';
+import '../screen_arguments/ScreenArgumentsDono.dart';
 
 
 class CadastroPets extends StatefulWidget {
-  const CadastroPets({Key? key}) : super(key: key);
+
+  final ScreenArgumentsDono tutor;
+
+  const CadastroPets({required this.tutor, Key? key}) : super(key: key);
 
   @override
   State<CadastroPets> createState() => _CadastroPetsState();
@@ -40,10 +44,13 @@ class _CadastroPetsState extends State<CadastroPets> {
   File? _selectedFile;
   bool _sexo = false;
   String nome = "";
+  var _tutor;
+
 
 
   @override
   void initState() {
+    _tutor =  widget.tutor;
     getTipos();
     getTiposVacinas();
     super.initState();
@@ -434,7 +441,7 @@ class _CadastroPetsState extends State<CadastroPets> {
 
         Pet(
             id: id,
-            donoPet: 2,
+            donoPet: _tutor.data.id,
             nome: nome,
             tipoPet: selectedItemTipoPet['id'],
             sexo: _sexo,

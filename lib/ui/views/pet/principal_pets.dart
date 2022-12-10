@@ -16,7 +16,7 @@ class PrincipalPets extends StatefulWidget {
   const PrincipalPets({required this.tutor, Key? key}) : super(key: key);
 
   @override
-  State<PrincipalPets> createState() => _PrincipalPetsState(tutor);
+  State<PrincipalPets> createState() => _PrincipalPetsState();
 }
 
 class _PrincipalPetsState extends State<PrincipalPets> {
@@ -25,12 +25,10 @@ class _PrincipalPetsState extends State<PrincipalPets> {
   late ScreenArgumentsDono _tutor;
 
 
-  _PrincipalPetsState(ScreenArgumentsDono tutor){
-    _tutor = tutor;
-  }
-
   @override
   void initState() {
+    _tutor = widget.tutor;
+
     _getPets();
     super.initState();
   }
@@ -43,7 +41,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
         debugShowCheckedModeBanner: false,
 
         home: Scaffold(
-          floatingActionButton: FloatingActionButton(
+            floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.blueAccent,
             child: const Icon(Icons.add),
             onPressed: () {
@@ -61,7 +59,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
       return PetBox(
         data: _pets[index],
         onTap: (data) {
-          Navigator.pushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data));
+          Navigator.pushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data, _tutor.data));
       },
       );
     }),

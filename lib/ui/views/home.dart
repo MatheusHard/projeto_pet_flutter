@@ -28,15 +28,14 @@ class _HomeState extends State<Home> {
     final tabs = [
 
        PrincipalPets(tutor: argsDono,),
-      const CadastroPets(),
+       CadastroPets(tutor: argsDono,),
       const Center(child: Text("Nuvem")),
       const Center(child: Text("EXIT"))
     ];
 
     return  Scaffold(
-
         backgroundColor: Colors.white,
-        appBar: AppBarWidget(argsDono!),
+        appBar: AppBarWidget(argsDono!, context),
         body: tabs[_currentIndex],
 
         bottomNavigationBar:

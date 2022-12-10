@@ -12,7 +12,9 @@ import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 import '../../components/widgets/appbar/app_bar_dono.dart';
 
 class CadastroDono extends StatefulWidget {
-  const CadastroDono({Key? key}) : super(key: key);
+  final ScreenArgumentsDono tutor;
+
+  const CadastroDono({Key? key, required this.tutor}) : super(key: key);
 
   @override
   State<CadastroDono> createState() => _CadastroDonoState();
@@ -29,7 +31,9 @@ class _CadastroDonoState extends State<CadastroDono> {
   int qtd = 1;
   bool obscured = true;
 
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 
   @override
   void initState() {
@@ -44,7 +48,7 @@ class _CadastroDonoState extends State<CadastroDono> {
         ?.settings
         .arguments as ScreenArgumentsDono?;
 
-    ///    vacinaPadraoOrOutra = argsVacina?.vacinaPadraoOrOutra!;
+    _initControllers(argsDono?.data);
 
     return Scaffold(
       appBar: AppBarDono(null),
@@ -67,7 +71,6 @@ class _CadastroDonoState extends State<CadastroDono> {
                           child: Text(
                             "Dados", style: AppTextStyles.titlePet,),
                         ),
-
                         /******NOME DONO******/
                         widgetNomeDono(),
                         /******CPF DONO******/
@@ -77,24 +80,9 @@ class _CadastroDonoState extends State<CadastroDono> {
                         ///Password
                         widgetSenha(),
                         ///Qtd Listagem
-                        widgetQtdListagem(),
+                        widgetQtdListagem(argsDono?.data),
                         ///Salvar
-                       /* Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate() &&
-                                  validateDono()) {
-                                _cadastrarDono();
-                              } else {
-                                Utils.showDefaultSnackbar(
-                                    context, "Preencha os campos Obrigatórios!!!");
-                              }
-                            },
-                            child: const Text('Salvar'),
-                          ),
-                        ),*/
-                        Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                             child: Center(
                                 child: ElevatedButton(
@@ -183,7 +171,7 @@ class _CadastroDonoState extends State<CadastroDono> {
     );
   }
 
-  widgetQtdListagem(){
+  widgetQtdListagem(var args){
 
     return   Padding(
       padding: const EdgeInsets.only(top: 30, right: 10, bottom: 30, left: 10),
@@ -201,8 +189,11 @@ class _CadastroDonoState extends State<CadastroDono> {
           Counter(
             min: 1,
             max: 3,
+            initial: (args.data.qtdRowListagem != null) ?  args.data.qtdRowListagem : 2,
             bound: 1,
             step: 1,
+
+            configuration: DefaultConfiguration(),
             onValueChanged:  (value){
               qtd = value.toInt();
               print(qtd);
@@ -239,7 +230,19 @@ class _CadastroDonoState extends State<CadastroDono> {
       ),
     );
   }
+
+_initControllers(var args){
+
+  if(args.data != null) {
+    _nomeController.text = args.data.nome;
+    _userController.text = args.data.user;
+    _cpfController.text = args.data.cpf;
+    _passwordController.text = args.data.password;
+  }
+
+}
 widgetNomeDono(){
+
     return   Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: 10, vertical: 15),
