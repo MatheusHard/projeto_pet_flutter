@@ -97,30 +97,5 @@ void setTiposVacina() async{
 
 }
 
-/*void setVacinas() async{
-  print("Cadastros dos de Vacinas");
-  ///Poli
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D1', petId: 1));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D2', petId: 1));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D3', petId: 1));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Polivalente V10", dataAplicacao: null, dose: 'D4', petId: 1));
 
-
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'REF', petId: 2));
-
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'D1', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Gripe",  dataAplicacao: null, dose: 'REF', petId: 2));
-
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null,dose: 'D1', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Giardia",  dataAplicacao: null, dose: 'REF',petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'D1', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Visceral",  dataAplicacao: null,dose: 'REF', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'D1', petId: 2));
-  await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Leishmaniose Tegumentar",  dataAplicacao: null,dose: 'REF', petId: 2));
-
-
-
-
-}*/
 

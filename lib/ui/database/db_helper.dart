@@ -182,6 +182,11 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
     Database db = await instance.database;
     return await db.insert(DonoDataModel.getTabela(), dono.toMap());
   }
+  Future<int> updateDono(Dono dono) async {
+    Database db = await instance.database;
+    return await db.update(DonoDataModel.getTabela(), dono.toMap(),
+        where: '${DonoDataModel.id} = ?', whereArgs: [dono.id]);
+  }
   Future<List>getDonoByCpfOrUser(String cpf, String user) async {
     Database db = await instance.database;
     var res = await db.rawQuery('''SELECT ${DonoDataModel.getAtributos()} 

@@ -28,6 +28,7 @@ class _CadastroDonoState extends State<CadastroDono> {
   final _qtdRowController = TextEditingController();
   final _passwordController = TextEditingController();
   final _userController = TextEditingController();
+  late int _id;
   int qtd = 1;
   bool obscured = true;
 
@@ -89,7 +90,7 @@ class _CadastroDonoState extends State<CadastroDono> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate() &&
                                           validateDono()) {
-                                        _cadastrarDono();
+                                        _cadastrarDono(argsDono?.data);
                                       } else {
                                         Utils.showDefaultSnackbar(
                                             context, "Preencha os campos Obrigatórios!!!");
@@ -144,6 +145,7 @@ class _CadastroDonoState extends State<CadastroDono> {
     _passwordController.clear();
     _qtdRowController.clear();
     _userController.clear();
+    _id = 0;
 
   }
   widgetCpfDono(){
@@ -234,6 +236,7 @@ class _CadastroDonoState extends State<CadastroDono> {
 _initControllers(var args){
 
   if(args.data != null) {
+    _id = args.data.id;
     _nomeController.text = args.data.nome;
     _userController.text = args.data.user;
     _cpfController.text = args.data.cpf;
@@ -330,7 +333,7 @@ widgetSenha(){
   }
 
 
-  _cadastrarDono() async {
+  _cadastrarDono(ScreenArgumentsDono args) async {
 
     if(!await donoExists()) {
       DBHelper.instance.addDono(Dono(nome: _nomeController.text,
@@ -345,7 +348,20 @@ widgetSenha(){
       });
 
     }else{
-      Utils.showDefaultSnackbar(context, "Erro, usuário já existe no Sistema!!!");
+
+      DBHelper.instance.updateDono(Dono(
+          id: _id,
+          nome: _nomeController.text,
+          cpf: _cpfController.text,
+          user: _userController.text,
+          password: _passwordController.text,
+          qtdRowListagem: qtd));
+      clearControllers();
+      Future.delayed(const Duration(milliseconds: 1500), () {
+
+        Navigator.pushNamed(context, '/home', arguments: ScreenArgumentsDono(args.data));
+      });
+      Utils.showDefaultSnackbar(context, "Usuário atualizado com sucesso!!!!!!");
     }
 
     //}else if(dono.isNotEmpty){
