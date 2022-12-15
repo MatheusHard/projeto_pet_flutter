@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 
 class AppGradients {
 
@@ -20,6 +21,11 @@ class AppGradients {
         Color(0xffffafbd),
         Color(0xffffc3a0)
       ]);
+
+  static const cadastroPet =  LinearGradient(
+      begin: Alignment.topCenter,
+      end: AlignmentDirectional.bottomEnd,
+      colors: GradientColors.indigo );
 
   static const LinearGradient petMacho = LinearGradient(
       begin: Alignment.topCenter,

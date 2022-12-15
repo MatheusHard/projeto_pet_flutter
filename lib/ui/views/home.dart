@@ -27,8 +27,10 @@ class _HomeState extends State<Home> {
 
     final tabs = [
 
-       PrincipalPets(tutor: argsDono,),
-       CadastroPets(tutor: argsDono,),
+       PrincipalPets(tutor: argsDono, ),
+       //CadastroPets(tutor: argsDono,),
+      const Center(child: Text("PET")),
+
       const Center(child: Text("Nuvem")),
       const Center(child: Text("EXIT"))
     ];

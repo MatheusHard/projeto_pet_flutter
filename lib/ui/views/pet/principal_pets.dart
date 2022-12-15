@@ -45,7 +45,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
             backgroundColor: Colors.blueAccent,
             child: const Icon(Icons.add),
             onPressed: () {
-            //  showInformationDialog(context, args);
+              Navigator.pushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(null,  _tutor.data));
             },
           ),
           bottomSheet: Padding(

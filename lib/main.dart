@@ -70,7 +70,7 @@ void main() async{
         routes: {
           '/login': (context) => const Login(),
           '/home': (context) => const Home(),
-          '/cadastro_pets': (context) =>  CadastroPets(tutor: tutor,),
+          '/cadastro_pets': (context) =>  const CadastroPets(),
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
           '/cadastro_vacina': (context) => const CadastroVacina(),
           '/cadastro_dono' : (context) => CadastroDono(tutor: tutor),

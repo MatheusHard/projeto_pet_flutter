@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto_pet/ui/components/exemplo.dart';
+import 'package:projeto_pet/ui/components/widgets/appbar/app_bar_pet.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/models/vacina.dart';
@@ -15,15 +16,16 @@ import 'package:projeto_pet/ui/utils/core/app_images.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
+import '../../components/widgets/appbar/app_bar_cadastro_pet.dart';
 import '../../models/pet.dart';
 import '../screen_arguments/ScreenArgumentsDono.dart';
+import '../screen_arguments/ScreenArgumentsPet.dart';
 
 
 class CadastroPets extends StatefulWidget {
 
-  final ScreenArgumentsDono tutor;
 
-  const CadastroPets({required this.tutor, Key? key}) : super(key: key);
+  const CadastroPets({Key? key}) : super(key: key);
 
   @override
   State<CadastroPets> createState() => _CadastroPetsState();
@@ -50,7 +52,7 @@ class _CadastroPetsState extends State<CadastroPets> {
 
   @override
   void initState() {
-    _tutor =  widget.tutor;
+    //_tutor =  widget.tutor;
     getTipos();
     getTiposVacinas();
     super.initState();
@@ -58,310 +60,319 @@ class _CadastroPetsState extends State<CadastroPets> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Stack(
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Center(
 
-                  child: SingleChildScrollView(
+    ScreenArgumentsPet? args = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as ScreenArgumentsPet?;
 
-                    child:
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    _tutor = args?.dataTutor;
 
-                      children: [
+    return Scaffold(
+      appBar: AppBarCadastroPet(args?.data),
+      body: Form(
+        key: _formKey,
+        child: Stack(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Center(
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
-                          child: Text(
-                            "Cadastrar Pet", style: AppTextStyles.titlePet,),
-                        ),
-                        /******NOME PET******/
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
-                          child: TextFormField(
+                    child: SingleChildScrollView(
 
-                            keyboardType: TextInputType.text,
-                            controller: _nomeController,
-                            decoration: const InputDecoration(
-                                hintText: 'Nome do Pet',
-                                icon: Icon(Icons.pets, color: Colors.green,)
+                      child:
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                            width: 50,
+                          ),
+
+                          /******NOME PET******/
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 8),
+                            child: TextFormField(
+
+                              keyboardType: TextInputType.text,
+                              controller: _nomeController,
+                              decoration: const InputDecoration(
+                                  hintText: 'Nome do Pet',
+                                  icon: Icon(Icons.pets, color: Colors.green,)
+                              ),
+
+                              validator: (value) {
+                                if (value!.isEmpty || value == "") {
+                                  //_myFocusNode.requestFocus();
+                                  return "Digite o Nome do Pet";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          /*********DATA NASCIMENTO**********/
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 8),
+                            child: TextFormField(
+                              readOnly: true,
+                              onTap: () async {
+                                DateTime? newDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: date,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2040));
+                                if (newDate == null) return;
+                                setState(() {
+                                  date = newDate;
+                                  _dataController.value = TextEditingValue(
+                                      text: Utils.formatarDateTime(date));
+                                });
+                              },
+                              keyboardType: TextInputType.datetime,
+                              controller: _dataController,
+                              decoration: const InputDecoration(
+                                icon: Icon(Icons.date_range, color: Colors.green),
+                                hintText: "Data de Nascimento",
+                              ),
+
+                              validator: (value) {
+                                if (value == null || value == "") {
+                                  // _myFocusNode.requestFocus();
+                                  return "Data de Nascimento Obrigatória!!!";
+                                }
+                                return null;
+                              },
                             ),
 
-                            validator: (value) {
-                              if (value!.isEmpty || value == "") {
-                                //_myFocusNode.requestFocus();
-                                return "Digite o Nome do Pet";
-                              }
-                              return null;
-                            },
                           ),
-                        ),
-                        /*********DATA NASCIMENTO**********/
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
-                          child: TextFormField(
-                            readOnly: true,
-                            onTap: () async {
-                              DateTime? newDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: date,
-                                  firstDate: DateTime(1900),
-                                  lastDate: DateTime(2040));
-                              if (newDate == null) return;
-                              setState(() {
-                                date = newDate;
-                                _dataController.value = TextEditingValue(
-                                    text: Utils.formatarDateTime(date));
-                              });
-                            },
-                            keyboardType: TextInputType.datetime,
-                            controller: _dataController,
-                            decoration: const InputDecoration(
-                              icon: Icon(Icons.date_range, color: Colors.green),
-                              hintText: "Data de Nascimento",
+                          /**SEXO DO PET**/
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, bottom: 10),
+                            child: SwitchListTile(
+                              title: const Text('Sexo'),
+                              value: _sexo,
+                              activeColor: Colors.pink,
+                              inactiveThumbColor: Colors.blue,
+                              inactiveTrackColor: Colors.lightBlueAccent,
+
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _sexo = value;
+                                });
+                              },
+                              subtitle: const Text("Macho ou Fêmea"),
+                              secondary: const Icon(
+                                  Icons.pets_sharp, color: Colors.green),
                             ),
-
-                            validator: (value) {
-                              if (value == null || value == "") {
-                                // _myFocusNode.requestFocus();
-                                return "Data de Nascimento Obrigatória!!!";
-                              }
-                              return null;
-                            },
                           ),
-
-                        ),
-                        /**SEXO DO PET**/
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 10),
-                          child: SwitchListTile(
-                            title: const Text('Sexo'),
-                            value: _sexo,
-                            activeColor: Colors.pink,
-                            inactiveThumbColor: Colors.blue,
-                            inactiveTrackColor: Colors.lightBlueAccent,
-
-                            onChanged: (bool value) {
-                              setState(() {
-                                _sexo = value;
-                              });
-                            },
-                            subtitle: const Text("Macho ou Fêmea"),
-                            secondary: const Icon(
-                                Icons.pets_sharp, color: Colors.green),
+                          /**TIPO DO PET**/
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownSearch<dynamic>(
+                              mode: Mode.MENU,
+                              items: _listaTiposPets.map((tp) => tp).toList(),
+                              itemAsString: (dynamic tp) =>
+                                  tp['descricao'].toString(),
+                              showSearchBox: true,
+                              label: "Tipo do Pet",
+                              hint: "escolha o tipo",
+                              onChanged: (tipoPet) {
+                                _selectedItemTipoPet(tipoPet);
+                              },
+                            ),
                           ),
-                        ),
-                        /**TIPO DO PET**/
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DropdownSearch<dynamic>(
-                            mode: Mode.MENU,
-                            items: _listaTiposPets.map((tp) => tp).toList(),
-                            itemAsString: (dynamic tp) =>
-                                tp['descricao'].toString(),
-                            showSearchBox: true,
-                            label: "Tipo do Pet",
-                            hint: "escolha o tipo",
-                            onChanged: (tipoPet) {
-                              _selectedItemTipoPet(tipoPet);
-                            },
-                          ),
-                        ),
-                        /**TIPO DO VACINA**/
-                      /*  Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DropdownSearch<dynamic>(
-                            mode: Mode.MENU,
-                            items: _listaTiposVacinas.map((tp) => tp).toList(),
-                            itemAsString: (dynamic tp) =>
-                                tp.nomeVacina.toString(),
-                            showSearchBox: true,
-                            label: "Tipo do Vacina",
-                            hint: "escolha o tipo",
-                            onChanged: (tipoPet) {
-                              _selectedItemTipoPet(tipoPet);
-                            },
-                          ),
-                        ),*/
+                          /**TIPO DO VACINA**/
+                        /*  Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownSearch<dynamic>(
+                              mode: Mode.MENU,
+                              items: _listaTiposVacinas.map((tp) => tp).toList(),
+                              itemAsString: (dynamic tp) =>
+                                  tp.nomeVacina.toString(),
+                              showSearchBox: true,
+                              label: "Tipo do Vacina",
+                              hint: "escolha o tipo",
+                              onChanged: (tipoPet) {
+                                _selectedItemTipoPet(tipoPet);
+                              },
+                            ),
+                          ),*/
 
 
-                        /*****CAMERA PICTURE/GALLERY*****/
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.border),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 15, top: 20),
-                                  child: Text("Cadastre a Imagem da Conta",
-                                      style: AppTextStyles.heading15),
-                                ),
-                                getImageWidget(),
+                          /*****CAMERA PICTURE/GALLERY*****/
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: AppColors.border),
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 15, top: 20),
+                                    child: Text("Cadastre a Imagem da Conta",
+                                        style: AppTextStyles.heading15),
+                                  ),
+                                  getImageWidget(),
 
-                                ///***********************/
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
+                                  ///***********************/
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
 
-                                  children: [
+                                    children: [
 
-                                    /*********CAMERA BUTTON*********/
-                                    Expanded(
-                                        child:
-                                        GestureDetector(
+                                      /*********CAMERA BUTTON*********/
+                                      Expanded(
+                                          child:
+                                          GestureDetector(
 
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius
-                                                      .circular(50)),
-                                              height: 70,
-                                              width: 70,
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(50)),
+                                                height: 70,
+                                                width: 70,
+                                                child: Stack(
+                                                  clipBehavior: Clip.none,
+                                                  children: [
 
-                                                  const Center(child:
-                                                  Icon(
-                                                    Icons.camera_alt_rounded,
-                                                    color: AppColors.black,
-                                                    size: 35,),),
+                                                    const Center(child:
+                                                    Icon(
+                                                      Icons.camera_alt_rounded,
+                                                      color: AppColors.black,
+                                                      size: 35,),),
 
-                                                  Align(
-                                                      alignment: const Alignment(
-                                                          0, 2.0),
-                                                      child:
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(bottom: 20),
-                                                        child: Text("Camera",
-                                                          style: AppTextStyles
-                                                              .bodyBold,),
-                                                      )
-                                                  )
-                                                ],
+                                                    Align(
+                                                        alignment: const Alignment(
+                                                            0, 2.0),
+                                                        child:
+                                                        Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(bottom: 20),
+                                                          child: Text("Camera",
+                                                            style: AppTextStyles
+                                                                .bodyBold,),
+                                                        )
+                                                    )
+                                                  ],
+                                                ),
                                               ),
-                                            ),
 
-                                            onTap: () {
-                                              _getImage(ImageSource.camera);
-                                            } //
-                                        )),
+                                              onTap: () {
+                                                _getImage(ImageSource.camera);
+                                              } //
+                                          )),
 
-                                    /*********GALERIA BUTTON*********/
+                                      /*********GALERIA BUTTON*********/
 
-                                    Expanded(
-                                        child:
-                                        GestureDetector(
+                                      Expanded(
+                                          child:
+                                          GestureDetector(
 
-                                            child: Container(
+                                              child: Container(
 
-                                              decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius
-                                                      .circular(50)),
-                                              height: 70,
-                                              width: 70,
-                                              child: Stack(
-                                                clipBehavior: Clip.none,
-                                                children: [
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(50)),
+                                                height: 70,
+                                                width: 70,
+                                                child: Stack(
+                                                  clipBehavior: Clip.none,
+                                                  children: [
 
-                                                  const Center(child:
-                                                  Icon(
-                                                    Icons.image_rounded,
-                                                    color: AppColors.black,
-                                                    size: 35,),),
+                                                    const Center(child:
+                                                    Icon(
+                                                      Icons.image_rounded,
+                                                      color: AppColors.black,
+                                                      size: 35,),),
 
-                                                  Align(
-                                                      alignment: const Alignment(
-                                                          0, 2.0),
-                                                      child:
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(bottom: 20),
-                                                        child: Text("Galeria",
-                                                          style: AppTextStyles
-                                                              .bodyBold,),
-                                                      ))
-                                                ],
+                                                    Align(
+                                                        alignment: const Alignment(
+                                                            0, 2.0),
+                                                        child:
+                                                        Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(bottom: 20),
+                                                          child: Text("Galeria",
+                                                            style: AppTextStyles
+                                                                .bodyBold,),
+                                                        ))
+                                                  ],
+                                                ),
                                               ),
-                                            ),
 
-                                            onTap: () {
-                                              _getImage(ImageSource.gallery);
-                                            } //
-                                        )
+                                              onTap: () {
+                                                _getImage(ImageSource.gallery);
+                                              } //
+                                          )
 
-                                    )
-                                  ],
-                                ),
-                              ],
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
 
 
-                        /***SALVAR PET***/
-                      Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-                            child: Center(
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate() &&
-                                          validatePet()) {
-                                        _cadastrarPet();
-                                      } else {
-                                        Utils.showDefaultSnackbar(
-                                            context, "Não foi possivel salvar!!!");
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        padding: EdgeInsets.zero,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(20))),
-                                    child: Ink(
+                          /***SALVAR PET***/
+                        Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                              child: Center(
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        if (_formKey.currentState!.validate() &&
+                                            validatePet()) {
+                                          _cadastrarPet();
+                                        } else {
+                                          Utils.showDefaultSnackbar(
+                                              context, "Não foi possivel salvar!!!");
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(20))),
+                                      child: Ink(
 
-                                        decoration: BoxDecoration(
-                                            gradient: const LinearGradient(colors:
-                                            [
-                                              Color(0xFF57B6E5),
-                                              Color.fromRGBO(130, 87, 229, 0.695),
-                                            ]),
-                                            borderRadius: BorderRadius.circular(20)),
-                                        child:
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(Icons.save_rounded),
-                                            Container(
-                                              width: 150,
-                                              height: 50,
-                                              alignment: Alignment.center,
-                                              child:
+                                          decoration: BoxDecoration(
+                                              gradient: const LinearGradient(colors:
+                                              [
+                                                Color(0xFF57B6E5),
+                                                Color.fromRGBO(130, 87, 229, 0.695),
+                                              ]),
+                                              borderRadius: BorderRadius.circular(20)),
+                                          child:
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              const Icon(Icons.save_rounded),
+                                              Container(
+                                                width: 150,
+                                                height: 50,
+                                                alignment: Alignment.center,
+                                                child:
 
-                                              Text('Salvar', style: AppTextStyles.titleLogin,),
+                                                Text('Salvar', style: AppTextStyles.titleLogin,),
 
 
-                                            ),
-                                          ],)
-                                    )
-                                )
-                            )),
-                      ],
+                                              ),
+                                            ],)
+                                      )
+                                  )
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-            ),
-          ]
+                  )
+              ),
+            ]
+        ),
       ),
     );
   }
@@ -441,7 +452,7 @@ class _CadastroPetsState extends State<CadastroPets> {
 
         Pet(
             id: id,
-            donoPet: _tutor.data.id,
+            donoPet: _tutor.id,
             nome: nome,
             tipoPet: selectedItemTipoPet['id'],
             sexo: _sexo,
@@ -451,6 +462,8 @@ class _CadastroPetsState extends State<CadastroPets> {
     cadastrarVacinasPadrao(id);
     clearControllers();
     Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+
+
     //});
   }
   void cadastrarVacinasPadrao(String idPet) async{
