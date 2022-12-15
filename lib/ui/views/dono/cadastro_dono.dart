@@ -7,6 +7,7 @@ import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/utils/core/app_text_styles.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
+import 'package:projeto_pet/ui/views/pet/principal_pets.dart';
 import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 
 import '../../components/widgets/appbar/app_bar_dono.dart';
@@ -145,7 +146,6 @@ class _CadastroDonoState extends State<CadastroDono> {
     _passwordController.clear();
     _qtdRowController.clear();
     _userController.clear();
-    _id = 0;
 
   }
   widgetCpfDono(){
@@ -343,31 +343,35 @@ widgetSenha(){
           qtdRowListagem: qtd));
       clearControllers();
       Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
-      Future.delayed(const Duration(milliseconds: 1500), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         Navigator.pushNamed(context, '/login');
       });
 
     }else{
 
-      DBHelper.instance.updateDono(Dono(
-          id: _id,
-          nome: _nomeController.text,
-          cpf: _cpfController.text,
-          user: _userController.text,
-          password: _passwordController.text,
-          qtdRowListagem: qtd));
-      clearControllers();
-      Future.delayed(const Duration(milliseconds: 1500), () {
+      Dono dono = Dono(
+                      id: _id,
+                      nome: _nomeController.text,
+                      cpf: _cpfController.text,
+                      user: _userController.text,
+                      password: _passwordController.text,
+                      qtdRowListagem: qtd);
 
-        Navigator.pushNamed(context, '/home', arguments: ScreenArgumentsDono(args.data));
+      DBHelper.instance.updateDono(dono);
+      clearControllers();
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        Navigator.pushNamed(
+            context,
+            '/home',
+            arguments: ScreenArgumentsDono(dono)
+        );
+
       });
+
       Utils.showDefaultSnackbar(context, "Usuário atualizado com sucesso!!!!!!");
     }
 
-    //}else if(dono.isNotEmpty){
-      //Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
-
-    //}
   }
 
   ///Validações:
