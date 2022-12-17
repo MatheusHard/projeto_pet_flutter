@@ -309,7 +309,7 @@ class _CadastroPetsState extends State<CadastroPets> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate() &&
                                             validatePet()) {
-                                          _cadastrarPet();
+                                          _cadastrarPet(args?.dataTutor);
                                         } else {
                                           Utils.showDefaultSnackbar(
                                               context, "Não foi possivel salvar!!!");
@@ -420,7 +420,7 @@ class _CadastroPetsState extends State<CadastroPets> {
     }
   }
 
-  _cadastrarPet() async {
+  _cadastrarPet(var args) async {
     String file;
     String id;
     //setState(() {
@@ -429,8 +429,6 @@ class _CadastroPetsState extends State<CadastroPets> {
     file = Utils.base64String(_selectedFile!.readAsBytesSync());
     id = Utils.generateGuide();
     DBHelper.instance.addPet(
-
-
         Pet(
             id: id,
             donoPet: _tutor.id,
@@ -444,6 +442,7 @@ class _CadastroPetsState extends State<CadastroPets> {
     clearControllers();
     Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
 
+    Navigator.popAndPushNamed(context, '/home', arguments:  ScreenArgumentsDono(  args));
 
     //});
   }
