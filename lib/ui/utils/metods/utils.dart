@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
 
@@ -179,6 +180,8 @@ import 'package:uuid/uuid.dart';
 
         );
   }
+    static Uint8List fileFromBase64String(String bytes)=> base64.decode(bytes);
+
   }
 
 

@@ -73,7 +73,7 @@ void main() async{
           '/cadastro_pets': (context) =>  const CadastroPets(),
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
           '/cadastro_vacina': (context) => const CadastroVacina(),
-          '/cadastro_dono' : (context) => CadastroDono(tutor: tutor),
+          '/cadastro_dono' : (context) => const CadastroDono(),
           '/esqueci_acesso' : (context) => const EsqueciAcesso()
 
         },initialRoute: '/login',

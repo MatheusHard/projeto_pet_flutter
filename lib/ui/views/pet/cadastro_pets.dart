@@ -52,7 +52,6 @@ class _CadastroPetsState extends State<CadastroPets> {
 
   @override
   void initState() {
-    //_tutor =  widget.tutor;
     getTipos();
     getTiposVacinas();
     super.initState();
@@ -184,24 +183,6 @@ class _CadastroPetsState extends State<CadastroPets> {
                               },
                             ),
                           ),
-                          /**TIPO DO VACINA**/
-                        /*  Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownSearch<dynamic>(
-                              mode: Mode.MENU,
-                              items: _listaTiposVacinas.map((tp) => tp).toList(),
-                              itemAsString: (dynamic tp) =>
-                                  tp.nomeVacina.toString(),
-                              showSearchBox: true,
-                              label: "Tipo do Vacina",
-                              hint: "escolha o tipo",
-                              onChanged: (tipoPet) {
-                                _selectedItemTipoPet(tipoPet);
-                              },
-                            ),
-                          ),*/
-
-
                           /*****CAMERA PICTURE/GALLERY*****/
                           Padding(
                             padding: const EdgeInsets.only(top: 20),

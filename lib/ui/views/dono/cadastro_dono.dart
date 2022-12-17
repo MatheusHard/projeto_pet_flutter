@@ -13,9 +13,8 @@ import 'package:projeto_pet/ui/views/screen_arguments/ScreenArgumentsDono.dart';
 import '../../components/widgets/appbar/app_bar_dono.dart';
 
 class CadastroDono extends StatefulWidget {
-  final ScreenArgumentsDono tutor;
 
-  const CadastroDono({Key? key, required this.tutor}) : super(key: key);
+  const CadastroDono({Key? key}) : super(key: key);
 
   @override
   State<CadastroDono> createState() => _CadastroDonoState();
@@ -91,7 +90,7 @@ class _CadastroDonoState extends State<CadastroDono> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate() &&
                                           validateDono()) {
-                                        _cadastrarDono(argsDono?.data);
+                                        _cadastrarDono(ScreenArgumentsDono(argsDono?.data));
                                       } else {
                                         Utils.showDefaultSnackbar(
                                             context, "Preencha os campos Obrigatórios!!!");
@@ -191,7 +190,7 @@ class _CadastroDonoState extends State<CadastroDono> {
           Counter(
             min: 1,
             max: 3,
-            initial: (args.data.qtdRowListagem != null) ?  args.data.qtdRowListagem : 2,
+            initial: (args != null) ?  args.data.qtdRowListagem : 2,
             bound: 1,
             step: 1,
 
@@ -235,8 +234,10 @@ class _CadastroDonoState extends State<CadastroDono> {
 
 _initControllers(var args){
 
-  if(args.data != null) {
-    _id = args.data.id;
+  if(args != null) {
+
+    if( args.data.id != null) { _id = args.data.id;}
+
     _nomeController.text = args.data.nome;
     _userController.text = args.data.user;
     _cpfController.text = args.data.cpf;
