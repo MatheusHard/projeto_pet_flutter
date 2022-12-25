@@ -49,7 +49,7 @@ AppBarWidget(ScreenArgumentsDono argsDono, BuildContext context,{Key? key}):supe
                 image: const DecorationImage(
 
                   image: AssetImage(
-                    "assets/images/pug.png",
+                    "assets/images/user.jpg",
 
                   )
                 )

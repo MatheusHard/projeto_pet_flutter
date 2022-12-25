@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cpf_cnpj_validator/cpf_validator.dart';
+import 'package:crypto/crypto.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -69,6 +70,16 @@ import 'package:uuid/uuid.dart';
       final e = crypt.Encrypter(crypt.AES(key, mode: crypt.AESMode.cbc));
       final decrypted_data = e.decrypt(crypt.Encrypted.fromBase64(text), iv: iv);
       return decrypted_data;
+    }
+    //SHA1
+    static String toSha1(String byte){
+
+      var bytes = utf8.encode(byte); // data being hashed
+
+      var value = sha1.convert(bytes);
+
+      return value.toString();
+
     }
 
 

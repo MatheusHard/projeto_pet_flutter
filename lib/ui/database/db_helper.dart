@@ -196,6 +196,21 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
     return res.toList();
   }
 
+  Future<Dono?>getDonoLogin(String cpf, String user, String password) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery('''SELECT ${DonoDataModel.getAtributos()} 
+                                   FROM ${DonoDataModel.getTabela()} 
+                                   WHERE (tabelaDono.${DonoDataModel.cpf} = '$cpf' OR tabelaDono.${DonoDataModel.user} = '$user') 
+                                   AND tabelaDono.${DonoDataModel.password} = '$password' 
+                                   ORDER BY tabelaDono.${DonoDataModel.nome}''');
+    if(res.isNotEmpty) {
+      return Dono.fromMap(res.first);
+    }else {
+      return null;
+
+    }  }
+
+
   Future<Dono?>getDono(String cpf, String user) async {
 
     Database db = await instance.database;

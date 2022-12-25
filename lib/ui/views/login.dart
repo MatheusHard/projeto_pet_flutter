@@ -188,7 +188,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                               onPressed: (){
                               setState(() {
-                                Navigator.pushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(null));
+                                Navigator.popAndPushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(null));
 
                               });
 
@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                               onPressed: (){
                                 setState(() {
-                                  Navigator.pushNamed(context, '/esqueci_acesso');
+                                  Navigator.popAndPushNamed(context, '/esqueci_acesso');
 
                                 });
                               },
@@ -227,13 +227,15 @@ class _LoginState extends State<Login> {
 
     }
 
-    Dono? tutor = await DBHelper.instance.getDono(cpf, email);
+    var senha = Utils.toSha1(_passwordController.text);
+
+    Dono? tutor = await DBHelper.instance.getDonoLogin(cpf, email, senha);
 
     if(tutor == null) {
-     Utils.showDefaultSnackbar(context, "Login inválido!!!");
+     Utils.showDefaultSnackbar(context, "Verifique suas Credencias!!!");
     }else{
           setState(() {
-            Navigator.pushNamed(
+            Navigator.popAndPushNamed(
                 context,
                 '/home',
                 arguments: ScreenArgumentsDono(tutor)

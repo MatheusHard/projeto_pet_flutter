@@ -236,12 +236,11 @@ _initControllers(var args){
 
   if(args != null) {
 
-    if( args.data.id != null) { _id = args.data.id;}
+    if(args.data.id != null) { _id = args.data.id;}
 
     _nomeController.text = args.data.nome;
     _userController.text = args.data.user;
     _cpfController.text = args.data.cpf;
-    _passwordController.text = args.data.password;
   }
 
 }
@@ -304,10 +303,7 @@ widgetSenha(){
         ),
       ),
       validator:  (value) {
-        if (value!.isEmpty || value == "") {
-          //_myFocusNode.requestFocus();
-          return "Digite a Senha";
-        }
+
         return null;
       }
     ),
@@ -340,12 +336,12 @@ widgetSenha(){
       DBHelper.instance.addDono(Dono(nome: _nomeController.text,
           cpf: _cpfController.text,
           user: _userController.text,
-          password: _passwordController.text,
+          password: Utils.toSha1(_passwordController.text),
           qtdRowListagem: qtd));
       clearControllers();
       Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
       Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.pushNamed(context, '/login');
+        Navigator.popAndPushNamed(context, '/login');
       });
 
     }else{
@@ -355,14 +351,14 @@ widgetSenha(){
                       nome: _nomeController.text,
                       cpf: _cpfController.text,
                       user: _userController.text,
-                      password: _passwordController.text,
+                      password: args.data.data.password,
                       qtdRowListagem: qtd);
 
       DBHelper.instance.updateDono(dono);
       clearControllers();
 
       Future.delayed(const Duration(milliseconds: 500), () {
-        Navigator.pushNamed(
+        Navigator.popAndPushNamed(
             context,
             '/home',
             arguments: ScreenArgumentsDono(dono)
@@ -381,7 +377,6 @@ widgetSenha(){
 
     if (_nomeController.text.isEmpty) return false;
     if (_cpfController.text.isEmpty) return false;
-    if (_passwordController.text.isEmpty) return false;
     if (_userController.text.isEmpty) return false;
     if (qtd.isNaN || qtd.isNegative) return false;
 

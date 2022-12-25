@@ -45,7 +45,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
             backgroundColor: Colors.blueAccent,
             child: const Icon(Icons.add),
             onPressed: () {
-              Navigator.pushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(null,  _tutor.data));
+              Navigator.popAndPushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(null,  _tutor.data));
             },
           ),
           bottomSheet: Padding(
@@ -59,7 +59,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
       return PetBox(
         data: _pets[index],
         onTap: (data) {
-          Navigator.pushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data, _tutor.data));
+          Navigator.popAndPushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data, _tutor.data));
       },
       );
     }),

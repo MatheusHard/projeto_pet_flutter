@@ -49,6 +49,7 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
   expandable_menu: ^0.0.5
   flutter_gradient_colors: ^2.1.1
+  crypto: ^3.0.2
 
 
 
