@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/api/sincronismo_dados.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
 import 'package:projeto_pet/ui/views/dono/cadastro_dono.dart';
 import 'package:projeto_pet/ui/views/dono/esqueci_acesso.dart';
@@ -42,6 +43,7 @@ void main() async{
   ///Add Donos
   //var _dono = await DBHelper.instance.addDono(Dono(nome: "Matheus", cpf: "05694641450", password: "fredf",user: "burumungu", qtdRowListagem: 2));
   //var _dono2 = await DBHelper.instance.addDono(Dono(nome: "Lolo", cpf: "0314641450", password: "fredf",user: "lolozinho", qtdRowListagem: 3));
+  SincronismoDados.getPaises();
 
   List _dados = await DBHelper.instance.getDonoPets();
 

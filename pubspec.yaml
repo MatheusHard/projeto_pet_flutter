@@ -50,6 +50,8 @@ dependencies:
   expandable_menu: ^0.0.5
   flutter_gradient_colors: ^2.1.1
   crypto: ^3.0.2
+  sendgrid_mailer: ^0.1.3
+
 
 
 

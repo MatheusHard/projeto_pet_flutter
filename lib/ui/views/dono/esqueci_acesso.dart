@@ -1,8 +1,11 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
+import '../../api/email.dart';
 import '../../components/widgets/appbar/app_bar_dono.dart';
 import '../../utils/core/app_text_styles.dart';
 import '../../utils/metods/utils.dart';
@@ -17,6 +20,8 @@ class EsqueciAcesso extends StatefulWidget {
 
 class _EsqueciAcessoState extends State<EsqueciAcesso> {
 
+
+  String _text = '';
   final _cpfController = TextEditingController();
   final _userController = TextEditingController();
   int qtd = 1;
@@ -24,6 +29,7 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   bool _flag = false;
   late FocusNode _myFocusNodeCpf;
   late FocusNode _myFocusNodeEmail;
+  var email = SendEmail('matheushard2013@gmail.com', 'bonjovi6630000');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -74,8 +80,11 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
                                 child: ElevatedButton(
                                     onPressed: () {
                                      if (_formKey.currentState!.validate()){
-                                        _sendEmail();
-                                            }
+                                        //_sendEmail();
+                                        _sendEmaill();
+
+
+                                     }
                                           },
                                     style: ElevatedButton.styleFrom(
                                         padding: EdgeInsets.zero,
@@ -255,6 +264,19 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   }
 
 
+  void _sendEmaill() async {
+    //var result = await email.sendMessage('Sua mensagem de email', 'crisneri39@gmail.com', 'Lolo do coracao');
+
+    //print(result);
+
+    setState(() {
+      SendEmail('','').sendTwilioEmail();
+
+      //Utils.showDefaultSnackbar(context, result);
+     // _text = result ? 'Enviado.' : 'Não enviado.';
+    });
+
+  }
 
   Future<void> _sendEmail() async {
     List<String> attachments = [];
@@ -270,8 +292,11 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
       ///Send
       String username = 'matheushard2013@gmail.com';
       String password = 'bonjovi663000';
+      const token = '';
 
-      final smtpServer = gmail(username, password);
+     // final smtpServer = gmail(username, password);
+      final smtpServer = gmailSaslXoauth2(username, token);
+
       // Use the SmtpServer class to configure an SMTP server:
       // final smtpServer = SmtpServer('smtp.domain.com');
       // See the named arguments of SmtpServer for further configuration
