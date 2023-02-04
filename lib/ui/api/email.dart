@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 //import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
@@ -10,16 +11,17 @@ import 'package:sendgrid_mailer/sendgrid_mailer.dart';
 class SendEmail {
   String? _username;
   var smtpServer;
+  dynamic _dono;
 
-  SendEmail(String username, String password){
-    _username = username;
+  SendEmail(dynamic dono){
+    _dono = dono;
     //smtpServer = gmail(_username!, password);
   }
 
   void sendTwilioEmail() {
 try{
     final mailer = Mailer(
-        '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');
+        '');
     const toAddress = Address('crisneri39@gmail.com');
     const fromAddress = Address('matheushard2013@gmail.com');
     const content = Content('text/plain', 'Hello World!');
@@ -33,6 +35,13 @@ try{
       print("RESULT");
 
       print( result);
+      ///Generate codigo de recuperação
+      String codigo = Random().nextInt(9999).toString().padLeft(4, '0');
+      ///Update Dono, setar codigo:
+
+      ///Página para inserir codigo:
+
+
     }).catchError((Error onError){
       print('OnError');
       print(onError);

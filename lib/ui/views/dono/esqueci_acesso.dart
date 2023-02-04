@@ -29,7 +29,7 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   bool _flag = false;
   late FocusNode _myFocusNodeCpf;
   late FocusNode _myFocusNodeEmail;
-  var email = SendEmail('matheushard2013@gmail.com', 'bonjovi6630000');
+  //var email = SendEmail('matheushard2013@gmail.com', 'bonjovi6630000');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -81,8 +81,7 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
                                     onPressed: () {
                                      if (_formKey.currentState!.validate()){
                                         //_sendEmail();
-                                        _sendEmaill();
-
+                                        _sendEmaill(_cpfController.text, _userController.text);
 
                                      }
                                           },
@@ -264,19 +263,17 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   }
 
 
-  void _sendEmaill() async {
-    //var result = await email.sendMessage('Sua mensagem de email', 'crisneri39@gmail.com', 'Lolo do coracao');
+  void _sendEmaill(String cpf, String email) async {
 
-    //print(result);
-
-    setState(() {
-      SendEmail('','').sendTwilioEmail();
-
-      //Utils.showDefaultSnackbar(context, result);
-     // _text = result ? 'Enviado.' : 'Não enviado.';
-    });
-
+    var donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
+    if(donoExists != null) {
+      SendEmail(donoExists).sendTwilioEmail();
+    }
+    //Utils.showDefaultSnackbar(context, result);
+    // _text = result ? 'Enviado.' : 'Não enviado.';
   }
+
+
 
   Future<void> _sendEmail() async {
     List<String> attachments = [];

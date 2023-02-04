@@ -210,7 +210,17 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
 
     }  }
 
+  Future<Dono?>findDonoByCodigo (int id, String codigo) async {
 
+    Database db = await instance.database;
+    var res = await db.query(DonoDataModel.getTabela(), where: 'id = ? AND user = ?', whereArgs: [id, codigo]);
+    if(res.isNotEmpty) {
+      return Dono.fromMap(res.first);
+    }else {
+      return null;
+
+    }
+  }
   Future<Dono?>getDono(String cpf, String user) async {
 
     Database db = await instance.database;

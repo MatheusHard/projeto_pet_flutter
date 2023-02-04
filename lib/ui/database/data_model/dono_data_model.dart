@@ -8,6 +8,7 @@ class DonoDataModel{
   static const String user = "user";
   static const String password = "password";
   static const String qtdRowListagem = "qtdRowListagem";
+  static const String codigoRecuperacao = 'codigoRecuperacao';
 
   static String queryCriarTabela = "";
 
@@ -15,7 +16,7 @@ class DonoDataModel{
 
     return '''CREATE TABLE $TABELA ($id INTEGER PRIMARY KEY,
               $nome TEXT, $cpf TEXT, $qtdRowListagem INTEGER,
-              $user TEXT, $password TEXT);''';
+              $user TEXT, $password TEXT, $codigoRecuperacao TEXT);''';
   }
 
   static String dropTable(){
@@ -32,7 +33,7 @@ class DonoDataModel{
   }
 
   static String getAtributos(){
-    return '''$TABELA.id, $TABELA.nome, $TABELA.user, $TABELA.password, $TABELA.qtdRowListagem, $TABELA.cpf''';
+    return '''$TABELA.id, $TABELA.nome, $TABELA.user, $TABELA.password, $TABELA.qtdRowListagem, $TABELA.cpf, $TABELA.codigoRecuperacao''';
   }
 }
 

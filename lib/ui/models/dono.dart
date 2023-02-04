@@ -9,11 +9,12 @@ class Dono {
   String? cpf;
   String user;
   String password;
+  String? codigoRecuperacao;
   int qtdRowListagem;
 
   Dono({
-    this.id, required this.nome, required this.cpf,
-    required this.user, required this.password, required this.qtdRowListagem});
+    this.id, required this.nome, required this.cpf,    required this.user,
+    required this.password, required this.qtdRowListagem, this.codigoRecuperacao});
 
   factory Dono.fromMap(Map<String, dynamic> json) => Dono(
 
@@ -22,7 +23,8 @@ class Dono {
       cpf: json['cpf'],
       user: json['user'],
       password:  (json['password']),
-      qtdRowListagem: json['qtdRowListagem']
+      qtdRowListagem: json['qtdRowListagem'],
+      codigoRecuperacao: json['this.codigoRecuperacao']
   );
 
   Map<String, dynamic> toMap(){
@@ -32,7 +34,8 @@ class Dono {
       'cpf': cpf,
       'user': user,
       'password': password,
-      'qtdRowListagem': qtdRowListagem
+      'qtdRowListagem': qtdRowListagem,
+      'codigoRecuperacao': codigoRecuperacao
 
     };
   }
