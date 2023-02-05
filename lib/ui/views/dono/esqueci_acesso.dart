@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
@@ -7,6 +8,7 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import '../../api/email.dart';
 import '../../components/widgets/appbar/app_bar_dono.dart';
+import '../../models/dono.dart';
 import '../../utils/core/app_text_styles.dart';
 import '../../utils/metods/utils.dart';
 import '../screen_arguments/ScreenArgumentsDono.dart';
@@ -265,9 +267,18 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
 
   void _sendEmaill(String cpf, String email) async {
 
-    var donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
+    Dono? donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
     if(donoExists != null) {
-      SendEmail(donoExists).sendTwilioEmail();
+      ///Generate codigo de recuperação
+      String codigo = Random().nextInt(9999).toString().padLeft(4, '0');
+      ///Update Dono, setar codigo:
+      donoExists.codigoRecuperacao = codigo;
+      var res= await DBHelper.instance.updateDono(donoExists);
+      if(res == 1) {
+        SendEmail(donoExists).sendTwilioEmail();
+      }else{
+
+      }
     }
     //Utils.showDefaultSnackbar(context, result);
     // _text = result ? 'Enviado.' : 'Não enviado.';

@@ -7,51 +7,51 @@ import 'package:http/http.dart' as http;
 import 'package:sendgrid_mailer/sendgrid_mailer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../models/dono.dart';
+
 
 
 
 class SendEmail {
   String? _username;
   var smtpServer;
-  dynamic _dono;
+  Dono? _dono;
 
-  SendEmail(dynamic dono){
+  SendEmail(Dono? dono){
     _dono = dono;
-    //smtpServer = gmail(_username!, password);
-  }
+    }
 
   void sendTwilioEmail() {
-try{
 
-var key = dotenv.env['MEU_NOME'];
+  try{
+
+    var codigo = (_dono?.codigoRecuperacao != null) ? _dono?.codigoRecuperacao: "";
+    var key = dotenv.env['API_KEY_TWILIO'];
+
+      var mailer = Mailer(
+          key!);
+      var toAddress = Address('crisneri39@gmail.com');
+      var fromAddress = Address('matheushard2013@gmail.com');
+      var content = Content('text/plain', '''Codigo de Verificação -> ${codigo}''');
+      var subject = 'Codigo de Autenticação!';
+      var personalization = Personalization([toAddress]);
+
+      var email = Email([personalization], fromAddress, subject, content: [content]);
+
+      mailer.send(email).then((result) {
+        ///Exibir erro:
+        if(result.isError) print( result.asError?.error.toString());
+
+        if(result.isValue) {
+          ///Ir pra tela do código:
+        }
+
+        ///Página para inserir codigo:
 
 
-final mailer = Mailer(
-        key!);
-    const toAddress = Address('crisneri39@gmail.com');
-    const fromAddress = Address('matheushard2013@gmail.com');
-    const content = Content('text/plain', 'Hello World!');
-    const subject = 'Hello Subject!';
-    const personalization = Personalization([toAddress]);
-
-    const email = Email([personalization], fromAddress, subject, content: [content]);
-
-    mailer.send(email).then((result) {
-      // ...
-      print("RESULT");
-
-      print( result);
-      ///Generate codigo de recuperação
-      String codigo = Random().nextInt(9999).toString().padLeft(4, '0');
-      ///Update Dono, setar codigo:
-
-      ///Página para inserir codigo:
-
-
-    }).catchError((Error onError){
-      print('OnError');
-      print(onError);
-    });
+      }).catchError((Error onError){
+        print('''OnErro: ${onError.stackTrace}''');
+      });
 
     }catch(error){
   print("ERRO");
