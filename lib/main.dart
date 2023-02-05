@@ -16,9 +16,11 @@ import 'package:projeto_pet/ui/views/vacina/cadastro_vacina.dart';
 import 'package:projeto_pet/ui/views/vacina/cartao_de_vacina.dart';
 import 'package:projeto_pet/ui/views/home.dart';
 import 'package:projeto_pet/ui/views/login.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 void main() async{
-
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
 
   ///Deletar tabelas:

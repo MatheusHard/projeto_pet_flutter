@@ -5,6 +5,8 @@ import 'dart:math';
 import 'package:mailer/smtp_server.dart';
 import 'package:http/http.dart' as http;
 import 'package:sendgrid_mailer/sendgrid_mailer.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 
 
@@ -20,8 +22,12 @@ class SendEmail {
 
   void sendTwilioEmail() {
 try{
-    final mailer = Mailer(
-        '');
+
+var key = dotenv.env['MEU_NOME'];
+
+
+final mailer = Mailer(
+        key!);
     const toAddress = Address('crisneri39@gmail.com');
     const fromAddress = Address('matheushard2013@gmail.com');
     const content = Content('text/plain', 'Hello World!');
