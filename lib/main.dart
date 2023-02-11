@@ -6,6 +6,7 @@ import 'package:projeto_pet/ui/api/sincronismo_dados.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
 import 'package:projeto_pet/ui/views/dono/cadastro_dono.dart';
 import 'package:projeto_pet/ui/views/dono/esqueci_acesso.dart';
+import 'package:projeto_pet/ui/views/dono/esqueci_acesso_validacao.dart';
 import 'package:projeto_pet/ui/views/pet/cadastro_pets.dart';
 import 'package:projeto_pet/ui/database/db_helper.dart';
 import 'package:projeto_pet/ui/models/dono.dart';
@@ -78,7 +79,9 @@ void main() async{
           '/cartao_de_vacina': (context) => const CartaoDeVacina(),
           '/cadastro_vacina': (context) => const CadastroVacina(),
           '/cadastro_dono' : (context) => const CadastroDono(),
-          '/esqueci_acesso' : (context) => const EsqueciAcesso()
+          '/esqueci_acesso' : (context) => const EsqueciAcesso(),
+          '/esqueci_acesso_validacao' : (context) => const EsqueciAcessoValidacao(),
+
 
         },initialRoute: '/login',
         debugShowCheckedModeBanner: false,

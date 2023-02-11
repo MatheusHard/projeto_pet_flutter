@@ -268,18 +268,26 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
   void _sendEmaill(String cpf, String email) async {
 
     Dono? donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
-    if(donoExists != null) {
+
+    if(!mounted) return;
+    Navigator.pushNamed(
+        context,
+        '/esqueci_acesso_validacao',
+        arguments: ScreenArgumentsDono(donoExists)
+    );
+   /* if(donoExists != null) {
       ///Generate codigo de recuperação
       String codigo = Random().nextInt(9999).toString().padLeft(4, '0');
       ///Update Dono, setar codigo:
       donoExists.codigoRecuperacao = codigo;
-      var res= await DBHelper.instance.updateDono(donoExists);
+      var res = await DBHelper.instance.updateDono(donoExists);
       if(res == 1) {
-        SendEmail(donoExists).sendTwilioEmail();
+        if (!mounted) return;
+        SendEmail(donoExists, context).sendTwilioEmail();
       }else{
-
+        ///Utils.showDefaultSnackbar(context, "texto")
       }
-    }
+    }*/
     //Utils.showDefaultSnackbar(context, result);
     // _text = result ? 'Enviado.' : 'Não enviado.';
   }
