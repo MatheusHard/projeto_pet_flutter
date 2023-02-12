@@ -10,6 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/dono.dart';
 import '../utils/metods/utils.dart';
+import '../views/screen_arguments/ScreenArgumentsDono.dart';
 
 
 
@@ -49,9 +50,15 @@ class SendEmail {
         }
         if(result.isValue) {
           ///Ir pra tela do código:
+               Navigator.pushNamed(
+                   _context!,
+                   '/esqueci_acesso_validacao',
+                   arguments: ScreenArgumentsDono(_dono)
+               );
         }
 
       }).catchError((Error onError){
+
         Utils.showDefaultSnackbar(_context!, '''OnErro: ${onError.stackTrace}''');
       });
 

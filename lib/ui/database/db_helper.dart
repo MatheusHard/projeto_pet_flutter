@@ -186,6 +186,16 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
     Database db = await instance.database;
     return await db.update(DonoDataModel.getTabela(), dono.toMap(),
         where: '${DonoDataModel.id} = ?', whereArgs: [dono.id]);
+    
+  }
+  Future<int> updateCodigoDono(Dono dono) async {
+    Database db = await instance.database;
+
+    return await db.rawUpdate('''
+    UPDATE ${DonoDataModel.getTabela()} 
+    SET ${DonoDataModel.codigoRecuperacao} = ? 
+    WHERE ${DonoDataModel.id} = ?
+    ''', [dono.codigoRecuperacao, dono.id]);
   }
   Future<List>getDonoByCpfOrUser(String cpf, String user) async {
     Database db = await instance.database;
@@ -243,7 +253,7 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
     var res = await db.rawQuery(
         '''SELECT d.${DonoDataModel.id}, d.${DonoDataModel.nome}, d.${DonoDataModel.cpf}, d.${DonoDataModel.password}, 
            d.${DonoDataModel.user}, d.${DonoDataModel.qtdRowListagem}, p.${PetDataModel.id}, p.${PetDataModel.nome} AS nomePet,
-           p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo}, e.${TipoPetDataModel.descricao} 
+           d.${DonoDataModel.codigoRecuperacao}, p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo}, e.${TipoPetDataModel.descricao} 
            FROM ${DonoDataModel.getTabela()} d
            LEFT JOIN ${PetDataModel.getTabela()} p ON p.${PetDataModel.donoPet} = d.${DonoDataModel.id}
            LEFT JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}''');

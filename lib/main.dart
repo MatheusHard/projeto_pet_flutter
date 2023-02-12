@@ -46,7 +46,7 @@ void main() async{
   ///Add Donos
   //var _dono = await DBHelper.instance.addDono(Dono(nome: "Matheus", cpf: "05694641450", password: "fredf",user: "burumungu", qtdRowListagem: 2));
   //var _dono2 = await DBHelper.instance.addDono(Dono(nome: "Lolo", cpf: "0314641450", password: "fredf",user: "lolozinho", qtdRowListagem: 3));
-  SincronismoDados.getPaises();
+  //SincronismoDados.getPaises();
 
   List _dados = await DBHelper.instance.getDonoPets();
 
@@ -65,6 +65,8 @@ void main() async{
     print('''Cpf: ${p['cpf']}''');
     print('''Qtd List: ${p['qtdRowListagem']}''');
     print('''User: ${p['user']}''');
+    print('''codigoRecuperacao: ${p['codigoRecuperacao']}''');
+
     print("-----------------------------------------");
 
   }

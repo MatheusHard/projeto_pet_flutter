@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_pet/ui/models/dono.dart';
 import 'package:projeto_pet/ui/utils/metods/utils.dart';
 
 import '../../components/widgets/appbar/app_bar_dono.dart';
+import '../../database/db_helper.dart';
 import '../../utils/core/app_text_styles.dart';
 import '../screen_arguments/ScreenArgumentsDono.dart';
 
@@ -47,6 +49,8 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
         ?.settings
         .arguments as ScreenArgumentsDono?;
 
+
+
     return Scaffold(
       appBar: AppBarDono(null),
       body: Form(
@@ -72,7 +76,7 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
 
 
                         ///Codigo de Validacao:
-                       wiggetCodigoValidacao(),
+                       wiggetCodigoValidacao(argsDono!),
                        ///Chave escolha Cpf ou Email
                         showWidget ?  widgetSenhaRepetirSenha() : Container()
 
@@ -115,7 +119,8 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
     );
   }
 
-  wiggetCodigoValidacao(){
+  wiggetCodigoValidacao(ScreenArgumentsDono argsDono ) {
+
 
     return
       Row(
@@ -143,9 +148,12 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
                       prefixIcon: const Icon(Icons.sms_rounded, size: 24),
 
                     ),
-                    validator: (value) {
-                      return null;
-                    }
+                 validator: (value) {
+                   if (value!.isEmpty || value == "") {
+                     return "Digite o Codigo";
+                   }
+                   return null;
+                 },
                 ),
              ),
 
@@ -153,7 +161,18 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
                 icon: const Icon(Icons.ads_click),
                  onPressed: () {
                    setState(() {
-                     showWidget = !showWidget;
+
+                     if(_codigoValidacaoController.text.isNotEmpty) {
+
+                       if(validateEquals(argsDono?.data.codigoRecuperacao, _codigoValidacaoController.text)){
+                         showWidget = true;
+                       }else{
+                         Utils.showDefaultSnackbar(context, "Codigo invalido!!!");
+                       }
+                     }else{
+                       Utils.showDefaultSnackbar(context, "Digite o Codigo!!!");
+                     }
+                    // showWidget = !showWidget;
                    });
                  },
             )
@@ -260,7 +279,7 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
                     child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate() && validateSenhas()) {
-                            if(validateEquals()){
+                            if(validateEquals(_senhaController.text, _repetirSenhaController.text)){
                             print("OK Validar Senhas");
                             //_sendEmail();
                             //_sendEmaill(_cpfController.text,
@@ -317,10 +336,10 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
 
     return flag;
   }
-  bool validateEquals() {
+  bool validateEquals(String? value1, String? value2) {
     bool flag = true;
 
-    if (_senhaController.text != _repetirSenhaController.text) return false;
+    if (value1 != value2) return false;
 
     return flag;
   }

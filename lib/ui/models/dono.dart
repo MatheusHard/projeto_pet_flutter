@@ -24,7 +24,7 @@ class Dono {
       user: json['user'],
       password:  (json['password']),
       qtdRowListagem: json['qtdRowListagem'],
-      codigoRecuperacao: json['this.codigoRecuperacao']
+      codigoRecuperacao: json['codigoRecuperacao']
   );
 
   Map<String, dynamic> toMap(){
