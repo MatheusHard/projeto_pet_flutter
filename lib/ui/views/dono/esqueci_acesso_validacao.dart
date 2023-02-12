@@ -31,6 +31,7 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
   late FocusNode _myFocusNodeSenha;
   late FocusNode _myFocusNodeRepetirSenha;
   bool showWidget = false;
+  bool flagValidado = true;
 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -78,7 +79,7 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
                         ///Codigo de Validacao:
                        wiggetCodigoValidacao(argsDono!),
                        ///Chave escolha Cpf ou Email
-                        showWidget ?  widgetSenhaRepetirSenha() : Container()
+                        showWidget ?  widgetSenhaRepetirSenha(argsDono!) : Container()
 
                       ],
                     ),
@@ -119,18 +120,19 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
     );
   }
 
-  wiggetCodigoValidacao(ScreenArgumentsDono argsDono ) {
-
+  wiggetCodigoValidacao(ScreenArgumentsDono argsDono) {
 
     return
       Row(
         mainAxisAlignment: MainAxisAlignment.start,
 
         children: [
-             Flexible(
+
+            Flexible(
                child: TextFormField(
                     keyboardType: TextInputType.number,
                     controller: _codigoValidacaoController,
+                    enabled: flagValidado,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       //Hides label on focus or if filled
@@ -158,21 +160,26 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
              ),
 
                IconButton(
+
                 icon: const Icon(Icons.ads_click),
                  onPressed: () {
                    setState(() {
-
-                     if(_codigoValidacaoController.text.isNotEmpty) {
-
-                       if(validateEquals(argsDono?.data.codigoRecuperacao, _codigoValidacaoController.text)){
-                         showWidget = true;
-                       }else{
-                         Utils.showDefaultSnackbar(context, "Codigo invalido!!!");
-                       }
-                     }else{
-                       Utils.showDefaultSnackbar(context, "Digite o Codigo!!!");
-                     }
-                    // showWidget = !showWidget;
+                    if(flagValidado) {
+                      if (_codigoValidacaoController.text.isNotEmpty) {
+                        if (validateEquals(argsDono?.data.codigoRecuperacao,
+                            _codigoValidacaoController.text)) {
+                          showWidget = true;
+                          flagValidado = false;
+                        } else {
+                          Utils.showDefaultSnackbar(
+                              context, "Codigo invalido!!!");
+                        }
+                      } else {
+                        Utils.showDefaultSnackbar(
+                            context, "Digite o Codigo!!!");
+                      }
+                      // showWidget = !showWidget;
+                    }
                    });
                  },
             )
@@ -182,12 +189,19 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
 
 }
 
-  widgetSenhaRepetirSenha() {
+  widgetSenhaRepetirSenha(ScreenArgumentsDono argsDono) {
 
       return
 
         Column(
           children: [
+
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10, vertical: 30),
+              child: Text(
+                "Nova Senha", style: AppTextStyles.titlePet,),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
               child: TextFormField(
@@ -280,10 +294,7 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
                         onPressed: () {
                           if (_formKey.currentState!.validate() && validateSenhas()) {
                             if(validateEquals(_senhaController.text, _repetirSenhaController.text)){
-                            print("OK Validar Senhas");
-                            //_sendEmail();
-                            //_sendEmaill(_cpfController.text,
-                            //  _userController.text);
+                              updateSenhaDono(argsDono);
                           }else{
                               Utils.showDefaultSnackbar(context, "Atenção, senhas divergentes!!!");
                             }
@@ -356,6 +367,27 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
       if (textFieldFocusNode2.hasPrimaryFocus) return; // If focus is on text field, dont unfocus
       textFieldFocusNode2.canRequestFocus = false;     // Prevents focus if tap on eye
     });
+  }
+
+  Future<void> updateSenhaDono(ScreenArgumentsDono argsDono) async {
+
+    argsDono.data.password = _senhaController.text;
+    var result = DBHelper.instance.updateSenhaDono(argsDono.data);
+
+
+    switch(await result){
+      case 1:
+        Utils.showDefaultSnackbar(context, "Senha Atualizada com sucesso");
+        Navigator.pushNamed(
+            context,
+            '/login'
+           );
+        //Push Login
+        break;
+      case 0:
+        Utils.showDefaultSnackbar(context, "Ocorreu um erro!!!");
+        break;
+    }
   }
 
 

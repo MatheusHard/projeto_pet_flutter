@@ -274,9 +274,9 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
       String codigo = Random().nextInt(9999).toString().padLeft(4, '0');
       ///Update Dono, setar codigo:
       donoExists.codigoRecuperacao = codigo;
-      Dono dono = Dono( id: donoExists.id, codigoRecuperacao: donoExists.codigoRecuperacao, nome: donoExists.nome, cpf: '', user: '', password: '', qtdRowListagem: 0);
+     // Dono dono = Dono( id: donoExists.id, codigoRecuperacao: donoExists.codigoRecuperacao, nome: donoExists.nome, cpf: '', user: '', password: '', qtdRowListagem: 0);
 
-      var res = await DBHelper.instance.updateCodigoDono(dono);
+      var res = await DBHelper.instance.updateCodigoDono(donoExists);
       if(res == 1) {
         if (!mounted) return;
         SendEmail(donoExists, context).sendTwilioEmail();

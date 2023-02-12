@@ -42,25 +42,25 @@ class SendEmail {
 
       var email = Email([personalization], fromAddress, subject, content: [content]);
 
-      mailer.send(email).then((result) {
+     /* mailer.send(email).then((result) {
         ///Exibir erro:
         if(result.isError) {
           Utils.showDefaultSnackbar(_context!, 'ERRO -> ${result.asError?.error.toString()}');
           print(result.asError?.error.toString());
-        }
-        if(result.isValue) {
+        }*/
+       // if(result.isValue) {
           ///Ir pra tela do código:
                Navigator.pushNamed(
                    _context!,
                    '/esqueci_acesso_validacao',
                    arguments: ScreenArgumentsDono(_dono)
                );
-        }
+       // }
 
-      }).catchError((Error onError){
+    //  }).catchError((Error onError){
 
-        Utils.showDefaultSnackbar(_context!, '''OnErro: ${onError.stackTrace}''');
-      });
+     //   Utils.showDefaultSnackbar(_context!, '''OnErro: ${onError.stackTrace}''');
+    //  });
 
     }catch(error){
     Utils.showDefaultSnackbar(_context!, '''Error: $error''');

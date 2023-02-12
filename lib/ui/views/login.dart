@@ -232,8 +232,9 @@ class _LoginState extends State<Login> {
     Dono? tutor = await DBHelper.instance.getDonoLogin(cpf, email, senha);
 
     if(tutor == null) {
-     Utils.showDefaultSnackbar(context, "Verifique suas Credencias!!!");
-    }else{
+      if (!mounted) return;
+        Utils.showDefaultSnackbar(context, "Verifique suas Credencias!!!");
+      }else{
           setState(() {
             Navigator.popAndPushNamed(
                 context,

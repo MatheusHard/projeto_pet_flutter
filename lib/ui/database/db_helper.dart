@@ -7,6 +7,7 @@ import 'package:projeto_pet/ui/models/pet.dart';
 import 'package:projeto_pet/ui/models/tipo_pet.dart';
 import 'package:projeto_pet/ui/models/tipo_vacina.dart';
 import 'package:projeto_pet/ui/models/vacina.dart';
+import 'package:projeto_pet/ui/utils/metods/utils.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:path/path.dart';
@@ -196,6 +197,17 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
     SET ${DonoDataModel.codigoRecuperacao} = ? 
     WHERE ${DonoDataModel.id} = ?
     ''', [dono.codigoRecuperacao, dono.id]);
+  }
+  Future<int> updateSenhaDono(Dono dono) async {
+    var senha = Utils.toSha1(dono.password);
+
+    Database db = await instance.database;
+
+    return await db.rawUpdate('''
+    UPDATE ${DonoDataModel.getTabela()} 
+    SET ${DonoDataModel.password} = ? 
+    WHERE ${DonoDataModel.id} = ?
+    ''', [senha, dono.id]);
   }
   Future<List>getDonoByCpfOrUser(String cpf, String user) async {
     Database db = await instance.database;
