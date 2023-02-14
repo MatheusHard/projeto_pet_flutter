@@ -284,61 +284,13 @@ class _EsqueciAcessoState extends State<EsqueciAcesso> {
         if (!mounted) return;
         Utils.showDefaultSnackbar(context, "Codigo não enviado!!!");
       }
+    }else{
+      if (!mounted) return;
+      Utils.showDefaultSnackbar(context, "Usuario não encontrado!!!");
     }
-    //Utils.showDefaultSnackbar(context, result);
-    // _text = result ? 'Enviado.' : 'Não enviado.';
+
   }
 
-
-
-  Future<void> _sendEmail() async {
-    List<String> attachments = [];
-    print("object init");
-
-    var donoExists = await DBHelper.instance.getDono(_cpfController.text, _userController.text);
-    if(donoExists != null) {
-      clearControllers();
-      String platformResponse = "";
-      print("object");
-      //Utils.showDefaultSnackbar(context, "E-mail enviado com sucesso!!!");
-
-      ///Send
-      String username = 'matheushard2013@gmail.com';
-      String password = 'bonjovi663000';
-      const token = '';
-
-     // final smtpServer = gmail(username, password);
-      final smtpServer = gmailSaslXoauth2(username, token);
-
-      // Use the SmtpServer class to configure an SMTP server:
-      // final smtpServer = SmtpServer('smtp.domain.com');
-      // See the named arguments of SmtpServer for further configuration
-      // options.
-
-      // Create our message.
-      final message = Message()
-        ..from = Address(username)
-        ..recipients.add('crisneri39@gmail.com')
-       /// ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
-        ///..bccRecipients.add(const Address('bccAddress@example.com'))
-        ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
-        ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-        ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
-
-      try {
-        final sendReport = await send(message, smtpServer);
-        print('Message sent: $sendReport');
-      } on MailerException catch (e) {
-        print('Message not sent.');
-        for (var p in e.problems) {
-          print('Problem: ${p.code}: ${p.msg}');
-        }
-      }
-
-    }
-    print("object fora");
-
-  }
   }
 
 

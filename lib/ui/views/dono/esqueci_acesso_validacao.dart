@@ -377,12 +377,12 @@ class _EsqueciAcessoValidacaoState extends State<EsqueciAcessoValidacao> {
 
     switch(await result){
       case 1:
+      //Push Login
         Utils.showDefaultSnackbar(context, "Senha Atualizada com sucesso");
         Navigator.pushNamed(
             context,
             '/login'
            );
-        //Push Login
         break;
       case 0:
         Utils.showDefaultSnackbar(context, "Ocorreu um erro!!!");

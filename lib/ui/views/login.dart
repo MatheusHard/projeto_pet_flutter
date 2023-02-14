@@ -236,7 +236,7 @@ class _LoginState extends State<Login> {
         Utils.showDefaultSnackbar(context, "Verifique suas Credencias!!!");
       }else{
           setState(() {
-            Navigator.popAndPushNamed(
+            Navigator.pushNamed(
                 context,
                 '/home',
                 arguments: ScreenArgumentsDono(tutor)
