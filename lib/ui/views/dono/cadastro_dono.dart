@@ -28,7 +28,7 @@ class _CadastroDonoState extends State<CadastroDono> {
   final _qtdRowController = TextEditingController();
   final _passwordController = TextEditingController();
   final _userController = TextEditingController();
-  late int _id;
+  //late int _id;
   int qtd = 1;
   bool obscured = true;
 
@@ -88,8 +88,7 @@ class _CadastroDonoState extends State<CadastroDono> {
                             child: Center(
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate() &&
-                                          validateDono()) {
+                                      if (_formKey.currentState!.validate() && validateDono(argsDono?.data)) {
                                         _cadastrarDono(ScreenArgumentsDono(argsDono?.data));
                                       } else {
                                         Utils.showDefaultSnackbar(
@@ -236,7 +235,7 @@ _initControllers(var args){
 
   if(args != null) {
 
-    if(args.data.id != null) { _id = args.data.id;}
+    //if(args.data.id != null) { _id = args.data.id;}
 
     _nomeController.text = args.data.nome;
     _userController.text = args.data.user;
@@ -333,32 +332,33 @@ widgetSenha(){
   _cadastrarDono(ScreenArgumentsDono args) async {
 
     if(!await donoExists()) {
-      DBHelper.instance.addDono(Dono(nome: _nomeController.text,
-          cpf: _cpfController.text,
-          user: _userController.text,
-          password: Utils.toSha1(_passwordController.text),
-          qtdRowListagem: qtd));
+      DBHelper.instance.addDono(
+                                Dono(nome: _nomeController.text,
+                                    cpf: _cpfController.text,
+                                    user: _userController.text,
+                                    password: Utils.toSha1(_passwordController.text),
+                                    qtdRowListagem: qtd)
+                                );
       clearControllers();
       Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.popAndPushNamed(context, '/login');
+      Future.delayed(const Duration(milliseconds: 500), () {
+        Navigator.pushNamed(context, '/login');
       });
 
     }else{
 
       Dono dono = Dono(
-                      id: _id,
+                      id: args.data.data.id,
                       nome: _nomeController.text,
                       cpf: _cpfController.text,
                       user: _userController.text,
-                      password: args.data.data.password,
+                      password: (_passwordController.text.isEmpty) ? args.data.data.password: Utils.toSha1(_passwordController.text),
                       qtdRowListagem: qtd);
 
       DBHelper.instance.updateDono(dono);
       clearControllers();
-
       Future.delayed(const Duration(milliseconds: 500), () {
-        Navigator.popAndPushNamed(
+        Navigator.pushNamed(
             context,
             '/home',
             arguments: ScreenArgumentsDono(dono)
@@ -372,14 +372,17 @@ widgetSenha(){
   }
 
   ///Validações:
-  bool validateDono() {
+  bool validateDono(var args) {
     bool flag = true;
+
 
     if (_nomeController.text.isEmpty) return false;
     if (_cpfController.text.isEmpty) return false;
     if (_userController.text.isEmpty) return false;
     if (qtd.isNaN || qtd.isNegative) return false;
-
+    if(args == null){
+      if (_passwordController.text.isEmpty) return false;
+    }
     return flag;
   }
 

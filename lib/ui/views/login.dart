@@ -188,7 +188,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                               onPressed: (){
                               setState(() {
-                                Navigator.popAndPushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(null));
+                                Navigator.pushNamed(context, '/cadastro_dono', arguments: ScreenArgumentsDono(null));
 
                               });
 
@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                               onPressed: (){
                                 setState(() {
-                                  Navigator.popAndPushNamed(context, '/esqueci_acesso');
+                                  Navigator.pushNamed(context, '/esqueci_acesso');
 
                                 });
                               },

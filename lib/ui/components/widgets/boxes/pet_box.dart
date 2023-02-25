@@ -8,10 +8,11 @@ import '../../../utils/core/app_colors.dart';
 
 class PetBox extends StatelessWidget {
 
-  const PetBox ({ this.data, required this.onTap, Key? key}) : super(key: key);
+  const PetBox ({ this.data, required this.onTap, required this.onLongTap, Key? key}) : super(key: key);
 
   final data;
   final Function onTap; // Good
+  final Function onLongTap;
 
 
 
@@ -26,9 +27,9 @@ class PetBox extends StatelessWidget {
         onTap: (){
           onTap(data);
               //Navigator.pushNamed(context, '/cartao_de_vacina',arguments: null));
-
-
-
+        },
+        onLongPress: (){
+          onLongTap(data);
         },
         child: Stack(
           children: [

@@ -23,6 +23,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
   late Image image;
   final List<Pet> _pets = [];
   late ScreenArgumentsDono _tutor;
+  bool flagEditarPet = false;
 
 
   @override
@@ -45,7 +46,7 @@ class _PrincipalPetsState extends State<PrincipalPets> {
             backgroundColor: Colors.blueAccent,
             child: const Icon(Icons.add),
             onPressed: () {
-              Navigator.popAndPushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(null,  _tutor.data));
+              Navigator.pushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(null,  _tutor.data, flagEditarPet = false));
             },
           ),
           bottomSheet: Padding(
@@ -59,8 +60,13 @@ class _PrincipalPetsState extends State<PrincipalPets> {
       return PetBox(
         data: _pets[index],
         onTap: (data) {
-          Navigator.popAndPushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data, _tutor.data));
+          Navigator.pushNamed(context, '/cartao_de_vacina',arguments: ScreenArgumentsPet(data, _tutor.data, flagEditarPet));
       },
+        onLongTap: (data){
+          flagEditarPet = true;
+          Navigator.pushNamed(context, '/cadastro_pets',arguments: ScreenArgumentsPet(data, _tutor.data, flagEditarPet));
+      } ,
+
       );
     }),
              ),

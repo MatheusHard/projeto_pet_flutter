@@ -39,6 +39,7 @@ class _CadastroPetsState extends State<CadastroPets> {
   var selectedItemTipoPet;
   late List _listaTiposPets = [];
   late List _listaTiposVacinas = [];
+  bool flagEditarPet = false;
 
   final _nomeController = TextEditingController();
   final _dataController = TextEditingController();
@@ -60,15 +61,17 @@ class _CadastroPetsState extends State<CadastroPets> {
   @override
   Widget build(BuildContext context) {
 
+    ///Arguments
     ScreenArgumentsPet? args = ModalRoute
         .of(context)
         ?.settings
         .arguments as ScreenArgumentsPet?;
 
     _tutor = args?.dataTutor;
+    flagEditarPet = args?.flagEditarPet;
 
     return Scaffold(
-      appBar: AppBarCadastroPet(args?.data),
+      appBar: AppBarCadastroPet(args),
       body: Form(
         key: _formKey,
         child: Stack(
@@ -442,7 +445,7 @@ class _CadastroPetsState extends State<CadastroPets> {
     clearControllers();
     Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
 
-    Navigator.popAndPushNamed(context, '/home', arguments:  ScreenArgumentsDono(  args));
+    Navigator.pushNamed(context, '/home', arguments:  ScreenArgumentsDono(  args));
 
     //});
   }
