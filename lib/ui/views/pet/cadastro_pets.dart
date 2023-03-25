@@ -24,8 +24,8 @@ import '../screen_arguments/ScreenArgumentsPet.dart';
 
 class CadastroPets extends StatefulWidget {
 
-
-  const CadastroPets({Key? key}) : super(key: key);
+  final pet;
+  const CadastroPets({@required this.pet, Key? key}) : super(key: key);
 
   @override
   State<CadastroPets> createState() => _CadastroPetsState();
@@ -33,7 +33,9 @@ class CadastroPets extends StatefulWidget {
 
 class _CadastroPetsState extends State<CadastroPets> {
 
-  DateTime date = DateTime.now();
+  DateTime? date;
+  DateTime initialDate = DateTime.now();
+
 
   final _picker = ImagePicker();
   var selectedItemTipoPet;
@@ -42,19 +44,20 @@ class _CadastroPetsState extends State<CadastroPets> {
   bool flagEditarPet = false;
 
   final _nomeController = TextEditingController();
-  final _dataController = TextEditingController();
+  late var _dataController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? _selectedFile;
   bool _sexo = false;
   String nome = "";
   var _tutor;
-
+  late var pet;
 
 
   @override
   void initState() {
     getTipos();
     getTiposVacinas();
+
     super.initState();
   }
 
@@ -69,6 +72,8 @@ class _CadastroPetsState extends State<CadastroPets> {
 
     _tutor = args?.dataTutor;
     flagEditarPet = args?.flagEditarPet;
+    _initControllers(args?.data);
+
 
     return Scaffold(
       appBar: AppBarCadastroPet(args),
@@ -123,23 +128,23 @@ class _CadastroPetsState extends State<CadastroPets> {
                               onTap: () async {
                                 DateTime? newDate = await showDatePicker(
                                     context: context,
-                                    initialDate: date,
+                                    initialDate: initialDate,
                                     firstDate: DateTime(1900),
                                     lastDate: DateTime(2040));
                                 if (newDate == null) return;
                                 setState(() {
                                   date = newDate;
                                   _dataController.value = TextEditingValue(
-                                      text: Utils.formatarDateTime(date));
+
+                                      text: _dataInput(args?.data));
                                 });
                               },
-                              keyboardType: TextInputType.datetime,
+                              keyboardType: TextInputType.text,
                               controller: _dataController,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.date_range, color: Colors.green),
                                 hintText: "Data de Nascimento",
                               ),
-
                               validator: (value) {
                                 if (value == null || value == "") {
                                   // _myFocusNode.requestFocus();
@@ -176,16 +181,20 @@ class _CadastroPetsState extends State<CadastroPets> {
                             child: DropdownSearch<dynamic>(
                               mode: Mode.MENU,
                               items: _listaTiposPets.map((tp) => tp).toList(),
-                              itemAsString: (dynamic tp) =>
-                                  tp['descricao'].toString(),
+                              itemAsString: (dynamic tp) => tp['descricao'].toString(),
                               showSearchBox: true,
-                              label: "Tipo do Pet",
-                              hint: "escolha o tipo",
+                              dropdownSearchDecoration: const InputDecoration(
+                                labelText: 'Tipo do Pet',
+                                hintText: 'escolha o tipo'
+                              ),
                               onChanged: (tipoPet) {
-                                _selectedItemTipoPet(tipoPet);
+                                _changeItemTipoPet(tipoPet);
                               },
+                              selectedItem: _selectedItemTipoPetSelected(args?.data),
                             ),
+
                           ),
+
                           /*****CAMERA PICTURE/GALLERY*****/
                           Padding(
                             padding: const EdgeInsets.only(top: 20),
@@ -202,14 +211,10 @@ class _CadastroPetsState extends State<CadastroPets> {
                                         style: AppTextStyles.heading15),
                                   ),
                                   getImageWidget(),
-
                                   ///***********************/
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
-
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-
                                       /*********CAMERA BUTTON*********/
                                       Expanded(
                                           child:
@@ -310,9 +315,8 @@ class _CadastroPetsState extends State<CadastroPets> {
                               child: Center(
                                   child: ElevatedButton(
                                       onPressed: () {
-                                        if (_formKey.currentState!.validate() &&
-                                            validatePet()) {
-                                          _cadastrarPet(args?.dataTutor);
+                                        if (_formKey.currentState!.validate() && validatePet()) {
+                                          _cadastrarPet(args);
                                         } else {
                                           Utils.showDefaultSnackbar(
                                               context, "Não foi possivel salvar!!!");
@@ -363,10 +367,14 @@ class _CadastroPetsState extends State<CadastroPets> {
 
   getTipos() async {
     List tipoPets = await DBHelper.instance.getAllTiposPets();
+    //Iterable<TipoPet> tipoPets =    await DBHelper.instance.gelAllTiposPet2();
+
     _listaTiposPets = tipoPets;
     setState(() {
       _listaTiposPets;
+
     });
+
   }
 
   getTiposVacinas() async {
@@ -382,11 +390,39 @@ class _CadastroPetsState extends State<CadastroPets> {
     _nomeController.clear();
     _dataController.clear();
   }
+  _initControllers(Pet? data) async{
+    if(data != null) {
+        _sexo = data.sexo;
+        _dataController.text = _dataInput(data);
+        // _selectedItemTipoPet(data.tipoPet);
 
-  _selectedItemTipoPet(selectedTipo) {
+        _nomeController.text = data.nome;
+
+        //_dataController.text = data.;
+
+
+    }
+  }
+    _selectedItemTipoPetSelected(var data) {
+
+    if(selectedItemTipoPet != null){
+      return selectedItemTipoPet;
+    }else if(data is Pet) {
+      var tipoPet =  {"id": data.tipoPet, "descricao": data.descricaoTipoPet};
+      selectedItemTipoPet = tipoPet;
+        return tipoPet;
+    } else {
+        return data;
+    }
+
+  }
+
+
+  _changeItemTipoPet(selectedTipo) {
     setState(() {
       selectedItemTipoPet = selectedTipo;
-      print(selectedItemTipoPet['id']);
+      _selectedItemTipoPetSelected(selectedItemTipoPet);
+
     });
   }
 
@@ -424,30 +460,57 @@ class _CadastroPetsState extends State<CadastroPets> {
   }
 
   _cadastrarPet(var args) async {
-    String file;
-    String id;
-    //setState(() {
 
-    nome = _nomeController.text.toString();
-    file = Utils.base64String(_selectedFile!.readAsBytesSync());
-    id = Utils.generateGuide();
-    DBHelper.instance.addPet(
-        Pet(
-            id: id,
-            donoPet: _tutor.id,
-            nome: nome,
-            tipoPet: selectedItemTipoPet['id'],
-            sexo: _sexo,
-            dataNascimento: date.toString(),
-            imagePet: file));
 
-    cadastrarVacinasPadrao(id);
-    clearControllers();
-    Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+    //Atualizar Pet
+    if(flagEditarPet) {
+      String file;
+      String id;
+      nome = _nomeController.text.toString();
+      file = Utils.base64String(_selectedFile!.readAsBytesSync());
+      id = args.data.id;
+      DBHelper.instance.updatePet(
+          Pet(
+              id: id,
+              donoPet: _tutor.id,
+              nome: nome,
+              tipoPet: selectedItemTipoPet['id'],
+              sexo: _sexo,
+              dataNascimento: date.toString(),
+              imagePet: file));
 
-    Navigator.pushNamed(context, '/home', arguments:  ScreenArgumentsDono(  args));
+      clearControllers();
+      Utils.showDefaultSnackbar(context, "Atualizado com sucesso!!!");
 
-    //});
+      Navigator.pushNamed(
+          context, '/home', arguments: ScreenArgumentsDono(args.dataTutor));
+
+    //Cadastrar Pet
+    }else{
+      String file;
+      String id;
+      nome = _nomeController.text.toString();
+      file = Utils.base64String(_selectedFile!.readAsBytesSync());
+      id = Utils.generateGuide();
+      DBHelper.instance.addPet(
+          Pet(
+              id: id,
+              donoPet: _tutor.id,
+              nome: nome,
+              tipoPet:  selectedItemTipoPet['id'],
+
+              sexo: _sexo,
+              dataNascimento: date.toString(),
+              imagePet: file));
+
+      cadastrarVacinasPadrao(id);
+      clearControllers();
+      Utils.showDefaultSnackbar(context, "Cadastro realizado com sucesso!!!");
+
+      Navigator.pushNamed(
+          context, '/home', arguments: ScreenArgumentsDono(args.dataTutor));
+    }
+
   }
   void cadastrarVacinasPadrao(String idPet) async{
     print("Cadastros das Vacinas PAdrao");
@@ -456,7 +519,6 @@ class _CadastroPetsState extends State<CadastroPets> {
     await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D2', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D3', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(nomeVacina: "Polivalente V10",  dose: 'D4', petId: idPet));
-
 
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'D1', petId: idPet));
     await DBHelper.instance.addVacina(Vacina(dataCadastro: null, nomeVacina: "Antirrabica",  dataAplicacao: null, dose: 'REF', petId: idPet));
@@ -489,5 +551,14 @@ class _CadastroPetsState extends State<CadastroPets> {
     return flag;
   }
 
+  _dataInput(data) {
+
+  if(date != null){
+    return  Utils.formatarDateTime(date);
+  }else if(data != null){
+    date =  DateTime.tryParse(data.dataNascimento);
+    return Utils.formatarData(data.dataNascimento, true);
+  }
+  }
 
 }

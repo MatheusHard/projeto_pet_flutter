@@ -146,6 +146,13 @@ class DBHelper{
     var res = await db.rawQuery("SELECT ${TipoPetDataModel.getAtributos()} FROM ${TipoPetDataModel.getTabela()} ORDER BY ${TipoPetDataModel.descricao}");
     return res.toList();
   }
+
+  Future<Iterable<TipoPet>> gelAllTiposPet2() async {
+    Database db = await instance.database;
+    var res = await db.rawQuery("SELECT ${TipoPetDataModel.getAtributos()} FROM ${TipoPetDataModel.getTabela()} ORDER BY ${TipoPetDataModel.descricao}");
+    var list = res.toList().map((data) => TipoPet.fromMap(data));
+    return list;
+  }
   /*Future<int> removeSubEspecificacao(int id) async{
     Database db = await instance.database;
     return await db.delete(PetDataModel.TABELA, where: 'id = ?', whereArgs: [id]);
@@ -154,6 +161,18 @@ class DBHelper{
     Database db = await instance.database;
     return await db.insert(TipoPetDataModel.getTabela(), tipoPet.toMap());
   }
+  Future<dynamic>getTipoPet(int id) async {
+    Database db = await instance.database;
+    var res = await db.rawQuery('''SELECT ${TipoPetDataModel.getAtributos()} 
+                                   FROM ${TipoPetDataModel.getTabela()} 
+                                   WHERE tabelaTipoPet.${DonoDataModel.id} = '$id'
+                                   ''');
+    if(res.isNotEmpty) {
+      return res.first;
+    }else {
+      return null;
+
+    }  }
 
   Future<int> removeAllTiposPets() async{
     Database db = await instance.database;
@@ -169,11 +188,12 @@ Future<List> getPetsJoinTipo(int DonoPetId) async {
 
     Database db = await instance.database;
     var res = await db.rawQuery('''SELECT p.${PetDataModel.id}, p.${PetDataModel.nome},
-                                p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
-                                p.${PetDataModel.imagePet}, e.${TipoPetDataModel.descricao}        
-                                FROM ${PetDataModel.getTabela()} p
-                                INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}
-                                WHERE p.${PetDataModel.donoPet} =  $DonoPetId
+                                          p.${PetDataModel.dataNascimento}, p.${PetDataModel.sexo},
+                                          p.${PetDataModel.imagePet}, p.${PetDataModel.tipoPet},
+                                          e.${TipoPetDataModel.descricao} AS descricaoTipoPet        
+                                          FROM ${PetDataModel.getTabela()} p
+                                  INNER JOIN ${TipoPetDataModel.getTabela()} e ON p.${PetDataModel.tipoPet} = e.${TipoPetDataModel.id}
+                                  WHERE p.${PetDataModel.donoPet} =  $DonoPetId
                              ''');
     return res.toList();
 }

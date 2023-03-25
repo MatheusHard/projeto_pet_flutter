@@ -4,6 +4,7 @@ class Pet {
 
   String id;
   String nome;
+  String? descricaoTipoPet;
   int tipoPet;
   String imagePet;
   String? dataNascimento;
@@ -14,7 +15,7 @@ class Pet {
   Pet({
        required this.id, required this.nome, required this.donoPet, required this.imagePet,
        required this.tipoPet, this.dataNascimento, required this.sexo,
-       this.especie});
+       this.especie, this.descricaoTipoPet});
 
   factory Pet.fromMap(Map<String, dynamic> json) => Pet(
 
@@ -24,7 +25,9 @@ class Pet {
     dataNascimento: json['dataNascimento'],
     sexo:  (json['sexo'] == 1) ? true: false,
     donoPet: json['donoPet']  ?? 0,
-    imagePet: json['imagePet'] ?? ''
+    imagePet: json['imagePet'] ?? '',
+    descricaoTipoPet: json['descricaoTipoPet'] ?? ''
+
     //especie: TipoPet.fromMap(json)
   );
 
